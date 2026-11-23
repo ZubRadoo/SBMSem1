@@ -9,6 +9,7 @@ create table if not exists public.reports (
   latitude double precision,
   longitude double precision,
   photo_path text,
+  severity text not null default 'medium' check (severity in ('low','medium','high')),
   status text not null default 'pending_review'
     check (status in ('pending_review','approved','acknowledged','resolved','rejected')),
   created_at timestamptz not null default now(),
@@ -55,7 +56,7 @@ create policy "faculty can update reports" on public.reports
 -- This view intentionally runs with its owner's permissions so the public can
 -- read only the explicitly selected safe fields, while reports itself stays private.
 create or replace view public.public_reports as
-select id, category, description, location_text, latitude, longitude, status, created_at
+select id, category, description, location_text, latitude, longitude, status, created_at, severity
 from public.reports
 where status in ('approved','acknowledged','resolved');
 
