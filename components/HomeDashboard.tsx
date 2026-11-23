@@ -95,8 +95,8 @@ export default function HomeDashboard(){
    setSeverity("medium");
    const photoInput=document.getElementById("home-photo") as HTMLInputElement|null;
    if(photoInput)photoInput.value="";
-  }catch(err){
-   setFormError(err&&typeof err==="object"&&"message" in err?String((err as {message:unknown}).message):"Submission failed. Please try again.");
+  }catch{
+   setFormError("Submission failed. Please check your connection and try again.");
   }finally{
    setBusy(false);
    submitLock.current=false;
