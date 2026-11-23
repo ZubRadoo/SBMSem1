@@ -25,6 +25,8 @@ export default function AdminPage() {
     setLoading(true);
     setMessage("");
 
+    let accessVerified = false;
+
     try {
       const {
         data: { user: authenticatedUser },
@@ -59,6 +61,7 @@ export default function AdminPage() {
         return;
       }
 
+      accessVerified = true;
       setVerified(true);
 
       const { data, error: reportsError } = await supabase
@@ -72,10 +75,15 @@ export default function AdminPage() {
       setReports((data ?? []) as AdminReport[]);
     } catch {
       setMessage(
-        "Could not load reviewer access or reports. Check your connection and try again.",
+        accessVerified
+          ? "Faculty access is verified, but reports could not be loaded. Check your connection and retry."
+          : "Could not verify reviewer access. Check your connection and sign in again.",
       );
-      setVerified(false);
-      setReports([]);
+      if (!accessVerified) {
+        setUser(null);
+        setVerified(false);
+        setReports([]);
+      }
     } finally {
       setLoading(false);
     }
