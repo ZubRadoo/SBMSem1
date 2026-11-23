@@ -49,7 +49,7 @@ const counter="https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV1
 const page="rivers";
 let step=-1,started=false,finished=false;
 const $=id=>document.getElementById(id);
-function log(event){try{const vid=localStorage.getItem('sbm_vid')||'na';navigator.sendBeacon(counter,JSON.stringify({page,event,vid}));}catch(e){}}
+function log(event){try{let vid=localStorage.getItem('sbm_vid');if(!vid){vid=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',vid);}if(!navigator.sendBeacon(counter,JSON.stringify({page,event,vid})))fetch(counter,{method:'POST',mode:'no-cors',body:JSON.stringify({page,event,vid})});}catch(e){}}
 function show(){step++;if(step<5){$('stepLabel').textContent='Step '+(step+1)+' of 5';$('stepTitle').textContent=steps[step][0];$('stepText').textContent=steps[step][1];const level=step+1;['l1','l2','l3'].forEach((id,i)=>{$(id).style.transform='translateY('+(level*8)+'px) rotate('+(level*12*(i%2?1:-1))+'deg)';$(id).style.opacity=level>i+1?'1':'.35'});if(!started){started=true;log('start');}}else{$('play').style.display='none';$('reveal').style.display='block';$('reveal').scrollIntoView();$('reveal').insertAdjacentHTML('afterbegin','<div class="card"><b>Wait. Did you notice?</b><p>'+twist+'</p></div>');if(!finished){finished=true;log('finish');}}}
 $('advance').addEventListener('click',show);
 ['l1','l2','l3'].forEach((id,i)=>$(id).addEventListener('click',()=>{$('fact').textContent=['Plastic can travel far from where it is dropped.','Waste left behind affects the places people and wildlife depend on.','Small pieces of litter add up when everyone leaves something behind.'][i];}));
