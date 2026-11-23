@@ -3,239 +3,248 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>The journey of a drop · SwachhSeva</title>
-<meta name="description" content="Follow one drop from a hill spring to the sea, and see what a river carries along the way.">
-<meta name="theme-color" content="#b9e8ee">
+<meta name="theme-color" content="#d8edf0">
+<title>Where the rain goes · SwachhSeva</title>
+<meta name="description" content="A short visual story about how street waste can travel through drains and reach a river.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-[hidden]{display:none!important}
-html,body{height:100%;overscroll-behavior:none}
-body{--sky1:#9be1ed;--sky2:#e3f6e9;--water:#35b9cb;--water2:#168fae;--bank:#77bd79;--hill:#9acb91;--accent:#f2b84b;--ink:#123b43;--paper:#f8fffb;--muted:#55747a;font:16px 'DM Sans',system-ui,sans-serif;color:var(--ink);background:#d7f0ec;display:flex;justify-content:center;-webkit-tap-highlight-color:transparent}
-body[data-level="1"]{--sky1:#a7dce8;--sky2:#e4f1df;--water:#2daabd;--water2:#147f9e;--bank:#83b978;--hill:#a0c48c}
-body[data-level="2"]{--sky1:#b8d8d9;--sky2:#e9e6ce;--water:#359fa7;--water2:#277c8a;--bank:#a0ad72;--hill:#b0b68b}
-body[data-level="3"]{--sky1:#c7d1cb;--sky2:#e8ddc6;--water:#648f86;--water2:#426f70;--bank:#a69c69;--hill:#b1a77f}
-body[data-level="4"]{--sky1:#b9c4c0;--sky2:#ddd5c3;--water:#687d70;--water2:#485f59;--bank:#9b8b62;--hill:#a29578}
-.app{position:relative;width:100%;max-width:480px;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--paper);box-shadow:0 0 50px #28616a20}
-.topbar{position:absolute;z-index:10;top:0;left:0;right:0;padding:calc(12px + env(safe-area-inset-top)) 16px 0;display:flex;gap:10px;align-items:center}
-.track{height:5px;flex:1;border-radius:9px;background:#ffffffa8;overflow:hidden;box-shadow:0 1px 5px #24616a22}
-.track i{display:block;width:0;height:100%;border-radius:9px;background:var(--accent);transition:width .8s ease}
-.tag{font-size:10px;letter-spacing:.08em;font-weight:700;color:#164750;background:#f5fffae8;padding:6px 10px;border-radius:99px}
-.stage{height:49%;min-height:260px;flex:0 0 auto;position:relative;overflow:hidden;background:linear-gradient(var(--sky1),var(--sky2));transition:background 1.4s}
-.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.sky{stop-color:var(--sky1);transition:stop-color 1.4s}.sky-end{stop-color:var(--sky2);transition:stop-color 1.4s}
-.hill{fill:var(--hill);transition:fill 1.4s}.bank{fill:var(--bank);transition:fill 1.4s}
-.water{fill:var(--water);transition:fill 1.4s}.water-deep{fill:var(--water2);transition:fill 1.4s}
-.sun{transform-origin:405px 67px;animation:sunpulse 5s ease-in-out infinite}
-@keyframes sunpulse{50%{transform:scale(1.08);opacity:.78}}
-.cloud{animation:cloudmove 23s ease-in-out infinite alternate}
-.cloud.c2{animation-duration:31s;animation-direction:alternate-reverse}
-@keyframes cloudmove{to{transform:translateX(28px)}}
-.ripple{animation:ripple 5s linear infinite}
-.ripple.r2{animation-delay:-2.5s}
-@keyframes ripple{from{transform:translateX(-90px)}to{transform:translateX(90px)}}
-.sparkle{animation:twinkle 2.2s ease-in-out infinite}
-.sparkle:nth-child(2n){animation-delay:-1s}
-@keyframes twinkle{50%{opacity:.2;transform:scale(.6)}}
-.bird{animation:birdfly 7s ease-in-out infinite alternate}
-@keyframes birdfly{to{transform:translate(30px,-12px)}}
-.fish{transition:opacity .8s,transform .8s;transform-origin:center}
-body[data-level="3"] .fish,body[data-level="4"] .fish{opacity:0;transform:translateY(12px)}
-.walker{transition:transform 1s cubic-bezier(.4,0,.2,1)}
-.walker .body{transform-origin:center;animation:bob .5s ease-in-out infinite}
-@keyframes bob{50%{transform:translateY(-3px)}}
-.walker.moving .leg-a{animation:legs .24s ease-in-out infinite alternate;transform-origin:top}
-.walker.moving .leg-b{animation:legs .24s ease-in-out infinite alternate-reverse;transform-origin:top}
-@keyframes legs{to{transform:rotate(22deg)}}
-.litter{opacity:0;transform:scale(.15);transform-box:fill-box;transform-origin:center;transition:opacity .45s,transform .65s cubic-bezier(.2,1.5,.5,1);cursor:pointer}
-.litter.on{opacity:1;transform:scale(1)}
-.litter .pulse{fill:none;stroke:#fff9d8;stroke-width:2;opacity:0}
-.litter.on .pulse{animation:ping 1.8s ease-out infinite}
-@keyframes ping{0%{transform:scale(.65);opacity:.9}100%{transform:scale(1.6);opacity:0}}
-.litter:focus{outline:none;filter:drop-shadow(0 0 5px #fff)}
-.haze{opacity:0;transition:opacity 1.5s;pointer-events:none}
-body[data-level="2"] .haze{opacity:.08}body[data-level="3"] .haze{opacity:.19}body[data-level="4"] .haze{opacity:.28}
-.fact{position:absolute;z-index:6;left:14px;right:14px;bottom:12px;padding:11px 14px;border-radius:14px;background:#103f49ed;color:#f4fffa;font-size:13px;line-height:1.4;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
-.fact.on{opacity:1;transform:none}
-.panel{position:relative;z-index:3;flex:1;min-height:0;margin-top:-21px;border-radius:24px 24px 0 0;background:var(--paper);box-shadow:0 -8px 26px #174d4a18;padding:20px 21px 0;overflow-y:auto;transition:opacity .22s,transform .22s}
-.panel.swap{opacity:0;transform:translateY(9px)}
-.kicker{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#178c91;margin-bottom:6px}
-h1,h2{font-family:Fraunces,Georgia,serif;line-height:1.1}
-h1{font-size:29px;margin-bottom:9px;color:#123b43}
-.lead{font-size:15px;line-height:1.5;color:#4a6970;margin-bottom:12px}
-.hint{font-size:12px;color:#628087;margin:0 0 12px;display:flex;align-items:center;gap:8px}
-.hint:before{content:"";width:8px;height:8px;border-radius:50%;background:#e9ae3c;animation:pulse 1.4s infinite}
-@keyframes pulse{50%{transform:scale(1.6);opacity:.35}}
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
-.pair div{padding:9px 11px;border-radius:12px;font-size:12px;line-height:1.35}
-.pair span{display:block;font-size:9px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;opacity:.7;margin-bottom:3px}
-.cause{background:#e6f4e9;color:#245b43}.effect{background:#fff0d8;color:#80551b}
-.ctawrap{position:sticky;bottom:0;padding:10px 0 calc(14px + env(safe-area-inset-bottom));background:linear-gradient(#f8fffb00,var(--paper) 30%)}
-button,.action{width:100%;min-height:52px;border:0;border-radius:15px;padding:13px 16px;background:linear-gradient(135deg,#168f91,#08717e);color:white;font:700 16px 'DM Sans',sans-serif;text-align:center;text-decoration:none;display:block;cursor:pointer;box-shadow:0 7px 18px #168f9138}
-button:active{transform:scale(.985)}button.secondary,.action.secondary{background:#123f48;box-shadow:none}
-button:focus-visible,a:focus-visible{outline:3px solid #e6ad3e;outline-offset:3px}
-.twist{position:absolute;inset:0;z-index:20;background:linear-gradient(145deg,#0b555e,#123c49 72%,#176c70);color:#f3fff7;display:flex;align-items:center;padding:34px 27px;opacity:0;pointer-events:none;transition:opacity .8s;overflow-y:auto}
-.twist.on{opacity:1;pointer-events:auto}.twist-inner{width:100%;margin:auto}
-.twist .kicker{color:#f5c65b}.twist p{font:600 23px/1.35 Fraunces,Georgia,serif;margin:0 0 17px;opacity:0;transform:translateY(14px);transition:opacity .9s,transform .9s}
-.twist p.big{font-size:48px}.twist p.in{opacity:1;transform:none}.twist b{color:#f5c65b}
-.twist button{margin-top:12px;opacity:0;transition:opacity .8s}.twist button.in{opacity:1}
-.story{position:absolute;inset:0;z-index:25;overflow-y:auto;background:#0d424b;color:#effbf4;opacity:0;pointer-events:none;transition:opacity 1s;scroll-behavior:smooth}
-.story.on{opacity:1;pointer-events:auto}
-.s-wrap{padding:calc(42px + env(safe-area-inset-top)) 20px 22px}
-.story .kicker{color:#f4c35c;margin-top:30px}
-.story h2{font-size:32px;margin:8px 0 10px;color:#f5fff8}
-.story .lead2{color:#c8e1dc;line-height:1.55;margin-bottom:18px}
-.cue{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#f5c65b;font-weight:700;margin:20px 0 24px;animation:nudge 1.6s infinite}
-@keyframes nudge{50%{transform:translateY(6px)}}
-.rv{opacity:0;transform:translateY(24px);transition:opacity .85s,transform .85s}.rv.in{opacity:1;transform:none}
-.story-scene{margin:0 0 16px;border-radius:18px;overflow:hidden;background:#1b6267;box-shadow:0 12px 30px #062e353f}
-.story-scene svg{display:block;width:100%;height:auto}
-.story-scene div{padding:12px 15px 15px}.story-scene b{display:block;font:700 19px Fraunces,Georgia,serif;margin-bottom:4px;color:#f6ce77}.story-scene span{font-size:13px;line-height:1.5;color:#d0e6df}
-.cons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 22px}
-.con{border:1px solid #ffffff20;background:#ffffff0b;border-radius:15px;padding:13px}
-.con i{font-style:normal;font-size:24px;display:block;margin-bottom:6px}.con b{display:block;color:#f6ce77;font-size:14px;margin-bottom:4px}.con span{font-size:12px;line-height:1.45;color:#d0e6df}
-.dawn{height:125px;background:linear-gradient(#0d424b,#6c9e83 60%,#fff4d9)}
-.final{background:#fff4d9;color:#123b43;min-height:70vh;padding:24px 23px calc(44px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.final .kicker{color:#178c91;margin:0}.final h2{font-size:39px;margin:12px 0 25px}.final button,.final .action{max-width:320px;margin:5px 0}
-.final .small{font-size:12px;line-height:1.6;color:#55747a;margin-top:12px}.final a.inline{color:#08717e;font-weight:700}
-@media(max-height:700px){.stage{height:43%;min-height:220px}h1{font-size:25px}.lead{font-size:14px;margin-bottom:8px}.panel{padding-top:16px}}
+:root{color-scheme:light;--ink:#183b40;--muted:#607b7e;--paper:#fbfaf4;--teal:#147f83;--teal-dark:#105d66;--mint:#d9eee5;--yellow:#f2c56b;--line:#dce8df}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#d8e9e4;color:var(--ink);font-family:'DM Sans',sans-serif}
+body{min-height:100svh;display:flex;justify-content:center;-webkit-tap-highlight-color:transparent}
+button,a{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:3px solid #e0a93d;outline-offset:3px}
+.experience{width:100%;max-width:500px;min-height:100svh;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 55px #164d4a20}
+.header{height:58px;flex:none;padding:calc(12px + env(safe-area-inset-top)) 22px 0;display:flex;align-items:center;gap:13px;z-index:4}
+.brand{font-size:10px;letter-spacing:.14em;font-weight:700;color:#4f7474;white-space:nowrap}
+.progress{height:4px;border-radius:8px;background:#dce9e3;flex:1;overflow:hidden}
+.progress span{display:block;height:100%;width:25%;background:var(--teal);border-radius:8px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.count{font-size:10px;font-weight:700;color:#698183;font-variant-numeric:tabular-nums}
+.visual{height:42svh;min-height:265px;max-height:390px;position:relative;overflow:hidden;background:#cde7e3;isolation:isolate}
+.visual:after{content:"";position:absolute;inset:auto 0 0;height:65px;background:linear-gradient(transparent,#fbfaf4);pointer-events:none;z-index:2}
+.scene{position:absolute;inset:0;opacity:0;transform:scale(1.035);transition:opacity .8s ease,transform 1.2s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.scene.active{opacity:1;transform:scale(1);pointer-events:auto}
+.scene svg{width:100%;height:100%;display:block}
+.scene .cloud{animation:cloud 18s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.scene .cloud.c2{animation-duration:25s;animation-direction:alternate-reverse}
+@keyframes cloud{to{transform:translateX(22px)}}
+.scene .rain{animation:rain .65s linear infinite}
+.scene .rain.r2{animation-delay:-.3s}
+@keyframes rain{to{transform:translateY(23px)}}
+.scene .waterline{animation:waterline 4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes waterline{to{transform:translateX(16px) scaleY(.88)}}
+.scene .float{animation:float 3.5s ease-in-out infinite}
+.scene .float.f2{animation-delay:-1.6s}
+@keyframes float{50%{transform:translateY(-7px) rotate(3deg)}}
+.scene .drop{animation:drop 1.8s ease-in infinite}
+.scene .drop.d2{animation-delay:-.9s}
+@keyframes drop{0%{transform:translateY(-9px);opacity:0}25%{opacity:1}100%{transform:translateY(20px);opacity:0}}
+.scene .glow{animation:glow 3s ease-in-out infinite}
+@keyframes glow{50%{opacity:.3;transform:scale(1.12)}}
+.scene .leaf{transform-box:fill-box;transform-origin:bottom center;animation:leaf 4s ease-in-out infinite alternate}
+@keyframes leaf{to{transform:rotate(7deg)}}
+.scene .flow{stroke-dasharray:15 12;animation:flow 2.8s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-54}}
+.scene .spark{animation:spark 2.5s ease-in-out infinite}
+@keyframes spark{50%{opacity:.18;transform:scale(.7)}}
+.chapter{padding:21px 24px 0;flex:1;display:flex;flex-direction:column;min-height:0}
+.eyebrow{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:0 0 9px}
+h1{font:700 clamp(29px,7.8vw,37px)/1.04 'Fraunces',Georgia,serif;letter-spacing:-.035em;margin:0 0 12px;max-width:430px}
+.description{font-size:15px;line-height:1.6;color:#516d70;margin:0;max-width:430px}
+.note{margin-top:16px;padding:11px 13px;border-left:3px solid var(--yellow);background:#f3f1e5;border-radius:0 10px 10px 0;font-size:12px;line-height:1.5;color:#5c6962}
+.actions{margin-top:auto;padding:17px 24px calc(19px + env(safe-area-inset-bottom));background:linear-gradient(#fbfaf400,#fbfaf4 17%);display:flex;gap:10px}
+.primary{width:100%;border:0;border-radius:14px;min-height:54px;padding:14px 18px;background:var(--teal);color:white;font:700 15px 'DM Sans',sans-serif;cursor:pointer;box-shadow:0 7px 17px #147f832b;transition:transform .2s,background .2s,box-shadow .2s}
+.primary:hover{background:#106d72;box-shadow:0 9px 20px #147f8335;transform:translateY(-1px)}
+.primary:active{transform:translateY(1px)}
+.secondary{background:#e5f0e9;color:var(--teal-dark);box-shadow:none}
+.secondary:hover{background:#d8eae0;box-shadow:none}
+.chapter.changing{opacity:0;transform:translateY(10px)}
+.chapter{transition:opacity .25s,transform .25s}
+.end{display:none;position:absolute;inset:0;z-index:10;background:#123f48;color:#f8f7ed;overflow-y:auto}
+.end.show{display:flex;flex-direction:column;animation:endIn .7s ease both}
+@keyframes endIn{from{opacity:0}to{opacity:1}}
+.end-art{height:38svh;min-height:235px;max-height:340px;background:#b9ded1;flex:none}
+.end-art svg{width:100%;height:100%;display:block}
+.end-content{padding:25px 25px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;flex:1}
+.end .eyebrow{color:#f2c56b}
+.end h2{font:700 34px/1.08 'Fraunces',Georgia,serif;letter-spacing:-.025em;margin:0 0 12px}
+.end p{font-size:14px;line-height:1.6;color:#d0e3dc;margin:0 0 16px}
+.action-list{display:grid;gap:9px;margin:3px 0 18px}
+.action-item{display:flex;align-items:flex-start;gap:11px;padding:11px 12px;background:#ffffff0d;border:1px solid #ffffff16;border-radius:12px}
+.action-item b{display:block;font-size:13px;color:#f4d58e;margin-bottom:2px}
+.action-item span{display:block;font-size:12px;line-height:1.4;color:#d0e3dc}
+.action-item i{font-style:normal;font-size:18px;line-height:1.2}
+.end-buttons{display:grid;gap:9px;margin-top:auto}
+.end .primary{background:#f2c56b;color:#183b40;box-shadow:none}
+.end .secondary{background:#ffffff15;color:#f8f7ed;border:1px solid #ffffff30}
+.end .foot{font-size:11px;color:#a9c8bf;margin:13px 0 0;text-align:center}
+@media(min-width:700px){body{align-items:center;padding:20px}.experience{min-height:min(850px,calc(100svh - 40px));height:min(850px,calc(100svh - 40px));border-radius:24px}.visual{height:40%;min-height:300px}.end{border-radius:24px}}
+@media(max-height:700px){.visual{height:38svh;min-height:220px}.chapter{padding-top:16px}.description{font-size:14px}.note{margin-top:10px;padding:8px 11px}.actions{padding-top:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
-<body data-level="0">
-<noscript><p style="padding:24px">This experience needs JavaScript to run.</p></noscript>
-<div class="app" id="app">
-<div class="topbar"><div class="track"><i id="prog"></i></div><span class="tag">RIVER JOURNEY · 01 DROP</span></div>
-<div class="stage" id="stage">
-<svg viewBox="0 0 480 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An animated river winding from green hills toward a village">
-<defs>
- <linearGradient id="skygrad" x1="0" y1="0" x2="0" y2="1"><stop class="sky" offset="0"/><stop class="sky-end" offset="1"/></linearGradient>
- <linearGradient id="watergrad" x1="0" y1="0" x2="0" y2="1"><stop stop-color="var(--water)"/><stop offset="1" stop-color="var(--water2)"/></linearGradient>
-</defs>
-<rect width="480" height="420" fill="url(#skygrad)"/>
-<circle class="sun" cx="405" cy="67" r="30" fill="#ffe28b"/><circle cx="405" cy="67" r="44" fill="#fff1b0" opacity=".18"/>
-<g class="cloud" fill="#f5ffef" opacity=".9"><ellipse cx="83" cy="73" rx="34" ry="12"/><ellipse cx="106" cy="64" rx="23" ry="14"/><ellipse cx="57" cy="65" rx="20" ry="10"/></g>
-<g class="cloud c2" fill="#f5ffef" opacity=".65"><ellipse cx="270" cy="103" rx="26" ry="9"/><ellipse cx="289" cy="98" rx="18" ry="11"/></g>
-<path class="hill" d="M0 185L65 98 120 157 198 52 286 162 370 88 480 177V270H0Z"/>
-<path d="M0 205L79 137 132 183 202 98 290 188 380 132 480 204V286H0Z" fill="#b9d69a" opacity=".7"/>
-<path class="bank" d="M0 236Q75 200 150 233T300 225T480 236V420H0Z"/>
-<!-- river winding through the landscape -->
-<path d="M202 130C170 174 257 188 236 232C216 275 142 280 167 333C181 364 263 365 282 420H442C410 357 334 328 324 290C313 247 384 226 355 183C334 151 286 147 279 119Z" fill="url(#watergrad)" class="water"/>
-<path d="M222 143C199 181 276 197 254 237C232 276 174 284 193 326C211 363 283 372 306 420" fill="none" stroke="#d7fff0" stroke-width="5" opacity=".48"/>
-<g class="ripple" fill="none" stroke="#d9fff4" stroke-width="2" opacity=".55"><path d="M225 208q18-7 36 0"/><path d="M214 218q18-7 36 0"/><path d="M270 300q20-7 40 0"/><path d="M281 311q20-7 40 0"/></g>
-<g class="ripple r2" fill="none" stroke="#e8fff6" stroke-width="2" opacity=".42"><path d="M178 330q18-7 36 0"/><path d="M300 252q18-7 36 0"/></g>
-<!-- village -->
-<g><path d="M20 244v-37l28-22 30 22v37z" fill="#f4d39b"/><path d="M14 208l34-28 36 28z" fill="#c66f4b"/><rect x="43" y="218" width="13" height="26" fill="#8c6245"/><rect x="28" y="212" width="10" height="10" fill="#8ec9cb"/>
-<path d="M370 245v-31l25-19 27 19v31z" fill="#f0d5a3"/><path d="M365 216l30-25 32 25z" fill="#bb7652"/><rect x="389" y="222" width="12" height="23" fill="#8c6245"/></g>
-<!-- trees -->
-<g fill="#387f58"><circle cx="104" cy="219" r="20"/><circle cx="124" cy="211" r="23"/><circle cx="141" cy="224" r="17"/><circle cx="448" cy="220" r="22"/><circle cx="426" cy="212" r="18"/></g>
-<g class="bird" fill="none" stroke="#386a63" stroke-width="2" stroke-linecap="round"><path d="M320 87q8-9 16 0q8-9 16 0"/></g>
-<g class="bird" fill="none" stroke="#386a63" stroke-width="1.6" stroke-linecap="round" style="animation-delay:-3s"><path d="M350 112q6-7 12 0q6-7 12 0"/></g>
-<!-- fish -->
-<g class="fish" fill="#e4f7cf"><path d="M300 333q13-11 27 0q-14 11-27 0l-8 6v-12z"/><circle cx="320" cy="331" r="1.5" fill="#246b72"/></g>
-<g class="fish" fill="#f8d68b"><path d="M222 291q10-9 22 0q-12 9-22 0l-7 5v-10z"/></g>
-<!-- progressive litter -->
-<g class="litter" data-level="1" tabindex="0" role="button" aria-label="Plastic bottle" data-fact="A bottle left near a stream can be washed into the river when it rains.">
- <circle class="pulse" cx="112" cy="275" r="15"/><g transform="translate(112 275) rotate(28)"><rect x="-5" y="-13" width="10" height="25" rx="3" fill="#d7f1e9" stroke="#287f8a" stroke-width="1.5"/><rect x="-3" y="-17" width="6" height="5" rx="1" fill="#287f8a"/><path d="M-4 -2h8" stroke="#64b8c0" stroke-width="3"/></g>
-</g>
-<g class="litter" data-level="2" tabindex="0" role="button" aria-label="Food wrapper" data-fact="Lightweight wrappers blow from market lanes and riverbanks into the water.">
- <circle class="pulse" cx="337" cy="281" r="16"/><path d="M320 275l30-5 8 19-31 6z" fill="#f4c45d" stroke="#946e2d" stroke-width="2"/><path d="M326 280l25-4" stroke="#fff4d6" stroke-width="3"/>
-</g>
-<g class="litter" data-level="3" tabindex="0" role="button" aria-label="Plastic bag" data-fact="A floating plastic bag can be mistaken for food by birds and other animals.">
- <circle class="pulse" cx="245" cy="354" r="17"/><path d="M229 352q-5-16 6-17q9 0 9 13l12-5 7 29q-23 12-42-1l6-24z" fill="#edf4e7" stroke="#7d9585" stroke-width="2"/>
-</g>
-<g class="litter" data-level="4" tabindex="0" role="button" aria-label="Wastewater outflow" data-fact="Wastewater should be treated before it is released into a river.">
- <circle class="pulse" cx="420" cy="300" r="18"/><path d="M390 281h42v26h-42z" fill="#687e7a"/><path d="M390 301q18 1 30 15" fill="none" stroke="#a4c7b2" stroke-width="8"/>
-</g>
-<!-- moving visitor -->
-<g class="walker" id="walker" transform="translate(75 350)">
- <ellipse cx="0" cy="0" rx="12" ry="3" fill="#123b43" opacity=".18"/>
- <g class="body"><path class="leg-a" d="M-4 -22l-2 20" stroke="#214b52" stroke-width="5" stroke-linecap="round"/><path class="leg-b" d="M4 -22l3 20" stroke="#214b52" stroke-width="5" stroke-linecap="round"/><rect x="-9" y="-44" width="18" height="24" rx="6" fill="#e8a94c"/><circle cx="0" cy="-52" r="8" fill="#b97954"/><path d="M-8 -54q2-12 12-7q5 2 4 9q-7-6-16-2" fill="#244b4b"/></g>
-</g>
-<rect class="haze" width="480" height="420" fill="#7a735d"/>
-</svg>
-<div class="fact" id="fact" role="status" aria-live="polite"></div>
-</div>
-<section class="panel" id="panel" aria-live="polite">
- <div class="kicker" id="kicker">A journey begins</div>
- <h1 id="title">Where does a river's story begin?</h1>
- <p class="lead" id="lead">High in the hills, one clear drop starts moving. Follow it downstream and see what joins its journey.</p>
- <p class="hint" id="hint">Tap objects as they appear in the scene to learn more.</p>
- <div class="pair" id="pair" hidden><div class="cause"><span>What happens</span><b id="cause"></b></div><div class="effect"><span>What it changes</span><b id="effect"></b></div></div>
- <div class="ctawrap"><button id="advance" type="button">Follow the drop</button></div>
-</section>
-<section class="twist" id="twist"><div class="twist-inner" id="twistInner"></div></section>
-<section class="story" id="story"></section>
-</div>
+<body>
+<main class="experience" id="experience">
+ <header class="header"><span class="brand">SWACHHSEVA · FIELD NOTES</span><div class="progress" aria-label="Story progress"><span id="progress"></span></div><span class="count" id="count">01 / 04</span></header>
+ <div class="visual" id="visual" aria-label="Illustrated scenes showing rainwater moving from a street to a river">
+  <div class="scene active" data-scene="0">
+   <svg viewBox="0 0 500 390" role="img" aria-label="Rain falling on a city street beside a storm drain">
+    <defs><linearGradient id="s1sky" x2="0" y2="1"><stop stop-color="#9ccbd0"/><stop offset="1" stop-color="#e5e8d7"/></linearGradient><linearGradient id="s1road" x2="0" y2="1"><stop stop-color="#7e9c98"/><stop offset="1" stop-color="#526f70"/></linearGradient></defs>
+    <rect width="500" height="390" fill="url(#s1sky)"/>
+    <circle cx="410" cy="72" r="40" fill="#fff1c2" opacity=".55" class="glow"/>
+    <g class="cloud" fill="#e9f0e9"><path d="M53 95q-4-24 22-28 9-30 42-16 27-23 50 3 30-2 34 27 21 19-1 34H62q-25-5-9-20z"/><path d="M284 72q0-17 21-18 11-22 34-10 19-15 35 4 23-1 25 21 17 13-2 24H298q-19-5-14-21z" opacity=".8"/></g>
+    <g class="rain" stroke="#f2fff9" stroke-width="2" opacity=".65" stroke-linecap="round"><path d="M83 142l-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20"/></g>
+    <g class="rain r2" stroke="#f2fff9" stroke-width="2" opacity=".35" stroke-linecap="round"><path d="M63 184l-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20m38-20-8 20"/></g>
+    <path d="M0 206L500 190V390H0Z" fill="url(#s1road)"/>
+    <path d="M0 212Q120 201 250 211T500 204" fill="none" stroke="#d6e3d8" stroke-width="5"/>
+    <path d="M0 250Q130 230 270 252T500 241" fill="none" stroke="#b7d1c8" stroke-width="3" opacity=".6"/>
+    <g fill="#d5dfd1"><path d="M18 195V93h73v102z"/><path d="M102 195V66h88v129z"/><path d="M203 195V111h65v84z"/><path d="M385 194V80h91v114z"/></g>
+    <g fill="#759c92"><path d="M18 93l37-28 36 28z"/><path d="M102 66l44-31 44 31z"/><path d="M203 111l32-24 33 24z"/><path d="M385 80l45-31 46 31z"/></g>
+    <g fill="#7eaaa1"><path d="M31 112h15v20H31zm31 0h15v20H62zm-31 37h15v20H31zm48-67h15v20H79zm33 0h15v20h-15zm35 0h15v20h-15zm-34 38h15v20h-15zm33 0h15v20h-15zm-33 36h15v20h-15zm122-26h13v18h-13zm24 0h13v18h-13zm157-36h17v20h-17zm32 0h17v20h-17zm-32 38h17v20h-17zm32 0h17v20h-17z"/></g>
+    <path d="M0 280q90-23 180 0t180 0 140 0v110H0z" fill="#6c9690" opacity=".6"/>
+    <path d="M0 302q90-18 180 0t180 0 140 0" fill="none" stroke="#a8d8cd" stroke-width="4" class="flow"/>
+    <!-- curbside waste -->
+    <g class="float"><path d="M124 273l26-5 9 23-29 5z" fill="#e9bd67" stroke="#956d3b" stroke-width="2"/><path d="M130 278l19-4" stroke="#fff0c7" stroke-width="3"/></g>
+    <g class="float f2"><path d="M209 284q-6-17 8-18 12 0 11 13l10-4 5 24q-20 10-39-2l5-19z" fill="#d8e8d7" stroke="#668f85" stroke-width="2"/></g>
+    <!-- drain -->
+    <path d="M356 276h108v42H356z" fill="#344f51"/><path d="M367 283h86m-86 10h86m-86 10h86" stroke="#91aaa0" stroke-width="4" stroke-linecap="round"/>
+    <path d="M0 321Q95 296 190 322T356 320" fill="none" stroke="#bce9dc" stroke-width="4" class="flow"/>
+    <path d="M336 314q28-13 48 0" fill="none" stroke="#d7f3e8" stroke-width="4" class="flow"/>
+    <g fill="#fff6d8"><circle cx="350" cy="258" r="3" class="spark"/><circle cx="328" cy="277" r="2" class="spark"/><circle cx="465" cy="246" r="3" class="spark"/></g>
+   </svg>
+  </div>
+  <div class="scene" data-scene="1">
+   <svg viewBox="0 0 500 390" role="img" aria-label="Rainwater and litter moving through a storm drain toward a river">
+    <defs><linearGradient id="s2bg" x2="0" y2="1"><stop stop-color="#b5d8d0"/><stop offset="1" stop-color="#d9e6d5"/></linearGradient></defs>
+    <rect width="500" height="390" fill="url(#s2bg)"/>
+    <path d="M0 0h500v122H0z" fill="#9dc5bd"/>
+    <path d="M0 117h500v38H0z" fill="#758f89"/>
+    <path d="M0 155h500v235H0z" fill="#d4e2d7"/>
+    <path d="M0 165q90-24 190 0t190 0 120 0" fill="none" stroke="#f6f1d9" stroke-width="4"/>
+    <!-- cutaway soil -->
+    <path d="M0 185Q130 165 245 188T500 182V390H0Z" fill="#9eaa8b"/>
+    <path d="M0 235Q140 213 270 239T500 230V390H0Z" fill="#7d927d"/>
+    <path d="M0 295Q120 270 250 299T500 288V390H0Z" fill="#647d73"/>
+    <!-- pipe -->
+    <path d="M-10 218C90 218 125 228 170 264S245 308 315 306" fill="none" stroke="#415f60" stroke-width="57" stroke-linecap="round"/>
+    <path d="M-10 218C90 218 125 228 170 264S245 308 315 306" fill="none" stroke="#9ed9d0" stroke-width="38" stroke-linecap="round"/>
+    <path d="M-10 218C90 218 125 228 170 264S245 308 315 306" fill="none" stroke="#e2fff1" stroke-width="5" stroke-linecap="round" class="flow"/>
+    <!-- surface drain inlet -->
+    <path d="M44 138h100v31H44z" fill="#435f5e"/><path d="M53 144v18m14-18v18m14-18v18m14-18v18m14-18v18m14-18v18m14-18v18" stroke="#b3c9bd" stroke-width="4"/>
+    <path d="M94 168v34" stroke="#b6e9dc" stroke-width="6" stroke-linecap="round" class="flow"/>
+    <!-- river outlet -->
+    <path d="M280 296q-4 35 34 45" fill="none" stroke="#9ed9d0" stroke-width="32" stroke-linecap="round"/>
+    <path d="M280 296q-4 35 34 45" fill="none" stroke="#e2fff1" stroke-width="4" stroke-linecap="round" class="flow"/>
+    <path d="M250 339q70-24 140 0t110 0v51H250z" fill="#2e9ea5"/>
+    <path d="M250 351q70-18 140 0t110 0" fill="none" stroke="#c5f1df" stroke-width="4" class="flow"/>
+    <g class="float"><path d="M174 249l24-5 8 19-25 5z" fill="#e7bd67" stroke="#8b6a3c" stroke-width="2"/></g>
+    <g class="float f2"><rect x="226" y="282" width="13" height="25" rx="4" fill="#e4f0df" stroke="#638e86" stroke-width="2" transform="rotate(24 232 294)"/></g>
+    <g fill="#eaf8e9"><circle cx="190" cy="268" r="3" class="drop"/><circle cx="213" cy="282" r="3" class="drop d2"/><circle cx="290" cy="322" r="3" class="drop"/></g>
+    <g fill="#f6f0d9" font-family="DM Sans,sans-serif" font-size="12" font-weight="700"><text x="28" y="42">STREET</text><text x="175" y="365">DRAIN NETWORK</text><text x="380" y="326">RIVER</text></g>
+    <path d="M30 50h65" stroke="#fff4d4" stroke-width="2"/><path d="M176 373h104" stroke="#fff4d4" stroke-width="2"/><path d="M380 337h78" stroke="#fff4d4" stroke-width="2"/>
+   </svg>
+  </div>
+  <div class="scene" data-scene="2">
+   <svg viewBox="0 0 500 390" role="img" aria-label="A riverbank with trees, birds and floating litter">
+    <defs><linearGradient id="s3sky" x2="0" y2="1"><stop stop-color="#a9d9d4"/><stop offset="1" stop-color="#e3ead6"/></linearGradient><linearGradient id="s3water" x2="0" y2="1"><stop stop-color="#42aeb0"/><stop offset="1" stop-color="#197f88"/></linearGradient></defs>
+    <rect width="500" height="390" fill="url(#s3sky)"/>
+    <circle cx="395" cy="67" r="34" fill="#fff0bd" class="glow"/>
+    <path d="M0 190l74-81 61 54 79-92 88 95 73-67 125 90v68H0z" fill="#9fbe91"/>
+    <path d="M0 232q90-38 180-7t180-1 140 0v166H0z" fill="#7ea97b"/>
+    <path d="M0 265q100-35 194 5t180-1 126 0v121H0z" fill="url(#s3water)"/>
+    <path d="M0 285q90-20 180 0t180 0 140 0" fill="none" stroke="#d3f4df" stroke-width="4" class="flow"/>
+    <path d="M0 322q90-20 180 0t180 0 140 0" fill="none" stroke="#a6e1d4" stroke-width="3" class="flow"/>
+    <g fill="#3f825e"><circle cx="64" cy="178" r="34"/><circle cx="99" cy="167" r="30"/><circle cx="130" cy="186" r="25"/><circle cx="436" cy="181" r="34"/><circle cx="400" cy="168" r="29"/></g>
+    <g fill="#6ca56f"><path d="M96 189v66m-42-45 42 24m42-28-42 30" stroke="#795f47" stroke-width="8" fill="none"/><path d="M417 187v68m-38-46 38 25m38-30-38 32" stroke="#795f47" stroke-width="8" fill="none"/></g>
+    <g fill="#f3d49a"><path d="M184 223v-40l28-21 30 21v40z"/><path d="M178 185l34-27 36 27z" fill="#bf7955"/><rect x="206" y="194" width="13" height="29" fill="#8d6549"/></g>
+    <g class="float"><path d="M260 292l31-6 9 23-34 7z" fill="#e7bd67" stroke="#936f3c" stroke-width="2"/><path d="M267 295l22-4" stroke="#fff2cc" stroke-width="3"/></g>
+    <g class="float f2"><path d="M354 325q-7-18 7-19 12 0 12 14l10-5 6 26q-21 11-42-2l6-21z" fill="#e2eee0" stroke="#648b80" stroke-width="2"/></g>
+    <g fill="#f7fff0"><path d="M310 103q10-12 20 0q10-12 20 0" fill="none" stroke="#426d62" stroke-width="2.5"/><path d="M348 125q8-9 16 0q8-9 16 0" fill="none" stroke="#426d62" stroke-width="2"/></g>
+    <path d="M0 249q80-18 145 0" fill="none" stroke="#d5e8c5" stroke-width="3" opacity=".8"/>
+   </svg>
+  </div>
+  <div class="scene" data-scene="3">
+   <svg viewBox="0 0 500 390" role="img" aria-label="A clean riverbank with people caring for the surroundings, trees and clear water">
+    <defs><linearGradient id="s4sky" x2="0" y2="1"><stop stop-color="#9fd8d3"/><stop offset="1" stop-color="#eaf0d8"/></linearGradient><linearGradient id="s4water" x2="0" y2="1"><stop stop-color="#63c4b3"/><stop offset="1" stop-color="#228f92"/></linearGradient></defs>
+    <rect width="500" height="390" fill="url(#s4sky)"/>
+    <circle cx="398" cy="68" r="39" fill="#fff1bf" class="glow"/>
+    <g class="cloud" fill="#f5fff0"><ellipse cx="82" cy="82" rx="38" ry="13"/><ellipse cx="106" cy="71" rx="25" ry="17"/><ellipse cx="58" cy="73" rx="23" ry="12"/></g>
+    <path d="M0 206l75-90 75 73 85-111 92 111 67-64 106 88v73H0z" fill="#a9c994"/>
+    <path d="M0 248q95-28 190 0t180 0 130 0v142H0z" fill="#79b47d"/>
+    <path d="M0 279q100-30 190 2t180-1 130 0v110H0z" fill="url(#s4water)"/>
+    <path d="M0 296q95-18 190 0t180 0 130 0" fill="none" stroke="#e4fff0" stroke-width="5" class="flow"/>
+    <path d="M0 337q95-18 190 0t180 0 130 0" fill="none" stroke="#b9eee0" stroke-width="3" class="flow"/>
+    <g fill="#367d57"><circle cx="62" cy="191" r="34"/><circle cx="97" cy="174" r="34"/><circle cx="128" cy="194" r="28"/><circle cx="436" cy="193" r="35"/><circle cx="401" cy="174" r="31"/></g>
+    <g fill="#8bbd77"><circle cx="80" cy="165" r="17" class="leaf"/><circle cx="420" cy="156" r="17" class="leaf"/></g>
+    <!-- tidy waste station -->
+    <rect x="174" y="218" width="45" height="52" rx="5" fill="#f0c56d"/><rect x="170" y="211" width="53" height="9" rx="3" fill="#d89b4b"/><path d="M185 232h22m-22 9h22" stroke="#fff6df" stroke-width="4" stroke-linecap="round"/>
+    <rect x="230" y="228" width="40" height="42" rx="5" fill="#d9eee0"/><rect x="226" y="221" width="48" height="9" rx="3" fill="#75a88b"/><path d="M242 241h16m-16 8h16" stroke="#5e9a7a" stroke-width="3" stroke-linecap="round"/>
+    <!-- small group silhouettes, static and stylised -->
+    <g><circle cx="317" cy="207" r="9" fill="#b87c57"/><path d="M307 220q10-9 20 0l5 35h-30z" fill="#e4a95c"/><path d="M311 253l-3 17m14-17 4 17" stroke="#385e59" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="354" cy="214" r="8" fill="#96694f"/><path d="M345 226q9-8 18 0l4 30h-27z" fill="#e5eee0"/><path d="M349 254l-2 16m12-16 3 16" stroke="#385e59" stroke-width="5" stroke-linecap="round"/></g>
+    <g fill="#fff7d8"><circle cx="290" cy="95" r="3" class="spark"/><circle cx="335" cy="72" r="2" class="spark"/><circle cx="460" cy="120" r="3" class="spark"/></g>
+   </svg>
+  </div>
+ </div>
+ <section class="chapter" id="chapter" aria-live="polite">
+  <p class="eyebrow" id="eyebrow">01 — The first flush</p>
+  <h1 id="title">It starts on the street.</h1>
+  <p class="description" id="description">A shower of rain hits the city. Water runs along the kerb, picking up whatever has been left behind.</p>
+  <div class="note" id="note">A wrapper on the pavement may be only a few metres from a storm drain.</div>
+ </section>
+ <footer class="actions"><button class="primary" id="next" type="button">Follow the rain <span aria-hidden="true">→</span></button></footer>
+ <section class="end" id="end" aria-label="What we can change">
+  <div class="end-art">
+   <svg viewBox="0 0 500 300" role="img" aria-label="A clean river flowing through a green neighbourhood"><rect width="500" height="300" fill="#b9ded1"/><circle cx="398" cy="60" r="37" fill="#fff1bf"/><path d="M0 163l75-80 70 69 82-94 89 96 73-62 111 75v66H0z" fill="#8dbb88"/><path d="M0 195q100-30 200 0t180 0 120 0v105H0z" fill="#52a979"/><path d="M0 222q100-24 200 0t180 0 120 0v78H0z" fill="#29999b"/><path d="M0 239q100-17 200 0t180 0 120 0" fill="none" stroke="#e0fff0" stroke-width="5" stroke-dasharray="15 12"><animate attributeName="stroke-dashoffset" from="0" to="-54" dur="3s" repeatCount="indefinite"/></path><g fill="#347d58"><circle cx="70" cy="164" r="31"/><circle cx="102" cy="151" r="28"/><circle cx="435" cy="161" r="33"/></g><rect x="205" y="172" width="36" height="39" rx="5" fill="#f0c56d"/><rect x="200" y="166" width="46" height="8" rx="3" fill="#d89b4b"/></svg>
+  </div>
+  <div class="end-content">
+   <p class="eyebrow">The route can change</p>
+   <h2>A cleaner river begins before the riverbank.</h2>
+   <p>Good waste systems matter. So do everyday choices and reporting places where waste is being dumped or drains are overflowing.</p>
+   <div class="action-list">
+    <div class="action-item"><i>01</i><div><b>Keep waste out of drains</b><span>Use a bin; never sweep litter into a roadside drain.</span></div></div>
+    <div class="action-item"><i>02</i><div><b>Reduce what can escape</b><span>Carry reusables and secure waste until it can be disposed of properly.</span></div></div>
+    <div class="action-item"><i>03</i><div><b>Speak up when you spot a problem</b><span>Report dumping, blocked drains or waste accumulating near water.</span></div></div>
+   </div>
+   <div class="end-buttons">
+    <a class="primary" id="report" href="https://swachhseva-nine.vercel.app" target="_blank" rel="noopener" style="text-decoration:none;text-align:center">Report a problem on SwachhSeva</a>
+    <button class="primary secondary" id="replay" type="button">Experience it again</button>
+    <button class="primary secondary" id="share" type="button">Share this story</button>
+   </div>
+   <p class="foot">A student awareness project. Not an official government service.</p>
+   <p class="foot">Explore another story: <a href="streets.html" style="color:#f2c56b">Streets</a> · <a href="nature.html" style="color:#f2c56b">Nature</a></p>
+  </div>
+ </section>
+</main>
 <script>
 (()=>{'use strict';
-const $=id=>document.getElementById(id);
-const body=document.body,app=$('app'),panel=$('panel'),walker=$('walker');
-const STEPS=[
- {k:'A journey begins',t:'The hill spring',d:'High in the hills, one clear drop starts moving. The water is clear, and the banks are full of life.',c:'A clean source',e:'A river begins to support everything downstream.'},
- {k:'Stop 2 · The village',t:'A bottle left behind',d:'The stream passes homes and fields. A bottle left near the bank is swept into the water by rain.',c:'Litter on the bank',e:'Rain carries it into the stream.'},
- {k:'Stop 3 · The market',t:'The river gets busier',d:'More people gather near the water. Wrappers and food packaging can slip from busy banks into the current.',c:'Waste near the ghat',e:'Light plastic travels with the current.'},
- {k:'Stop 4 · The city',t:'A drain meets the river',d:'Roads and drains connect to the river. Wastewater needs proper treatment before it reaches the water.',c:'Untreated discharge',e:'Water quality and habitats can be affected.'},
- {k:'Stop 5 · Downstream',t:'Nothing simply disappears',d:'The river keeps moving. Waste dropped far upstream can travel a long way from where it began.',c:'Pollution travels',e:'Downstream communities and wildlife are connected.'}
+const chapters=[
+ {eyebrow:'01 — The first flush',title:'It starts on the street.',description:'A shower of rain hits the city. Water runs along the kerb, picking up whatever has been left behind.',note:'A wrapper on the pavement may be only a few metres from a storm drain.',button:'Follow the rain'},
+ {eyebrow:'02 — Out of sight',title:'A drain is not a bin.',description:'Street drains are built to move rainwater away. In many places, that water can flow straight into a nearby stream or river.',note:'When litter enters a drain, it can be difficult to retrieve — and it has not really gone away.',button:'Trace the route'},
+ {eyebrow:'03 — The river receives it',title:'The river gets the message.',description:'A river collects water from a whole landscape. Waste from roads, drains and poorly managed discharge can affect the water and the life around it.',note:'The source of pollution and the place affected by it may be far apart.',button:'Look at the bigger picture'},
+ {eyebrow:'04 — A different outcome',title:'The route can change.',description:'Cleaner streets, working waste collection, treated wastewater and clear drains all help protect the river. No single action does it alone.',note:'Good infrastructure and community action work together.',button:'See what we can do'}
 ];
-const COUNTER_URL='https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec';
-let step=0,started=false,finished=false,phase='journey',factTimer;
-const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
-function log(event){try{let vid=localStorage.getItem('sbm_vid');if(!vid){vid=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',vid)}const data=JSON.stringify({page:'rivers',event,vid});if(!navigator.sendBeacon(COUNTER_URL,data))fetch(COUNTER_URL,{method:'POST',mode:'no-cors',body:data})}catch(e){}}
+let current=0,started=false,done=false;
+const $=id=>document.getElementById(id);
+const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function log(event){try{let vid=localStorage.getItem('sbm_vid');if(!vid){vid=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',vid)}const payload=JSON.stringify({page:'rivers',event,vid});if(!navigator.sendBeacon('https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec',payload))fetch('https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec',{method:'POST',mode:'no-cors',body:payload})}catch(e){}}
 function render(){
- const s=STEPS[step];body.dataset.level=String(step);
- $('kicker').textContent=s.k;$('title').textContent=s.t;$('lead').textContent=s.d;
- $('cause').textContent=s.c;$('effect').textContent=s.e;$('pair').hidden=step===0;
- $('hint').hidden=step===0;$('advance').textContent=step===0?'Follow the drop':step===4?'See where it leads':'Keep following';
- $('prog').style.width=((step+1)/7*100)+'%';
- document.querySelectorAll('.litter').forEach(el=>el.classList.toggle('on',Number(el.dataset.level)<=step));
- walker.classList.add('moving');walker.setAttribute('transform','translate('+([75,150,245,330,420][step])+' 350)');
- setTimeout(()=>walker.classList.remove('moving'),900);
+ const c=chapters[current];
+ $('eyebrow').textContent=c.eyebrow;$('title').textContent=c.title;$('description').textContent=c.description;$('note').textContent=c.note;
+ $('next').innerHTML=c.button+' <span aria-hidden="true">→</span>';
+ $('progress').style.width=((current+1)/4*100)+'%';$('count').textContent=String(current+1).padStart(2,'0')+' / 04';
+ document.querySelectorAll('.scene').forEach((scene,i)=>scene.classList.toggle('active',i===current));
 }
-function swapPanel(){panel.classList.add('swap');setTimeout(()=>{panel.classList.remove('swap');},220)}
-function showFact(el){$('fact').textContent=el.dataset.fact;$('fact').classList.add('on');clearTimeout(factTimer);factTimer=setTimeout(()=>$('fact').classList.remove('on'),4200)}
-document.querySelector('.stage').addEventListener('click',e=>{const el=e.target.closest('.litter');if(el&&el.classList.contains('on'))showFact(el)});
-document.querySelector('.stage').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('litter')&&e.target.classList.contains('on')){e.preventDefault();showFact(e.target)}});
-$('advance').addEventListener('click',()=>{
- if(phase!=='journey')return;
+$('next').addEventListener('click',()=>{
  if(!started){started=true;log('start')}
- if(step<4){step++;swapPanel();render()}else showTwist();
+ if(current<3){$('chapter').classList.add('changing');setTimeout(()=>{$('chapter').classList.remove('changing');current++;render()},reduced()?0:230)}
+ else{$('end').classList.add('show');if(!done){done=true;log('finish')}}
 });
-function showTwist(){
- phase='twist';if(!finished){finished=true;log('finish')}
- const twist=$('twist'),inner=$('twistInner');inner.innerHTML='';
- const lines=[{t:'Wait.',big:true},{t:'The river carried every stop with it.'},{t:'The bottle. The wrapper. The wastewater.'},{t:'They did not stay where they entered. A river connects every place along its course.'}];
- lines.forEach((line,i)=>{const p=document.createElement('p');if(line.big)p.className='big';p.textContent=line.t;inner.appendChild(p);setTimeout(()=>p.classList.add('in'),reduced()?0:450+i*1150)});
- const k=document.createElement('div');k.className='kicker';k.textContent='Look beyond the riverbank';inner.prepend(k);
- const b=document.createElement('button');b.textContent='What does this mean for us?';inner.appendChild(b);setTimeout(()=>b.classList.add('in'),reduced()?0:lines.length*1150+500);
- b.addEventListener('click',showStory);twist.classList.add('on');
-}
-function showStory(){
- phase='story';$('twist').classList.remove('on');const story=$('story');
- story.innerHTML=`<div class="s-wrap">
- <p class="kicker rv">The bigger picture</p><h2 class="rv">A river is part of everyone's life.</h2>
- <p class="lead2 rv">Its water, banks and ecosystems connect villages, cities, farms and wildlife. Pollution in one place can affect many others.</p>
- <div class="cue rv">Keep scrolling ↓</div>
- <div class="story-scene rv"><svg viewBox="0 0 440 190" role="img" aria-label="River flowing past a village"><rect width="440" height="190" fill="#b5e0d6"/><path d="M0 80L70 25 140 80 220 18 310 82 380 35 440 80V120H0Z" fill="#79ae83"/><path d="M0 112Q110 90 180 120T340 110T440 115V190H0Z" fill="#279eaa"/><path d="M0 145Q90 125 180 151T360 145T440 140" fill="none" stroke="#d5fff0" stroke-width="5"/><g fill="#f1d39c"><path d="M30 110V78l22-18 24 18v32z"/><path d="M24 80l28-24 30 24z" fill="#c66f4b"/><path d="M350 108V75l22-17 24 17v33z"/><path d="M344 77l28-24 30 24z" fill="#c66f4b"/></g></svg><div><b>Drinking water</b><span>Pollution makes clean water harder and more costly to provide. Water must be treated before it is safe to drink.</span></div></div>
- <div class="story-scene rv"><svg viewBox="0 0 440 150" role="img" aria-label="Fish swimming in clear water"><rect width="440" height="150" fill="#268d9a"/><path d="M0 45q70-20 140 0t140 0t160 0" fill="none" stroke="#b7eee1" stroke-width="4" opacity=".7"/><g fill="#f5d17d"><path d="M90 85q30-25 60 0q-30 25-60 0l-20 12V73z"/><path d="M265 54q23-19 46 0q-23 19-46 0l-15 9V45z"/></g><circle cx="135" cy="82" r="3" fill="#164e58"/><circle cx="300" cy="52" r="2.5" fill="#164e58"/></svg><div><b>Fish and wildlife</b><span>Plastic and polluted water can harm fish, birds and other animals that depend on rivers.</span></div></div>
- <div class="story-scene rv"><svg viewBox="0 0 440 150" role="img" aria-label="Green fields beside a river"><rect width="440" height="150" fill="#c4e5d2"/><path d="M0 75Q110 30 220 78T440 65V150H0Z" fill="#78b66e"/><path d="M0 115Q110 82 220 115T440 104V150H0Z" fill="#e4c77d"/><path d="M0 130Q120 103 230 132T440 118" fill="none" stroke="#278f9b" stroke-width="16"/><path d="M35 75v40m35-49v42m35-52v42m260-32v42m35-46v42" stroke="#3c8755" stroke-width="3"/></svg><div><b>Farms and food</b><span>River water supports agriculture. Poor water quality can affect soil, crops and the wider food chain.</span></div></div>
- <div class="story-scene rv"><svg viewBox="0 0 440 150" role="img" aria-label="People and trees beside a river"><rect width="440" height="150" fill="#bde5df"/><path d="M0 96Q120 70 220 100T440 90V150H0Z" fill="#319eaa"/><g fill="#347d58"><circle cx="75" cy="48" r="24"/><circle cx="98" cy="54" r="19"/><circle cx="355" cy="44" r="27"/></g><g fill="#e9b26c"><circle cx="200" cy="66" r="9"/><path d="M190 77h20v33h-20z"/><circle cx="245" cy="69" r="9"/><path d="M235 80h20v30h-20z"/></g></svg><div><b>People and health</b><span>Unsafe or untreated water can spread disease when people use it without adequate treatment.</span></div></div>
- <p class="kicker rv">One last thing</p><h2 class="rv">The river belongs to all of us.</h2>
- <p class="lead2 rv">Keep waste away from drains and riverbanks. Dispose of it responsibly. Report pollution when you see it.</p>
- </div><div class="final"><p class="kicker">SwachhSeva · Awareness project</p><h2>What enters the river does not simply disappear.</h2>
- <button id="again" type="button">Run it again</button><button class="secondary" id="share" type="button">Share this experience</button>
- <a class="action secondary" id="report" href="https://swachhseva-nine.vercel.app" target="_blank" rel="noopener">Report a problem on SwachhSeva</a>
- <p class="small">Try another: <a class="inline" href="streets.html">Streets</a> · <a class="inline" href="nature.html">Nature</a></p>
- <p class="small">A student awareness project. Not an official government service.</p></div>`;
- story.classList.add('on');
- const obs=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in');obs.unobserve(entry.target)}}),{root:story,threshold:.15});
- story.querySelectorAll('.rv').forEach(el=>obs.observe(el));
- $('again').addEventListener('click',()=>{log('replay');step=0;started=false;finished=false;phase='journey';story.classList.remove('on');$('twist').classList.remove('on');$('fact').classList.remove('on');render();window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'})});
- $('share').addEventListener('click',async()=>{log('share');const data={title:document.title,text:'Follow the journey of a drop.',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);$('share').textContent='Link copied'}}catch(e){}});
- $('report').addEventListener('click',()=>log('report'));
-}
+$('replay').addEventListener('click',()=>{current=0;started=false;done=false;$('end').classList.remove('show');render();log('replay')});
+$('report').addEventListener('click',()=>log('report'));
+$('share').addEventListener('click',async()=>{log('share');const data={title:document.title,text:'Where does the rain go? Follow the route from street to drain to river.',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);$('share').textContent='Link copied'}}catch(e){}});
 render();
 })();
 </script>
