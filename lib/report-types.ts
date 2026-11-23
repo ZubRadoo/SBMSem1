@@ -9,19 +9,27 @@ export const REPORT_STATUSES = [
   "rejected",
 ] as const;
 export type ReportStatus = (typeof REPORT_STATUSES)[number];
+export type PublicReportStatus = Extract<
+  ReportStatus,
+  "approved" | "acknowledged" | "resolved"
+>;
 
-export type PublicReport = {
+export type ReportRecord = {
   id: string;
   category: string;
   location_text: string;
   latitude: number | null;
   longitude: number | null;
-  status: Extract<ReportStatus, "approved" | "acknowledged" | "resolved">;
+  status: ReportStatus;
   severity: ReportSeverity;
   created_at: string;
 };
 
-export type AdminReport = PublicReport & {
+export type PublicReport = ReportRecord & {
+  status: PublicReportStatus;
+};
+
+export type AdminReport = ReportRecord & {
   description: string;
   photo_path: string | null;
 };
