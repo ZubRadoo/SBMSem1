@@ -11,8 +11,8 @@ import { isValidCoordinates } from "@/lib/map-utils";
 const ReportsMap=dynamic(()=>import("@/components/ReportsMap"),{ssr:false,loading:()=> <div className="map-frame home-map loading-map">Loading hotspot map…</div>});
 type Report = PublicReport;
 const categories=["Litter / illegal dumping","Overflowing public bin","Blocked drain / waterlogging","River or water pollution","Nature area littering","Other cleanliness issue"];
-function labelStatus(s:string){return s==="resolved"?"Marked resolved":s==="acknowledged"?"Under action":"Approved for map";}
-function severityLabel(s:string){return s==="high"?"High":s==="low"?"Low":"Medium";}
+function labelStatus(status:PublicReport["status"]){return status==="resolved"?"Marked resolved":status==="acknowledged"?"Under action":"Approved for map";}
+function severityLabel(severity:ReportSeverity){return severity==="high"?"High":severity==="low"?"Low":"Medium";}
 export default function HomeDashboard(){
  const [reports,setReports]=useState<Report[]>([]);const [loading,setLoading]=useState(true);const [error,setError]=useState("");const [dark,setDark]=useState(false);const [locateToken,setLocateToken]=useState(0);
  const [category,setCategory]=useState(categories[0]);const [description,setDescription]=useState("");const [location,setLocation]=useState("");const [lat,setLat]=useState("");const [lng,setLng]=useState("");const [severity,setSeverity]=useState<ReportSeverity>("medium");const [photo,setPhoto]=useState<File|null>(null);const [busy,setBusy]=useState(false);const submitLock=useRef(false);const [formError,setFormError]=useState("");const [submitted,setSubmitted]=useState(false);
