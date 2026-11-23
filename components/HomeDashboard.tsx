@@ -1,24 +1,90 @@
 "use client";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import {useEffect,useMemo,useState} from "react";
+import {useEffect,useMemo,useRef,useState} from "react";
 import {ArrowUpRight,MapPin,ClipboardList,CheckCircle2,LocateFixed,Moon,Sun,ShieldCheck} from "lucide-react";
 import {hasSupabase,supabase} from "@/lib/supabase";
 import LocationPicker from "@/components/LocationPicker";
+import { REPORT_SEVERITIES, type PublicReport, type ReportSeverity } from "@/lib/report-types";
+import { isValidCoordinates } from "@/lib/map-utils";
 
 const ReportsMap=dynamic(()=>import("@/components/ReportsMap"),{ssr:false,loading:()=> <div className="map-frame home-map loading-map">Loading hotspot map…</div>});
-type Report={id:string;category:string;description:string;location_text:string;latitude:number|null;longitude:number|null;status:string;severity:string;created_at:string};
-type Severity="low"|"medium"|"high";
+type Report = PublicReport;
 const categories=["Litter / illegal dumping","Overflowing public bin","Blocked drain / waterlogging","River or water pollution","Nature area littering","Other cleanliness issue"];
 function labelStatus(s:string){return s==="resolved"?"Marked resolved":s==="acknowledged"?"Under action":"Approved for map";}
 function severityLabel(s:string){return s==="high"?"High":s==="low"?"Low":"Medium";}
 export default function HomeDashboard(){
  const [reports,setReports]=useState<Report[]>([]);const [loading,setLoading]=useState(true);const [error,setError]=useState("");const [dark,setDark]=useState(false);const [locateToken,setLocateToken]=useState(0);
- const [category,setCategory]=useState(categories[0]);const [description,setDescription]=useState("");const [location,setLocation]=useState("");const [lat,setLat]=useState("");const [lng,setLng]=useState("");const [severity,setSeverity]=useState<Severity>("medium");const [photo,setPhoto]=useState<File|null>(null);const [busy,setBusy]=useState(false);const [formError,setFormError]=useState("");const [submitted,setSubmitted]=useState(false);
+ const [category,setCategory]=useState(categories[0]);const [description,setDescription]=useState("");const [location,setLocation]=useState("");const [lat,setLat]=useState("");const [lng,setLng]=useState("");const [severity,setSeverity]=useState<ReportSeverity>("medium");const [photo,setPhoto]=useState<File|null>(null);const [busy,setBusy]=useState(false);const submitLock=useRef(false);const [formError,setFormError]=useState("");const [submitted,setSubmitted]=useState(false);
  useEffect(()=>{let active=true;(async()=>{if(!hasSupabase||!supabase){if(active){setError("The public report service is not configured.");setLoading(false);}return;}const {data,error}=await supabase.from("public_reports").select("*").order("created_at",{ascending:false});if(!active)return;if(error)setError("Could not load public reports. Please try again later.");else setReports((data||[]) as Report[]);setLoading(false);})();return()=>{active=false;};},[]);
  useEffect(()=>{const saved=window.localStorage.getItem("swachhseva-theme");if(saved==="dark")setDark(true);},[]);
  useEffect(()=>{document.documentElement.dataset.theme=dark?"dark":"light";window.localStorage.setItem("swachhseva-theme",dark?"dark":"light");},[dark]);
- const submit=async(e:React.FormEvent)=>{e.preventDefault();setFormError("");setSubmitted(false);if(!hasSupabase||!supabase){setFormError("The reporting service is not configured.");return;}if(description.trim().length<5||!location.trim()){setFormError("Add a description of at least 5 characters and a location.");return;}setBusy(true);try{let photo_path:string|null=null;if(photo){if(photo.size>5*1024*1024)throw new Error("Choose an image smaller than 5 MB.");if(!photo.type.startsWith("image/"))throw new Error("Only image files are accepted.");const ext=photo.name.split(".").pop()?.toLowerCase()||"jpg";const path=`${crypto.randomUUID()}.${ext}`;const up=await supabase.storage.from("report-photos").upload(path,photo,{contentType:photo.type,upsert:false});if(up.error)throw up.error;photo_path=path;}const {error}=await supabase.from("reports").insert({category,description:description.trim(),location_text:location.trim(),latitude:lat?Number(lat):null,longitude:lng?Number(lng):null,photo_path,severity,status:"pending_review"});if(error)throw error;setSubmitted(true);setDescription("");setLocation("");setLat("");setLng("");setPhoto(null);setSeverity("medium");}catch(err){setFormError(err&&typeof err==="object"&&"message" in err?String((err as {message:unknown}).message):"Submission failed. Please try again.");}finally{setBusy(false);}};
+ const submit=async(e:React.FormEvent)=>{
+  e.preventDefault();
+  if(submitLock.current)return;
+  submitLock.current=true;
+  setFormError("");
+  setSubmitted(false);
+  if(!hasSupabase||!supabase){
+   setFormError("The reporting service is not configured.");
+   submitLock.current=false;
+   return;
+  }
+  if(description.trim().length<5||!location.trim()){
+   setFormError("Add a description of at least 5 characters and a location.");
+   submitLock.current=false;
+   return;
+  }
+  const hasLatitude=lat.trim()!=="";
+  const hasLongitude=lng.trim()!=="";
+  if(hasLatitude!==hasLongitude||(hasLatitude&&!isValidCoordinates(Number(lat),Number(lng)))){
+   setFormError("Choose a valid map location, or clear both coordinates.");
+   submitLock.current=false;
+   return;
+  }
+  setBusy(true);
+  let uploadedPhotoPath:string|null=null;
+  try{
+   if(photo){
+    const allowedTypes:Record<string,string>={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"};
+    const extension=allowedTypes[photo.type];
+    if(!extension)throw new Error("Choose a JPG, PNG or WebP image.");
+    if(photo.size===0||photo.size>5*1024*1024)throw new Error("Choose an image larger than 0 bytes and smaller than 5 MB.");
+    const path=`${crypto.randomUUID()}.${extension}`;
+    const upload=await supabase.storage.from("report-photos").upload(path,photo,{contentType:photo.type,upsert:false});
+    if(upload.error)throw upload.error;
+    uploadedPhotoPath=path;
+   }
+   const {error}=await supabase.from("reports").insert({
+    category,
+    description:description.trim(),
+    location_text:location.trim(),
+    latitude:hasLatitude?Number(lat):null,
+    longitude:hasLongitude?Number(lng):null,
+    photo_path:uploadedPhotoPath,
+    severity,
+    status:"pending_review",
+   });
+   if(error)throw error;
+   setSubmitted(true);
+   setDescription("");
+   setLocation("");
+   setLat("");
+   setLng("");
+   setPhoto(null);
+   setSeverity("medium");
+   const photoInput=document.getElementById("home-photo") as HTMLInputElement|null;
+   if(photoInput)photoInput.value="";
+  }catch(err){
+   if(uploadedPhotoPath){
+    try{await supabase.storage.from("report-photos").remove([uploadedPhotoPath]);}catch{/* Preserve the original submission error. */}
+   }
+   setFormError(err&&typeof err==="object"&&"message" in err?String((err as {message:unknown}).message):"Submission failed. Please try again.");
+  }finally{
+   setBusy(false);
+   submitLock.current=false;
+  }
+ };
  const points=useMemo(()=>reports.filter(r=>r.latitude!==null&&r.longitude!==null),[reports]);
  const high=reports.filter(r=>r.severity==="high").length;
  return <main className={`home-dashboard ${dark?"dark":""}`}>
