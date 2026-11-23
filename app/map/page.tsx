@@ -1,13 +1,2 @@
-"use client";
-import Link from "next/link";
-import dynamic from "next/dynamic";
-import { useEffect,useState } from "react";
-import { hasSupabase,supabase } from "@/lib/supabase";
-const ReportsMap=dynamic(()=>import("@/components/ReportsMap"),{ssr:false,loading:()=> <div className="map-frame" style={{display:"grid",placeItems:"center"}}>Loading map…</div>});
-type Report={id:string;category:string;description:string;location_text:string;latitude:number|null;longitude:number|null;status:string;created_at:string};
-export default function MapPage(){const [reports,setReports]=useState<Report[]>([]);const [loading,setLoading]=useState(true);const [error,setError]=useState("");
- useEffect(()=>{(async()=>{if(!hasSupabase||!supabase){setError("Map data service is not configured yet.");setLoading(false);return;}const {data,error}=await supabase.from("public_reports").select("*").order("created_at",{ascending:false});if(error)setError(error.message);else setReports((data||[]) as Report[]);setLoading(false);})();},[]);
- const points=reports.filter(r=>r.latitude!==null&&r.longitude!==null);
- return <main><nav className="nav shell"><Link className="brand" href="/"><span className="brand-mark">S</span> SwachhSeva</Link><Link className="back-link" href="/">← Home</Link></nav><div className="page-shell"><p className="eyebrow">COMMUNITY STATUS MAP</p><h1 className="page-title">See what is happening nearby.</h1><p className="page-intro">Only reports approved for public display are shown. Map markers reflect project-team review status, not official government verification.</p>{loading?<div className="panel-card">Loading approved reports…</div>:error?<div className="notice">{error}</div>:<><ReportsMap reports={points}/><div className="map-legend"><span><i className="legend-dot" style={{background:"#d99b42"}}/> Approved / forwarded</span><span><i className="legend-dot" style={{background:"#668e71"}}/> Acknowledged / under action</span><span><i className="legend-dot" style={{background:"#4b6d9b"}}/> Marked resolved by project review</span></div><p className="muted" style={{marginTop:14}}>{reports.length} public reports · {points.length} with map coordinates. Reports without coordinates may be listed in future updates.</p></>}
- <div className="panel-card"><b style={{fontFamily:"Manrope"}}>Have you noticed an issue?</b><p className="muted">Share its location and details. The review team will check it before publication.</p><Link className="button button-dark" href="/report">Submit a report</Link></div></div></main>;
-}
+import {redirect} from "next/navigation";
+export default function MapRedirect(){redirect("/#hotspot-map");}
