@@ -440,14 +440,6 @@ function startTwist(){
 
 /* ---------- counter (Google Sheet via Apps Script; off while COUNTER_URL is empty) ---------- */
 const log = window.SwachhCounter.createLogger("streets", COUNTER_URL);
-function log(kind){
-  if (kind !== 'start' && kind !== 'finish') return;
-  if (!COUNTER_URL) return;
-  try{ if (localStorage.getItem('sbm_streets_' + kind)) return; localStorage.setItem('sbm_streets_' + kind, '1'); }
-  catch(e){ if (sent[kind]) return; sent[kind] = true; }
-  const body = JSON.stringify({page: 'streets', event: kind, vid: vid()});
-  try{ if (!(navigator.sendBeacon && navigator.sendBeacon(COUNTER_URL, body))) fetch(COUNTER_URL, {method:'POST', mode:'no-cors', body}); }catch(e){}
-}
 
 /* ---------- the scroll story ---------- */
 const story = $('#story');
