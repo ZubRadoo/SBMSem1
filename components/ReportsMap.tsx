@@ -178,6 +178,7 @@ export default function ReportsMap({
 
       const element = document.createElement("div");
       element.className = "report-map-marker";
+      element.style.cssText = "width:15px;height:15px;border:3px solid white;border-radius:50%;box-shadow:0 1px 5px #0006;cursor:pointer";
       element.style.backgroundColor = getMarkerColor(report.status);
       element.setAttribute("aria-label", report.category);
 
