@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
-import { createReportMarker, getMapStyleUrl, PATNA_CENTER } from "@/lib/map-utils";
+import { createReportMarker, getMapStyleUrl, isValidCoordinates, PATNA_CENTER } from "@/lib/map-utils";
 import type { PublicReport } from "@/lib/report-types";
 
 type ReportsMapProps = {
@@ -36,12 +36,7 @@ export default function ReportsMap({
       if (
         report.latitude === null ||
         report.longitude === null ||
-        !Number.isFinite(report.latitude) ||
-        !Number.isFinite(report.longitude) ||
-        report.latitude < -90 ||
-        report.latitude > 90 ||
-        report.longitude < -180 ||
-        report.longitude > 180
+        !isValidCoordinates(report.latitude, report.longitude)
       ) {
         return [];
       }
