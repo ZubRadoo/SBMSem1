@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The journey of a drop · SwachhSeva</title>
+<meta name="description" content="Follow one drop of water from a hill spring to the sea, and see what a river carries along the way.">
+<meta property="og:title" content="The journey of a drop">
+<meta property="og:description" content="Follow one drop of water from a hill spring to the sea, and see what a river carries along the way.">
+<meta name="theme-color" content="#10161c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14202b;--night:#10161c;--cream:#fff4d6;--paper:#fffdf8;--orange:#ff8a4c;--muted:#596873}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--ink);font:16px 'DM Sans',system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center}
+main{width:100%;max-width:480px;min-height:100vh;background:var(--paper);overflow:hidden}
+header{padding:calc(18px + env(safe-area-inset-top)) 22px 18px;background:var(--night);color:var(--cream)}
+.tag,.kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--orange)}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.1}
+h1{font-size:clamp(32px,9vw,42px);margin:10px 0 8px}
+header p{color:#cbd4da;margin:0;line-height:1.5}
+.scene-wrap{background:#d9e9e5;position:relative}
+.scene{display:block;width:100%;height:auto;min-height:220px}
+.scene .pollution{opacity:0;transition:opacity .45s ease}
+.scene[data-level="1"] .p1,.scene[data-level="2"] .p1,.scene[data-level="2"] .p2,.scene[data-level="3"] .p1,.scene[data-level="3"] .p2,.scene[data-level="3"] .p3,.scene[data-level="4"] .p1,.scene[data-level="4"] .p2,.scene[data-level="4"] .p3,.scene[data-level="4"] .p4,.scene[data-level="5"] .pollution{opacity:1}
+.scene[data-level="3"] .water,.scene[data-level="4"] .water,.scene[data-level="5"] .water{fill:#688f91}
+.scene[data-level="4"] .water,.scene[data-level="5"] .water{fill:#7b8980}
+.scene .wildlife{transition:opacity .3s}
+.scene[data-level="4"] .wildlife,.scene[data-level="5"] .wildlife{opacity:0}
+.tap-item{cursor:pointer;outline:none}
+.tap-item:focus-visible{filter:drop-shadow(0 0 4px #ff7b43)}
+.tap-item:hover{transform:translateY(-3px)}
+.scene .tap-item{transition:transform .2s}
+.panel{padding:22px 22px 28px}
+.progress-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.step-label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#e56e39;font-weight:700}
+.progress{height:4px;background:#e7e2d8;border-radius:9px;overflow:hidden;margin:10px 0 18px}
+.progress span{display:block;height:100%;width:0;background:var(--orange);transition:width .3s}
+h2{font-size:28px;margin:8px 0}
+.lead{color:#43515b;line-height:1.55;margin:8px 0 14px}
+.hint{font-size:13px;color:#65727b;margin:0 0 12px}
+.fact{min-height:42px;margin:10px 0 0;padding:11px 13px;border-radius:10px;background:#f1eee7;color:#35434d;font-size:13px;line-height:1.45}
+.fact:empty{display:none}
+button,.action{width:100%;min-height:50px;border:0;border-radius:12px;padding:14px 16px;margin:7px 0;background:var(--orange);color:#17232c;font:700 15px 'DM Sans',sans-serif;text-align:center;text-decoration:none;display:block;cursor:pointer}
+button:active{transform:scale(.99)}
+button.secondary,.action.secondary{background:var(--ink);color:white}
+#twist{display:none;background:var(--night);color:var(--cream);padding:42px 24px 48px;min-height:65vh;flex-direction:column;justify-content:center}
+#twist h2{font-size:36px;margin:14px 0}
+#twist p{color:#cbd4da;line-height:1.6}
+#reveal{display:none;background:var(--night);color:var(--cream);padding:30px 20px 0}
+#reveal h2{font-size:32px;margin:10px 0}
+.reveal-lead{color:#cbd4da;line-height:1.6}
+.river-art{margin:22px -20px 0;background:#c5e0df}
+.river-art svg{display:block;width:100%;height:auto}
+.caption{padding:10px 20px 18px;color:#34434b;background:#f3efe6;font-size:13px;line-height:1.5}
+.costs{padding:24px 0 12px}
+.cost{padding:17px 0;border-bottom:1px solid #35414a}
+.cost:last-child{border-bottom:0}
+.cost b{display:block;color:#ffb98f;margin-bottom:5px}
+.cost p{margin:0;color:#cbd4da;font-size:14px;line-height:1.55}
+#end{margin:12px -20px 0;background:var(--cream);color:var(--ink);padding:38px 22px calc(38px + env(safe-area-inset-bottom));text-align:center}
+#end h2{font-size:37px;margin:12px 0 24px}
+.small{font-size:12px;color:#596873;line-height:1.6;margin:14px 0 0}
+.small a{color:#9b4b2b;font-weight:700}
+a:focus-visible,button:focus-visible{outline:3px solid #ff7845;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="tag">SwachhSeva · An awareness experience</div>
+  <h1>The journey of a drop.</h1>
+  <p>One drop. Five stops. Follow the river from its first clear spring to the sea.</p>
+</header>
+
+<section id="play" aria-label="Interactive river journey">
+<div class="scene-wrap">
+<svg id="riverScene" class="scene" data-level="0" viewBox="0 0 480 270" role="img" aria-label="Illustrated river flowing between green hills">
+ <defs>
+  <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#a9d7e6"/><stop offset="1" stop-color="#e7eee0"/></linearGradient>
+  <linearGradient id="river" x2="0" y2="1"><stop stop-color="#65c2d0"/><stop offset="1" stop-color="#3195ae"/></linearGradient>
+ </defs>
+ <rect width="480" height="270" fill="url(#sky)"/>
+ <circle cx="405" cy="48" r="24" fill="#ffdc85"/>
+ <path d="M0 144L78 48 150 130 226 36 318 136 390 65 480 143V270H0Z" fill="#819d86"/>
+ <path d="M0 162L76 92 135 153 226 76 305 158 390 103 480 165V270H0Z" fill="#9db18c"/>
+ <path d="M0 187Q95 168 160 190T310 181T480 191V270H0Z" fill="#648d65"/>
+ <path d="M166 100Q204 126 227 158Q258 199 220 270H390Q339 217 315 184Q282 140 252 94Z" fill="url(#river)" class="water"/>
+ <path d="M180 109Q220 145 242 180T260 270" fill="none" stroke="#d8f3ed" stroke-width="4" opacity=".6"/>
+ <g fill="#426f50"><circle cx="44" cy="172" r="15"/><circle cx="63" cy="165" r="19"/><circle cx="435" cy="171" r="20"/><circle cx="457" cy="163" r="17"/></g>
+ <g class="wildlife" fill="#f7f0d9"><path d="M352 88q12-12 22 0q-10 9-22 0m14-5v-8" stroke="#526c69" stroke-width="2" fill="none"/><path d="M377 105q9-9 18 0q-9 8-18 0" fill="none" stroke="#526c69" stroke-width="2"/></g>
+ <g class="pollution p1">
+  <g class="tap-item" tabindex="0" role="button" aria-label="Plastic bottle: tap for a fact" data-fact="A bottle dropped beside a stream can be carried downstream by rain and moving water.">
+   <rect x="64" y="205" width="18" height="34" rx="5" fill="#f3f0dc" stroke="#4c7c83" stroke-width="2" transform="rotate(24 73 222)"/><rect x="69" y="198" width="8" height="9" rx="2" fill="#4c7c83" transform="rotate(24 73 202)"/>
+  </g>
+ </g>
+ <g class="pollution p2">
+  <g class="tap-item" tabindex="0" role="button" aria-label="Food wrapper: tap for a fact" data-fact="Lightweight wrappers can blow from riverbanks into the water.">
+   <path d="M295 207l28-5 8 19-30 7z" fill="#f4bd4e" stroke="#8e6b36" stroke-width="2"/><path d="M300 214l25-5" stroke="#fff4d6" stroke-width="3"/>
+  </g>
+ </g>
+ <g class="pollution p3">
+  <g class="tap-item" tabindex="0" role="button" aria-label="Plastic bag: tap for a fact" data-fact="Plastic bags can drift along the surface and may be mistaken for food by animals.">
+   <path d="M365 178q-5-12 5-12q9 0 8 11l10-4 5 32q-21 11-39-1l5-29z" fill="#e8e4d4" stroke="#777c72" stroke-width="2"/>
+  </g>
+ </g>
+ <g class="pollution p4">
+  <g class="tap-item" tabindex="0" role="button" aria-label="Drain outflow: tap for a fact" data-fact="Wastewater from homes and streets needs proper treatment before it is released into rivers.">
+   <path d="M0 192h76v29H0z" fill="#737e80"/><path d="M76 208q25 2 41 17" fill="none" stroke="#8a9a8d" stroke-width="10"/><path d="M80 213q21 2 34 14" fill="none" stroke="#c1d0bd" stroke-width="3"/>
+  </g>
+ </g>
+ <g class="pollution p5">
+  <g class="tap-item" tabindex="0" role="button" aria-label="Floating waste: tap for a fact" data-fact="Rivers connect places. Pollution can travel far from the spot where it first entered the water.">
+   <path d="M184 224q14-10 27 0q-12 11-27 0" fill="#e9dfc6" stroke="#8c806c" stroke-width="2"/><path d="M338 245l24-8 7 13-25 8z" fill="#e7b44d"/>
+  </g>
+ </g>
+ <text x="18" y="25" font-size="11" fill="#294d54" font-family="sans-serif" letter-spacing="1.5">UPSTREAM → DOWNSTREAM</text>
+</svg>
+</div>
+<div class="panel">
+ <div class="progress-row"><span class="step-label" id="stepLabel">STOP 1 OF 5</span><span class="step-label" id="placeLabel">THE SOURCE</span></div>
+ <div class="progress"><span id="progressFill"></span></div>
+ <h2 id="stepTitle">The hill spring</h2>
+ <p class="lead" id="stepText">High in the hills, a stream begins its journey. The water is clear, and the banks are green.</p>
+ <p class="hint">Tap the objects in the scene as they appear. Then follow the drop.</p>
+ <div class="fact" id="fact" role="status" aria-live="polite"></div>
+ <button id="advance" type="button">Flow on</button>
+</div>
+</section>
+
+<section id="twist" aria-labelledby="twistTitle">
+ <div class="kicker">Wait. Did you notice?</div>
+ <h2 id="twistTitle">The river carried every stop with it.</h2>
+ <p>Each place added something. None of it stayed behind. What enters upstream keeps moving downstream.</p>
+ <button id="revealButton" type="button">Where does this lead?</button>
+</section>
+
+<section id="reveal" aria-label="Consequences of river pollution">
+ <div class="kicker">The bigger picture</div>
+ <h2>What reaches the river reaches us.</h2>
+ <p class="reveal-lead">A river is connected to the lives around it. Pollution can affect people, wildlife and the places that depend on its water.</p>
+ <div class="river-art">
+  <svg viewBox="0 0 480 220" role="img" aria-label="Illustration of a river carrying floating litter toward a distant shoreline">
+   <rect width="480" height="220" fill="#c5e0df"/>
+   <path d="M0 65Q70 25 140 65T280 62T480 55V120H0Z" fill="#91ad8b"/>
+   <path d="M0 110Q90 92 160 119T300 112T480 105V220H0Z" fill="#4b9eaa"/>
+   <path d="M0 165Q90 146 170 170T330 164T480 156" fill="none" stroke="#bce7dc" stroke-width="5" opacity=".7"/>
+   <path d="M0 193Q95 175 180 198T350 192T480 184V220H0Z" fill="#347d8d"/>
+   <g fill="#f1e7cb" stroke="#667b72" stroke-width="2"><rect x="110" y="133" width="17" height="31" rx="4" transform="rotate(25 118 148)"/><path d="M255 151l30-5 6 15-30 7z" fill="#f3bd50"/><path d="M370 121q-4-10 5-10q8 0 7 10l9-3 3 24q-18 8-32-1l4-23z"/></g>
+  </svg>
+ </div>
+ <div class="caption">The river carries more than water. What is thrown away on its banks can travel far beyond the place it was dropped.</div>
+ <div class="costs">
+  <div class="kicker">The consequences</div>
+  <div class="cost"><b>Drinking water</b><p>Pollution makes clean water harder and more costly to provide. Water needs proper treatment before it is safe to drink.</p></div>
+  <div class="cost"><b>Fish and wildlife</b><p>Plastic and polluted water can harm fish, birds and other animals that depend on rivers.</p></div>
+  <div class="cost"><b>Farms and food</b><p>River water is used in agriculture. Poor water quality can affect soil, crops and the wider food chain.</p></div>
+  <div class="cost"><b>Health</b><p>Untreated or contaminated water can spread disease when people come into contact with it or use it without adequate treatment.</p></div>
+ </div>
+ <div id="end">
+  <div class="kicker">One last thing</div>
+  <h2>Clean surroundings begin with you.</h2>
+  <button id="again" type="button">Run it again</button>
+  <button class="secondary" id="share" type="button">Share</button>
+  <a class="action secondary" id="report" href="https://swachhseva-nine.vercel.app" target="_blank" rel="noopener">Report a problem on SwachhSeva</a>
+  <p class="small">Try another: <a href="streets.html">Streets</a> · <a href="nature.html">Nature</a></p>
+  <p class="small">A student awareness project. Not an official government service.</p>
+ </div>
+</section>
+</main>
+<script>
+(()=>{'use strict';
+const STEPS=[
+ {title:'The hill spring',place:'THE SOURCE',text:'High in the hills, a stream begins its journey. The water is clear, and the banks are green.'},
+ {title:'The village',place:'FIRST STOP',text:'The stream passes homes and fields. Litter left near the bank can be washed into the water when it rains.'},
+ {title:'The ghat and market',place:'BUSY BANKS',text:'More people gather by the river. Food waste and plastic can collect along the steps and edges.'},
+ {title:'The city drain',place:'THE CITY',text:'Roads and drains meet the river. Wastewater needs proper treatment before it reaches the water.'},
+ {title:'The sea',place:'DOWNSTREAM',text:'The river keeps moving. The things dropped far upstream may travel all the way to the coast.'}
+];
+const COUNTER_URL='https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec';
+const PAGE='rivers';
+const $=id=>document.getElementById(id);
+let step=0,started=false,finished=false,phase='journey';
+function visitorId(){
+ try{let id=localStorage.getItem('sbm_vid');if(!id){id=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',id);}return id;}
+ catch(e){return 'na';}
+}
+function log(event){
+ if(!COUNTER_URL)return;
+ const body=JSON.stringify({page:PAGE,event,vid:visitorId()});
+ try{if(!navigator.sendBeacon(COUNTER_URL,body))fetch(COUNTER_URL,{method:'POST',mode:'no-cors',body});}catch(e){}
+}
+function renderStep(){
+ const item=STEPS[step];
+ $('stepLabel').textContent='STOP '+(step+1)+' OF 5';
+ $('placeLabel').textContent=item.place;
+ $('stepTitle').textContent=item.title;
+ $('stepText').textContent=item.text;
+ $('progressFill').style.width=((step+1)/5*100)+'%';
+ $('riverScene').dataset.level=String(step);
+ $('fact').textContent='';
+ $('advance').textContent=step===4?'See what happens':'Flow on';
+}
+function finishJourney(){
+ phase='twist';
+ $('play').style.display='none';
+ $('twist').style.display='flex';
+ $('twist').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+ if(!finished){finished=true;log('finish');}
+}
+$('advance').addEventListener('click',()=>{
+ if(phase!=='journey')return;
+ if(!started){started=true;log('start');}
+ if(step<4){step++;renderStep();}else finishJourney();
+});
+$('riverScene').addEventListener('click',e=>{
+ const item=e.target.closest('.tap-item');
+ if(item)$('fact').textContent=item.dataset.fact||'Look closely at what has entered the river.';
+});
+$('riverScene').addEventListener('keydown',e=>{
+ if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('tap-item')){e.preventDefault();$('fact').textContent=e.target.dataset.fact||'Look closely at what has entered the river.';}
+});
+$('revealButton').addEventListener('click',()=>{
+ phase='reveal';
+ $('twist').style.display='none';
+ $('reveal').style.display='block';
+ $('reveal').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+});
+$('again').addEventListener('click',()=>{
+ log('replay');
+ step=0;started=false;finished=false;phase='journey';
+ $('twist').style.display='none';$('reveal').style.display='none';$('play').style.display='block';
+ renderStep();window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+});
+$('share').addEventListener('click',async()=>{
+ log('share');
+ const data={title:document.title,text:'Follow the journey of a drop. Clean surroundings begin with you.',url:location.href};
+ try{if(navigator.share)await navigator.share(data);else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);$('share').textContent='Link copied';}}
+ catch(e){}
+});
+$('report').addEventListener('click',()=>log('report'));
+renderStep();
+})();
+</script>
+</body>
+</html>
