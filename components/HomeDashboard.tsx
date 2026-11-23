@@ -44,6 +44,7 @@ export default function HomeDashboard(){
   }
   setBusy(true);
   let uploadedPhotoPath:string|null=null;
+  let databaseRejectedUpload=false;
   try{
    if(photo){
     const allowedTypes:Record<string,string>={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"};
@@ -65,7 +66,12 @@ export default function HomeDashboard(){
     severity,
     status:"pending_review",
    });
-   if(error)throw error;
+   if(error){
+    // A Postgres SQLSTATE means the insert was rejected. A network or server
+    // failure can have an unknown outcome, so retain the photo in that case.
+    databaseRejectedUpload=typeof error.code==="string"&&/^[0-9A-Z]{5}$/.test(error.code);
+    throw error;
+   }
    setSubmitted(true);
    setDescription("");
    setLocation("");
@@ -76,7 +82,7 @@ export default function HomeDashboard(){
    const photoInput=document.getElementById("home-photo") as HTMLInputElement|null;
    if(photoInput)photoInput.value="";
   }catch(err){
-   if(uploadedPhotoPath){
+   if(uploadedPhotoPath&&databaseRejectedUpload){
     try{await supabase.storage.from("report-photos").remove([uploadedPhotoPath]);}catch{/* Preserve the original submission error. */}
    }
    setFormError(err&&typeof err==="object"&&"message" in err?String((err as {message:unknown}).message):"Submission failed. Please try again.");
