@@ -98,7 +98,7 @@ export default function ReportsMap({
 
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: getMapStyleUrl(theme),
+      style: styleUrlRef.current,
       center: PATNA_CENTER,
       zoom: 11,
     });
