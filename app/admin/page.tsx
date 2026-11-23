@@ -18,11 +18,13 @@ export default function AdminPage() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   const load = useCallback(async () => {
     if (!supabase) return;
 
     setLoading(true);
+    setLoadFailed(false);
     setMessage("");
 
     let accessVerified = false;
@@ -74,6 +76,7 @@ export default function AdminPage() {
       if (reportsError) throw reportsError;
       setReports((data ?? []) as AdminReport[]);
     } catch {
+      setLoadFailed(accessVerified);
       setMessage(
         accessVerified
           ? "Faculty access is verified, but reports could not be loaded. Check your connection and retry."
@@ -246,6 +249,16 @@ export default function AdminPage() {
                 <p className="muted">
                   Faculty verification confirmed · {reports.length} submissions
                 </p>
+                {loadFailed ? (
+                  <button
+                    className="small-btn"
+                    type="button"
+                    onClick={() => void load()}
+                    disabled={loading || busy}
+                  >
+                    Retry loading reports
+                  </button>
+                ) : null}
                 {reports.map((report) => (
                   <div className="report-row" key={report.id}>
                     <div style={{ maxWidth: 560 }}>
