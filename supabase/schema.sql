@@ -28,10 +28,15 @@ create table if not exists public.faculty_admins (
 alter table public.reports enable row level security;
 alter table public.faculty_admins enable row level security;
 
--- Anonymous visitors can submit. They cannot read or update private submissions.
+-- Visitors can submit reports but cannot read private submissions.
 drop policy if exists "anonymous can submit reports" on public.reports;
 create policy "anonymous can submit reports" on public.reports
   for insert to anon, authenticated with check (status = 'pending_review');
+
+-- Authenticated users can only see their own faculty allowlist entry.
+drop policy if exists "faculty can read own verification" on public.faculty_admins;
+create policy "faculty can read own verification" on public.faculty_admins
+  for select to authenticated using (user_id = auth.uid());
 
 -- Faculty reviewer accounts can read and update reports.
 drop policy if exists "faculty can read reports" on public.reports;
@@ -47,9 +52,9 @@ create policy "faculty can update reports" on public.reports
     exists (select 1 from public.faculty_admins f where f.user_id = auth.uid())
   );
 
--- A restricted view exposes only approved public statuses and safe fields.
-create or replace view public.public_reports
-with (security_invoker = true) as
+-- This view intentionally runs with its owner's permissions so the public can
+-- read only the explicitly selected safe fields, while reports itself stays private.
+create or replace view public.public_reports as
 select id, category, description, location_text, latitude, longitude, status, created_at
 from public.reports
 where status in ('approved','acknowledged','resolved');
@@ -58,9 +63,7 @@ grant select on public.public_reports to anon, authenticated;
 grant insert on public.reports to anon, authenticated;
 grant select, update on public.reports to authenticated;
 
--- Public photo bucket: use non-guessable object names; only approved report paths
--- should be linked from the public map. For stricter privacy, keep bucket private
--- and serve signed URLs from a server-side route instead.
+-- Private photo bucket; visitors may upload but cannot list/read stored objects.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('report-photos','report-photos',false,5242880,array['image/jpeg','image/png','image/webp'])
 on conflict (id) do nothing;
@@ -70,11 +73,11 @@ create policy "anonymous upload report photos" on storage.objects
 for insert to anon, authenticated
 with check (bucket_id = 'report-photos');
 
--- Faculty verification procedure:
--- 1) Create the faculty user's Auth account in Supabase.
--- 2) Obtain that user's UUID from Authentication > Users.
--- 3) Run the following as project owner, replacing values:
+-- Faculty verification:
+-- 1) Create the faculty account in Supabase Authentication.
+-- 2) Copy its Auth user UUID.
+-- 3) Run as project owner:
 -- insert into public.faculty_admins(user_id, verified_by)
 -- values ('FACULTY_AUTH_USER_UUID', 'Faculty name / designation');
 --
--- Do not give anon users select access to reports or faculty_admins.
+-- Never grant anon select access to reports or faculty_admins.
