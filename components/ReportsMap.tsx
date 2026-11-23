@@ -21,6 +21,7 @@ export default function ReportsMap({
   const userMarkerRef = useRef<maplibregl.Marker | null>(null);
   const reportMarkersRef = useRef<maplibregl.Marker[]>([]);
   const reportsRef = useRef(reports);
+  const styleUrlRef = useRef(getMapStyleUrl(theme));
 
   useEffect(() => {
     reportsRef.current = reports;
@@ -114,38 +115,22 @@ export default function ReportsMap({
       map.remove();
       mapRef.current = null;
     };
-  }, [drawMarkers, theme]);
+  }, [drawMarkers]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
     const nextStyle = getMapStyleUrl(theme);
-    // Avoid reloading the style when only the reports change.
-    if (map.getStyle().sprite && map.isStyleLoaded()) {
-      const currentStyle = map.getStyle().metadata as
-        | { name?: string }
-        | undefined;
-      void currentStyle;
-    }
+    if (nextStyle === styleUrlRef.current) return;
 
+    styleUrlRef.current = nextStyle;
     map.setStyle(nextStyle);
     map.once("style.load", drawMarkers);
   }, [theme, drawMarkers]);
 
   useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    if (map.isStyleLoaded()) {
-      drawMarkers();
-      return;
-    }
-
-    map.once("style.load", drawMarkers);
-    return () => {
-      map.off("style.load", drawMarkers);
-    };
+    if (mapRef.current?.isStyleLoaded()) drawMarkers();
   }, [reports, drawMarkers]);
 
   useEffect(() => {
