@@ -259,6 +259,7 @@ h1.final{font-size:32px;line-height:1.2;margin:6px 0 14px}
   <div class="twist" id="twist"><div class="twist-inner" id="twistInner"></div></div>
 </div>
 
+<script src="./counter.js"></script>
 <script>
 (() => {
 'use strict';
@@ -438,11 +439,7 @@ function startTwist(){
 
 
 /* ---------- counter (Google Sheet via Apps Script; off while COUNTER_URL is empty) ---------- */
-const sent = {};
-function vid(){
-  try{ let v = localStorage.getItem('sbm_vid'); if (!v){ v = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('sbm_vid', v); } return v; }
-  catch(e){ return 'na'; }
-}
+const log = window.SwachhCounter.createLogger("streets", COUNTER_URL);
 function log(kind){
   if (kind !== 'start' && kind !== 'finish') return;
   if (!COUNTER_URL) return;
