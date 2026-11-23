@@ -43,7 +43,7 @@ body[data-level="4"]{--sky1:#b9c4c0;--sky2:#ddd5c3;--water:#687d70;--water2:#485
 @keyframes birdfly{to{transform:translate(30px,-12px)}}
 .fish{transition:opacity .8s,transform .8s;transform-origin:center}
 body[data-level="3"] .fish,body[data-level="4"] .fish{opacity:0;transform:translateY(12px)}
-.walker{transform:translate(75px,0);transition:transform 1s cubic-bezier(.4,0,.2,1)}
+.walker{transition:transform 1s cubic-bezier(.4,0,.2,1)}
 .walker .body{transform-origin:center;animation:bob .5s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-3px)}}
 .walker.moving .leg-a{animation:legs .24s ease-in-out infinite alternate;transform-origin:top}
@@ -150,7 +150,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #e6ad3e;outline-offset:3p
  <circle class="pulse" cx="420" cy="300" r="18"/><path d="M390 281h42v26h-42z" fill="#687e7a"/><path d="M390 301q18 1 30 15" fill="none" stroke="#a4c7b2" stroke-width="8"/>
 </g>
 <!-- moving visitor -->
-<g class="walker" id="walker" transform="translate(75 0)">
+<g class="walker" id="walker" transform="translate(75 350)">
  <ellipse cx="0" cy="0" rx="12" ry="3" fill="#123b43" opacity=".18"/>
  <g class="body"><path class="leg-a" d="M-4 -22l-2 20" stroke="#214b52" stroke-width="5" stroke-linecap="round"/><path class="leg-b" d="M4 -22l3 20" stroke="#214b52" stroke-width="5" stroke-linecap="round"/><rect x="-9" y="-44" width="18" height="24" rx="6" fill="#e8a94c"/><circle cx="0" cy="-52" r="8" fill="#b97954"/><path d="M-8 -54q2-12 12-7q5 2 4 9q-7-6-16-2" fill="#244b4b"/></g>
 </g>
@@ -191,7 +191,7 @@ function render(){
  $('hint').hidden=step===0;$('advance').textContent=step===0?'Follow the drop':step===4?'See where it leads':'Keep following';
  $('prog').style.width=((step+1)/7*100)+'%';
  document.querySelectorAll('.litter').forEach(el=>el.classList.toggle('on',Number(el.dataset.level)<=step));
- walker.classList.add('moving');walker.style.transform='translate('+([75,150,245,330,420][step])+'px,0)';
+ walker.classList.add('moving');walker.setAttribute('transform','translate('+([75,150,245,330,420][step])+' 350)');
  setTimeout(()=>walker.classList.remove('moving'),900);
 }
 function swapPanel(){panel.classList.add('swap');setTimeout(()=>{panel.classList.remove('swap');},220)}
