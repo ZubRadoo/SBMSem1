@@ -444,8 +444,10 @@ function vid(){
   catch(e){ return 'na'; }
 }
 function log(kind){
-  if (kind === 'finish'){ if (sent.finish) return; sent.finish = true; }
+  if (kind !== 'start' && kind !== 'finish') return;
   if (!COUNTER_URL) return;
+  try{ if (localStorage.getItem('sbm_streets_' + kind)) return; localStorage.setItem('sbm_streets_' + kind, '1'); }
+  catch(e){ if (sent[kind]) return; sent[kind] = true; }
   const body = JSON.stringify({page: 'streets', event: kind, vid: vid()});
   try{ if (!(navigator.sendBeacon && navigator.sendBeacon(COUNTER_URL, body))) fetch(COUNTER_URL, {method:'POST', mode:'no-cors', body}); }catch(e){}
 }
