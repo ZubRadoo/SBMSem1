@@ -1,61 +1,420 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>The trail · SwachhSeva</title><meta name="description" content="A short walk through a place people come to enjoy.">
-<meta property="og:title" content="The trail"><meta property="og:description" content="A short walk through a place people come to enjoy.">
-<meta name="theme-color" content="#10161c">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Climb Up Our Mountain</title>
+<meta name="description" content="A short interactive climb that shows what small habits do to nature.">
+<meta property="og:title" content="A Climb Up Our Mountain">
+<meta property="og:description" content="A short interactive climb that shows what small habits do to nature.">
+<meta name="theme-color" content="#8fc0e8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#10161c;color:#14202b;font:16px 'DM Sans',system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center}
-main{width:100%;max-width:480px;min-height:100vh;background:#fffdf8;display:flex;flex-direction:column}
-header{padding:calc(16px + env(safe-area-inset-top)) 20px 12px;background:#10161c;color:#f3efe6}
-.tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#ff8a4c;font-weight:700}
-h1,h2{font-family:Fraunces,Georgia,serif;line-height:1.12}h1{font-size:30px;margin:8px 0}p{line-height:1.5}
-.scene{min-height:235px;background:linear-gradient(#a9d8e9,#eaf0d5);position:relative;overflow:hidden;display:grid;place-items:center}
-.land{position:absolute;bottom:0;width:100%;height:40%;background:#739b66;clip-path:polygon(0 35%,18% 10%,35% 35%,56% 0,75% 28%,100% 12%,100% 100%,0 100%)}
-.water{position:absolute;bottom:0;width:100%;height:34%;background:#56b6ca;clip-path:polygon(0 28%,100% 0,100% 100%,0 100%)}
-.sun{position:absolute;right:32px;top:24px;width:44px;height:44px;border-radius:50%;background:#ffd66e}
-.litter{position:absolute;font-size:30px;filter:drop-shadow(0 3px 2px #0003);transition:all .3s}
-.panel{padding:22px 20px;flex:1}.kicker{color:#ff7845;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
-.lead{color:#455460;margin:8px 0 18px}.hint{font-size:13px;color:#63717b;margin:0 0 12px}
-button,.action{width:100%;min-height:50px;border:0;border-radius:14px;padding:13px 16px;margin:7px 0;background:#ff7845;color:white;font:700 16px 'DM Sans',sans-serif;text-align:center;text-decoration:none;display:block;cursor:pointer}
-.secondary{background:#14202b}.small{font-size:13px;color:#66737c;text-align:center;margin-top:12px}
-#reveal{display:none;background:#10161c;color:#f3efe6;padding:28px 20px 50px;min-height:100vh}
-#reveal h2{font-size:30px}.card{padding:15px;margin:10px 0;border-radius:14px;background:#202b35;border:1px solid #34414c}
-.card b{color:#ffb98f;display:block;margin-bottom:5px}.card p{color:#cbd4da;font-size:14px;margin:0}
-#end{background:#fff4d6;color:#14202b;padding:40px 20px calc(36px + env(safe-area-inset-bottom));text-align:center}
-#end h2{font-size:38px;margin:12px 0 24px}
-a:focus-visible,button:focus-visible{outline:3px solid #ff7845;outline-offset:3px}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-</style></head>
-<body><main>
-<header><div class="tag">SBM · Awareness Project</div><h1>The trail</h1><p>A short walk through a place people come to enjoy.</p></header>
-<section id="play">
-<div class="scene" aria-label="The trail illustration"><div class="sun"></div><div class="land"></div><span class="litter" id="l1" style="left:18%;bottom:27%">🧴</span><span class="litter" id="l2" style="left:53%;bottom:19%">🥡</span><span class="litter" id="l3" style="right:14%;bottom:30%">🛍️</span></div>
-<div class="panel"><div class="kicker" id="stepLabel">Step 1 of 5</div><h2 id="stepTitle" style="font-family:Fraunces,Georgia,serif;font-size:27px;margin:8px 0"></h2><p class="lead" id="stepText"></p><p class="hint">Tap an item in the scene to see why it matters.</p><button id="advance">Climb on</button><p id="fact" role="status" class="small"></p></div></section>
-<section id="reveal"><div class="kicker">The bigger picture</div><h2>Where does it go?</h2><p style="color:#cbd4da">Litter does not disappear when it leaves the path. It can reach streams, harm wildlife and damage the places people came to enjoy.</p><div class="card"><b>Wildlife harmed</b><p>Animals may mistake litter for food or become caught in it.</p></div><div class="card"><b>Polluted streams</b><p>Rain carries waste from trails and campsites into nearby water.</p></div><div class="card"><b>Fire risk</b><p>Carelessly discarded glass and smoking materials can increase hazards in dry areas.</p></div><div class="card"><b>Lost beauty</b><p>Litter changes the experience for every visitor who comes after you.</p></div>
-<div style="height:25px"></div><div id="end"><div class="kicker">One last thing</div><h2>Clean surroundings begin with you.</h2>
-<button id="again">Run it again</button><button class="secondary" id="share">Share</button><a class="action secondary" id="report" href="https://swachhseva-nine.vercel.app" target="_blank" rel="noopener">Report a problem on SwachhSeva</a>
-<p class="small">Try another: <a href="streets.html">Streets</a> · <a href="rivers.html">Rivers</a></p>
-<p class="small">A student awareness project. Not an official government service.</p></div></section>
-</main>
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{
+  --sky-top:#7fd0ff;--sky-bot:#eaf8ff;--sat:1.08;--water:#58c7ef;--leaf:#3fb35d;--grass:#7ccf6b;
+  --sun:#ffd54a;--sunop:1;--cloud:#ffffff;--hill:#bfe6b3;--haze:0;
+  --ink:#14202b;--paper:#fffdf8;--accent:#ff7a45;
+  font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);
+  background:#10161c;display:flex;justify-content:center;overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+body[data-level="1"]{--sky-top:#8ccaee;--sky-bot:#e4f1f6;--sat:1;--water:#55b8d8;--leaf:#3ea055;--grass:#78c068;--haze:.04}
+body[data-level="2"]{--sky-top:#a9bdc8;--sky-bot:#dde0df;--sat:.8;--water:#6aa59c;--leaf:#6b9b46;--grass:#91ab5a;--cloud:#d7d9d8;--hill:#b2bf9a;--haze:.22;--sun:#f3d9a0;--sunop:.85}
+body[data-level="3"]{--sky-top:#a49d8c;--sky-bot:#cbc2af;--sat:.62;--water:#7b7a4a;--leaf:#8c8a3d;--grass:#9a9650;--cloud:#b5ad9f;--hill:#a9a483;--haze:.42;--sun:#e0c78d;--sunop:.6}
+body[data-level="4"]{--sky-top:#7c7367;--sky-bot:#ab9e8a;--sat:.4;--water:#5a4932;--leaf:#8a6a39;--grass:#837550;--cloud:#8f8578;--hill:#8d836b;--haze:.62;--sun:#c9b27c;--sunop:.4}
+
+.app{position:relative;width:100%;max-width:480px;height:100vh;height:100dvh;display:flex;flex-direction:column;background:var(--paper);overflow:hidden}
+.app.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translate(-5px,2px)}40%{transform:translate(5px,-2px)}60%{transform:translate(-3px,1px)}80%{transform:translate(3px,-1px)}}
+
+/* top bar */
+.topbar{position:absolute;z-index:10;top:0;left:0;right:0;padding:calc(10px + env(safe-area-inset-top)) 14px 0;display:flex;align-items:center;gap:10px;pointer-events:none}
+.track{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.55);overflow:hidden}
+.track i{display:block;height:100%;width:0;background:var(--accent);border-radius:4px;transition:width .9s ease}
+.tag{font-size:11px;font-weight:700;letter-spacing:.04em;color:#fff;background:rgba(20,32,43,.55);padding:4px 10px;border-radius:99px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);white-space:nowrap}
+
+/* stage */
+.stage{position:relative;height:52%;flex:0 0 auto;overflow:hidden;background:#8ccaee}
+.bg{position:absolute;inset:0;filter:saturate(var(--sat));transition:filter 1.4s}
+.bg svg,.fg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fg{pointer-events:none}
+.haze{position:absolute;inset:0;pointer-events:none;opacity:var(--haze);transition:opacity 1.4s;background:linear-gradient(to bottom,rgba(96,78,50,.95),rgba(96,78,50,.15) 75%)}
+
+.sky-a{stop-color:var(--sky-top);transition:stop-color 1.4s}
+.sky-b{stop-color:var(--sky-bot);transition:stop-color 1.4s}
+.sun{fill:var(--sun);opacity:var(--sunop);transition:fill 1.4s,opacity 1.4s}
+.halo{fill-opacity:.28}
+.cloud{fill:var(--cloud);transition:fill 1.4s;animation:drift 16s ease-in-out infinite alternate}
+.cloud.c2{animation-duration:22s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(18px)}}
+.hill{fill:var(--hill);transition:fill 1.4s}
+.leaf{fill:var(--leaf);transition:fill 1.4s}
+.grass{fill:var(--grass);transition:fill 1.4s}
+.water{fill:var(--water);transition:fill 1.4s}
+.shim{animation:shim 6s linear infinite}
+@keyframes shim{from{transform:translateX(0)}to{transform:translateX(480px)}}
+
+/* walker */
+#walker{transform:translate(86px,270px);transition:transform 1.1s cubic-bezier(.45,.05,.3,1)}
+.bob,.leg{transform-box:fill-box}
+.leg{transform-origin:50% 0}
+#walker.moving .bob{animation:bob .38s ease-in-out infinite}
+#walker.moving .legL{animation:stepL .38s ease-in-out infinite}
+#walker.moving .legR{animation:stepR .38s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-1.6px)}}
+@keyframes stepL{0%,100%{transform:rotate(18deg)}50%{transform:rotate(-18deg)}}
+@keyframes stepR{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(18deg)}}
+
+/* junk */
+.junk .pop{opacity:0;transform:scale(.2);transition:opacity .5s,transform .6s cubic-bezier(.34,1.56,.64,1)}
+.junk.on .pop{opacity:1;transform:scale(1)}
+.junk.gone .pop{opacity:0;transform:scale(0) translateY(-14px);transition:opacity .35s,transform .4s}
+.junk .hit{fill:rgba(0,0,0,0);pointer-events:none}
+.junk.on .hit{pointer-events:all;cursor:pointer}
+.junk .ring{fill:none;stroke:#ff7a45;stroke-width:2;opacity:0;pointer-events:none}
+.junk.on .ring{animation:ring 1.8s ease-out infinite}
+.junk.seen .ring{animation:none;opacity:0}
+.junk:focus{outline:none}
+.junk:focus-visible .ring{opacity:1;animation:none}
+@keyframes ring{0%{transform:scale(.7);opacity:.95}100%{transform:scale(1.3);opacity:0}}
+
+#flies{opacity:0;transition:opacity 1s}
+body[data-level="3"] #flies,body[data-level="4"] #flies{opacity:1}
+.fly{animation:fly 2.4s ease-in-out infinite}
+.fly:nth-child(2n){animation-duration:1.9s;animation-delay:-.6s}
+.fly:nth-child(3n){animation-duration:3.1s;animation-delay:-1.2s}
+@keyframes fly{0%,100%{transform:translate(0,0)}25%{transform:translate(8px,-6px)}50%{transform:translate(-4px,-11px)}75%{transform:translate(-9px,-2px)}}
+
+.fact{position:absolute;left:12px;right:12px;bottom:34px;z-index:5;background:rgba(20,32,43,.92);color:#fff;font-size:14px;line-height:1.4;padding:10px 14px;border-radius:14px;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none}
+.fact.on{opacity:1;transform:none}
+
+.spark{position:absolute;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:6;animation:spark .75s ease-out forwards}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+
+/* panel */
+.panel{position:relative;z-index:4;flex:1;min-height:0;margin-top:-24px;background:var(--paper);border-radius:24px 24px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.12);padding:22px 20px 0;overflow-y:auto;transition:opacity .22s,transform .22s}
+.panel.swap{opacity:0;transform:translateY(8px)}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:800;font-size:29px;line-height:1.12;margin-bottom:10px}
+h1.final{font-size:32px;line-height:1.2;margin:6px 0 14px}
+.lead{font-size:16px;line-height:1.5;color:#33424f;margin-bottom:14px}
+.hint{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:#5b6a76;margin-bottom:12px}
+.hint::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{transform:scale(1.5);opacity:.4}}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.pair div{border-radius:14px;padding:10px 12px;font-size:13.5px;line-height:1.35}
+.pair span{display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;opacity:.7}
+.pair .cause{background:#fff0e6;color:#7a3414}
+.pair .effect{background:#fde8e8;color:#7a1f1f}
+.pair b{font-weight:700}
+.meter{margin-bottom:14px}
+.bar{height:10px;border-radius:10px;background:#e8e4da;overflow:hidden;margin-bottom:8px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#43c067,#8fe36a);border-radius:10px;transition:width .4s}
+#count{font-size:14px;font-weight:700}
+.ctawrap{position:sticky;bottom:0;padding:12px 0 calc(16px + env(safe-area-inset-bottom));background:linear-gradient(rgba(255,253,248,0),var(--paper) 30%)}
+.cta{width:100%;min-height:54px;border:0;border-radius:16px;font:700 17px 'DM Sans',system-ui,sans-serif;color:#fff;background:linear-gradient(135deg,#ff8a4c,#ff5f3d);box-shadow:0 8px 20px rgba(255,95,61,.35);cursor:pointer;transition:transform .12s,box-shadow .12s}
+.cta:active{transform:scale(.98)}
+.cta.ghost{background:#14202b;box-shadow:none}
+.cta:focus-visible{outline:3px solid #14202b;outline-offset:3px}
+
+/* twist overlay */
+.twist{position:absolute;inset:0;z-index:20;background:rgba(10,13,16,.96);display:flex;align-items:center;padding:32px 28px;opacity:0;pointer-events:none;transition:opacity .8s;overflow-y:auto}
+.twist.on{opacity:1;pointer-events:auto}
+.twist-inner{width:100%;margin:auto 0}
+.twist p{font-family:'Fraunces',Georgia,serif;font-size:22px;line-height:1.35;color:#f3efe6;margin-bottom:18px;opacity:0;transform:translateY(10px);transition:opacity .9s,transform .9s}
+.twist p.big{font-size:46px;font-weight:800}
+.twist p.in{opacity:1;transform:none}
+.twist b{color:#ff8a4c}
+.twist .cta{opacity:0;transition:opacity .9s}
+.twist .cta.in{opacity:1}
+
+.conf{position:absolute;top:-14px;width:8px;height:12px;border-radius:2px;z-index:30;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+
+
+/* story */
+.story{position:absolute;inset:0;z-index:25;overflow-y:auto;background:#10161c;color:#f3efe6;opacity:0;pointer-events:none;transition:opacity 1.1s;scroll-behavior:smooth}
+.story.on{opacity:1;pointer-events:auto}
+.s-wrap{padding:calc(40px + env(safe-area-inset-top)) 20px 8px}
+.story h2{font-family:'Fraunces',Georgia,serif;font-weight:800;font-size:30px;line-height:1.15;margin-bottom:10px}
+.story .lead2{font-size:16px;line-height:1.5;color:#c9d3da;margin-bottom:22px}
+.story .kicker{margin-top:34px}
+.cue{margin:6px 0 24px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#ff8a4c;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(6px)}}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s,transform .9s}
+.rv.in{opacity:1;transform:none}
+.scene{border-radius:18px;overflow:hidden;background:#1a232c;margin-bottom:18px;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.scene svg,.scene img{display:block;width:100%;height:auto}
+.scene div{padding:12px 16px 16px}
+.scene b{display:block;font-family:'Fraunces',Georgia,serif;font-size:19px;margin-bottom:3px}
+.scene span{font-size:14.5px;line-height:1.45;color:#c9d3da}
+.cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+.con{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px}
+.con i{font-style:normal;font-size:28px;display:block;margin-bottom:6px}
+.con b{display:block;font-size:15px;margin-bottom:4px;color:#ffb98f}
+.con span{font-size:13px;line-height:1.4;color:#c9d3da}
+.dawn{height:auto;line-height:0;background:linear-gradient(#10161c,#7a4a2e 55%,#fff4d6)}
+.final{background:#fff4d6;color:#14202b;padding:10px 24px calc(48px + env(safe-area-inset-bottom));text-align:center;min-height:70vh;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.final .kicker{margin-top:0}
+.final h2.msg{font-size:40px;line-height:1.15;margin:8px 0 26px}
+.final .cta{max-width:320px;margin-bottom:10px}
+.stats{position:absolute;z-index:40;right:8px;bottom:6px;font-size:11px;font-weight:700;background:rgba(20,32,43,.85);color:#fff;padding:3px 9px;border-radius:99px;pointer-events:none}
+
+
+.sim-card{background:#1a232c;border-radius:18px;overflow:hidden;margin-bottom:14px;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.sim svg{display:block;width:100%;height:auto}
+.sim .f{transition:transform 1.5s ease-in-out,opacity 1.5s}
+.sim .b{transition:transform .9s ease-in;transform-box:fill-box;transform-origin:50% 100%}
+.sim.noanim *{transition:none!important}
+#f1{transform:translate(145px,90px) scale(1.25)}#f2{transform:translate(205px,90px) scale(1.25)}
+#f3{transform:translate(340px,90px) scale(1.25)}#f4{transform:translate(372px,90px) scale(1.25)}
+.s1 #f1{transform:translate(145px,206px) scale(1.25)}.s1 #f2{transform:translate(205px,206px) scale(1.25)}
+.s2 #f1 .b{transform:rotate(78deg)}.s2 #f2 .b{transform:rotate(-70deg)}
+.s3 #f3{transform:translate(130px,90px) scale(1.25)}.s3 #f4{transform:translate(218px,90px) scale(1.25)}
+.s4 #f3{transform:translate(130px,206px) scale(1.25)}.s4 #f4{transform:translate(218px,206px) scale(1.25)}
+.s4 #f3 .b{transform:rotate(-82deg);transition-delay:1.5s}.s4 #f4 .b{transform:rotate(75deg);transition-delay:1.5s}
+.s5 .f{opacity:.35}
+.sim .gas,.sim .glow,.sim .warn{opacity:0;transition:opacity 1.5s}
+.sim .gas circle{animation:gasup 3.2s ease-in-out infinite alternate}
+.sim .gas circle:nth-child(2n){animation-duration:2.4s}
+@keyframes gasup{to{transform:translateY(-14px)}}
+.s2 .gas{opacity:.55}.s2 .glow{opacity:.2}.s2 .warn{opacity:1}
+.sim .dt{fill:#ffd54a;transition:fill 1.2s}
+.s2 .d1,.s2 .d2,.s4 .d3,.s4 .d4{fill:#3a3f45}
+.sim-cap{padding:14px 16px 6px;min-height:112px}
+.sim-cap span{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#ff8a4c}
+.sim-cap p{font-family:'Fraunces',Georgia,serif;font-size:19px;line-height:1.3;margin-top:6px;opacity:0;transition:opacity .5s}
+.sim-cap p.in{opacity:1}
+.replay{margin:0 16px 14px;background:none;border:1px solid rgba(255,255,255,.25);color:#f3efe6;border-radius:99px;padding:6px 14px;font:700 12px 'DM Sans',sans-serif;cursor:pointer}
+.inc{margin:0 0 6px;border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden}
+.inc div{display:flex;gap:12px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.08);font-size:14px;line-height:1.4}
+.inc div:last-child{border:0}
+.inc dt{flex:0 0 78px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#ff8a4c;padding-top:2px}
+.inc dd{color:#e6e1d6;margin:0}
+.src,.credit{font-size:12px;color:#8f9ca6;margin:8px 0 6px}
+.scene img{aspect-ratio:3/2;object-fit:cover}
+
+.sprog{position:sticky;top:0;z-index:5;height:3px;background:rgba(255,255,255,.1)}
+.sprog i{display:block;height:100%;width:0;background:#ff8a4c}
+.cl{animation:cdrift 30s linear infinite alternate}@keyframes cdrift{to{transform:translateX(70px)}}
+.hd{transform-box:fill-box;transform-origin:0 0;animation:graze 3.4s ease-in-out infinite}@keyframes graze{50%{transform:rotate(24deg)}}
+.wv{animation:wave 4s linear infinite}@keyframes wave{to{transform:translateX(-40px)}}
+.fl{animation:flow 18s linear infinite}@keyframes flow{from{transform:translateX(-60px)}to{transform:translateX(470px)}}
+.bb{transform-box:fill-box;transform-origin:center;animation:bobw 2.2s ease-in-out infinite}@keyframes bobw{50%{transform:translateY(-3px) rotate(7deg)}}
+.fz{animation:buzz 1.1s ease-in-out infinite}@keyframes buzz{25%{transform:translate(9px,-7px)}50%{transform:translate(-5px,-12px)}75%{transform:translate(-10px,-3px)}}
+.sk{opacity:0;animation:stink 3.4s ease-in-out infinite}@keyframes stink{0%{transform:translateY(8px);opacity:0}50%{opacity:.6}100%{transform:translateY(-14px);opacity:0}}
+.scene:not(.in) svg *{animation-play-state:paused}
+.sunrise{transform:translateY(90px);transition:transform 3s ease-out}.dw.in .sunrise{transform:none}
+.stem{stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset 1.6s ease-out 1.8s}.dw.in .stem{stroke-dashoffset:0}
+.lf{transform:scale(0);transform-box:fill-box;transition:transform 1s ease-out 3s}.l1{transform-origin:100% 50%}.l2{transform-origin:0 50%}.dw.in .lf{transform:scale(1)}
+.dw svg{display:block;width:100%;height:auto}
+.msg span{display:inline-block;opacity:0;transform:translateY(12px);transition:opacity .8s,transform .8s}.msg.in span{opacity:1;transform:none}
+.con{transition:opacity .9s,transform .9s,background .3s}.con:active{background:rgba(255,255,255,.12)}
+
+@media (max-height:700px){
+  .stage{height:44%}
+  h1{font-size:24px}
+  h1.final{font-size:27px}
+  .lead{font-size:15px;margin-bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .junk .ring{animation:none!important}
+}
+
+.final a.cta{display:flex;align-items:center;justify-content:center;text-decoration:none;width:100%;max-width:320px}
+.alt{margin-top:14px;font-size:14px}.alt a{color:#14202b;font-weight:700}
+.chain{display:flex;align-items:flex-start;justify-content:space-between;gap:2px;background:#1a232c;border-radius:18px;padding:18px 8px 14px;margin-bottom:18px}
+.nd{flex:1;text-align:center;opacity:.22;transform:scale(.85);transition:opacity .6s,transform .6s}.nd.on{opacity:1;transform:none}
+.nd i{display:block;font-style:normal;font-size:30px;margin-bottom:4px}.nd b{display:block;font-size:11px;line-height:1.2;font-weight:700;color:#ffb98f}
+.ar{align-self:center;color:#ff8a4c;opacity:.25;font-size:16px;transition:opacity .6s}.ar.on{opacity:1}
+.an{opacity:0;transition:opacity 1.4s}body[data-level="3"] .an,body[data-level="4"] .an{opacity:1}
+.bd{transition:opacity 1s;animation:bdr 9s ease-in-out infinite alternate}@keyframes bdr{to{transform:translateX(40px)}}
+body[data-level="2"] .bd,body[data-level="3"] .bd,body[data-level="4"] .bd{opacity:0}
+.dead,.sew{opacity:0;transition:opacity 1.4s}body[data-level="3"] .dead,body[data-level="4"] .dead,body[data-level="3"] .sew,body[data-level="4"] .sew{opacity:1}
+.fsh{transition:opacity 1.2s;animation:fsw 5s ease-in-out infinite alternate}@keyframes fsw{to{transform:translateX(34px)}}
+body[data-level="3"] .fsh,body[data-level="4"] .fsh{opacity:0}
+#walker{transition:none}
+</style>
+</head>
+<body data-level="0">
+<noscript><p style="color:#fff;padding:24px">This page needs JavaScript to run.</p></noscript>
+<div class="app" id="app">
+  <div class="topbar"><div class="track"><i id="prog"></i></div><span class="tag" id="tag"></span></div>
+  <div class="stage" id="stage">
+    <div class="bg"><svg id="bgsvg" viewBox="0 0 400 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg></div>
+    <div class="haze"></div>
+    <svg class="fg" id="fg" viewBox="0 0 400 420" preserveAspectRatio="xMidYMax slice"><g id="items"></g><g id="walkerg"></g></svg>
+    <div class="fact" id="fact" role="status"></div>
+  </div>
+  <section class="panel" id="panel" aria-live="polite">
+    <div class="kicker" id="kicker"></div><h1 id="title"></h1><p class="lead" id="lead"></p>
+    <div class="hint" id="hint" hidden>Tap the litter in the picture to look closer</div>
+    <div class="ctawrap"><button class="cta" id="cta" type="button"></button></div>
+  </section>
+  <div class="story" id="story"></div>
+  <div class="twist" id="twist"><div class="twist-inner" id="twistInner"></div></div>
+</div>
 <script>
-(()=>{'use strict';
-const steps=[["Trailhead","The trail begins clean. Visitors arrive for fresh air and a view."],["Picnic spot","Food wrappers and bottles are easy to leave behind when nobody takes responsibility."],["Viewpoint","Wind and rain carry lightweight litter downhill."],["Campsite","Waste left behind can attract animals and contaminate nearby soil and water."],["Summit","Even remote places are connected to the habits of visitors."]];
-const twist="You came for the view. The trail remembers what visitors leave behind.";
-const counter="https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec";
-const page="nature";
-let step=-1,started=false,finished=false;
-const $=id=>document.getElementById(id);
-function log(event){try{let vid=localStorage.getItem('sbm_vid');if(!vid){vid=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',vid);}if(!navigator.sendBeacon(counter,JSON.stringify({page,event,vid})))fetch(counter,{method:'POST',mode:'no-cors',body:JSON.stringify({page,event,vid})});}catch(e){}}
-function show(){step++;if(step<5){$('stepLabel').textContent='Step '+(step+1)+' of 5';$('stepTitle').textContent=steps[step][0];$('stepText').textContent=steps[step][1];const level=step+1;['l1','l2','l3'].forEach((id,i)=>{$(id).style.transform='translateY('+(level*8)+'px) rotate('+(level*12*(i%2?1:-1))+'deg)';$(id).style.opacity=level>i+1?'1':'.35'});if(!started){started=true;log('start');}}else{$('play').style.display='none';$('reveal').style.display='block';$('reveal').scrollIntoView();$('reveal').insertAdjacentHTML('afterbegin','<div class="card"><b>Wait. Did you notice?</b><p>'+twist+'</p></div>');if(!finished){finished=true;log('finish');}}}
-$('advance').addEventListener('click',show);
-['l1','l2','l3'].forEach((id,i)=>$(id).addEventListener('click',()=>{$('fact').textContent=['Plastic can travel far from where it is dropped.','Waste left behind affects the places people and wildlife depend on.','Small pieces of litter add up when everyone leaves something behind.'][i];}));
-$('again').addEventListener('click',()=>{log('replay');location.reload()});
-$('share').addEventListener('click',async()=>{log('share');const data={title:document.title,text:'Clean surroundings begin with you.',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);$('share').textContent='Link copied';}}catch(e){}});
-$('report').addEventListener('click',()=>log('report'));
-show();
-})();
-</script></body></html>
+const rnd = sd => () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
+const BITC = ['#e5604a','#f2c230','#5aa9e6','#f4f1ea','#7bc47f','#b36bd1','#ff9b54'];
+const bits = (n,x0,x1,y0,y1,sd) => { const r = rnd(sd); let o = ''; for (let i = 0; i < n; i++){ const x = x0 + r()*(x1-x0), y = y0 + r()*(y1-y0); o += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(3+r()*7).toFixed(1)}" height="${(2+r()*5).toFixed(1)}" rx="1" fill="${BITC[i%7]}" transform="rotate(${(r()*80-40).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; } return o; };
+const horse = (x,y,sc,fl,dl) => `<g transform="translate(${x} ${y}) scale(${fl?-sc:sc} ${sc})"><ellipse rx="34" ry="15" fill="#efe9dc"/><rect x="-26" y="8" width="5" height="26" rx="2" fill="#e2dccd"/><rect x="-14" y="8" width="5" height="26" rx="2" fill="#efe9dc"/><rect x="14" y="8" width="5" height="26" rx="2" fill="#e2dccd"/><rect x="25" y="8" width="5" height="26" rx="2" fill="#efe9dc"/><path d="M-34 -4Q-46 4 -44 20" stroke="#d9d2c0" stroke-width="4" fill="none" stroke-linecap="round"/><g class="hd" style="animation-delay:${dl}s"><path d="M26 -8L40 8L52 28L44 32L34 14L22 2Z" fill="#efe9dc"/><path d="M24 -8L36 6" stroke="#cfc7b4" stroke-width="5" stroke-linecap="round"/><circle cx="46" cy="26" r="1.4" fill="#333"/></g></g>`;
+const floater = (y,dur,dl,shape) => `<g transform="translate(0 ${y})"><g class="fl" style="animation-duration:${dur}s;animation-delay:${dl}s"><g class="bb">${shape}</g></g></g>`;
+const BOTTLE = '<g transform="rotate(-70)"><rect x="-3" y="-10" width="6" height="16" rx="2" fill="#bfe3f2" opacity=".9"/><rect x="-1.5" y="-13" width="3" height="4" fill="#5aa9e6"/></g>';
+const BAG = '<path d="M-9 2Q0 -13 9 2Z" fill="#f4f1ea" opacity=".92"/>';
+const FOAM = '<ellipse rx="16" ry="4" fill="#fff" opacity=".6"/>';
+const CAN = '<rect x="-4" y="-6" width="8" height="10" rx="1.5" fill="#d9534f"/>';
+const DUCK = '<ellipse rx="11" ry="6" fill="#8a6b4a"/><circle cx="10" cy="-6" r="4.3" fill="#1f7a4d"/><path d="M14 -6l5 1.5-5 1z" fill="#f2a63a"/>';
+const wave = (y,o) => `<path class="wv" d="M-40 ${y}q20 -6 40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0" stroke="#8a8052" stroke-width="2" fill="none" opacity="${o}"/>`;
+const ST = (x,y) => `<path class="sk" style="animation-delay:${(x%7)*.4}s" d="M${x} ${y}q-5 -8 0 -14t0 -14" stroke="#8a9a3e" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+const FLY = (x,y,d) => `<circle class="fz" style="animation-delay:${d}s" cx="${x}" cy="${y}" r="1.6" fill="#1b1b1b"/>`;
+const SVGW = (label,inner) => `<svg viewBox="0 0 400 260" role="img" aria-label="Illustration: ${label}">${inner}</svg>`;
+const SCENES = [
+  {t:'The mountains', d:'Even high up, the trash arrives. Animals end up feeding on it.', svg: SVGW('animals grazing on trash in the mountains',
+    `<rect width="400" height="260" fill="#8fc0e8"/><g class="cl"><ellipse cx="90" cy="40" rx="34" ry="10" fill="#fff" opacity=".85"/><ellipse cx="112" cy="33" rx="22" ry="9" fill="#fff" opacity=".85"/></g>
+    <path d="M90 150L200 38L270 100L310 72L400 150Z" fill="#dfe9f2"/><path d="M200 38L232 80L214 74L200 92L186 72L172 82Z" fill="#fff"/>
+    <path d="M0 150Q80 112 160 140T320 130T400 150V210H0Z" fill="#4c6a52"/><rect y="188" width="400" height="72" fill="#6b5a46"/>
+    <rect x="262" y="160" width="138" height="42" rx="4" fill="#6a6a66"/><path d="M262 174H400M262 188H400M300 160V174M345 174V188" stroke="#55554f" stroke-width="2"/>
+    ${bits(90,10,340,196,252,7)}${horse(120,196,.95,false,0)}${horse(228,206,.85,true,1.3)}`)},
+  {t:'The river', d:'Plastic floats where wildlife swims, and flows on downstream.', svg: SVGW('a river full of floating plastic',
+    `<rect width="400" height="260" fill="#c9d4cb"/><path d="M0 100Q70 70 150 96T300 88T400 100V120H0Z" fill="#a9b08c"/>
+    <rect y="112" width="400" height="104" fill="#6b6340"/>${wave(130,.8)}${wave(158,.6)}${wave(186,.5)}
+    ${floater(142,18,-4,BOTTLE)}${floater(150,22,-12,BAG)}${floater(172,16,-2,CAN)}${floater(168,20,-9,FOAM)}${floater(196,24,-15,BOTTLE)}${floater(184,19,-7,BAG)}${floater(204,26,-20,FOAM)}${floater(160,40,-18,DUCK)}
+    <path d="M0 216Q100 204 200 214T400 210V260H0Z" fill="#7d8a52"/>${bits(34,0,380,220,254,11)}`)},
+  {t:'The market', d:'Where food is sold, rotting waste piles up in the open.', svg: SVGW('a market lane with rotting waste and flies',
+    `<rect width="400" height="260" fill="#d9cdb8"/>
+    <rect x="10" y="60" width="110" height="100" fill="#c98f6a"/><rect x="145" y="76" width="110" height="84" fill="#b9a56c"/><rect x="280" y="52" width="115" height="108" fill="#8f9fb3"/>
+    <path d="M2 60H128L116 84H14Z" fill="#c4553d"/><path d="M137 76H263L251 98H149Z" fill="#3f8f6b"/><path d="M272 52H403L391 76H284Z" fill="#e0a43a"/>
+    <rect y="160" width="400" height="100" fill="#75706a"/><path d="M0 200H400" stroke="#8a857e" stroke-width="2"/>
+    <path d="M20 232Q90 168 175 232Z" fill="#6f8a4a"/><path d="M215 236Q280 180 360 236Z" fill="#a8672f"/>${bits(110,10,390,196,250,3)}
+    ${ST(70,200)}${ST(120,204)}${ST(270,208)}${ST(320,204)}
+    ${FLY(80,195,0)}${FLY(110,185,.3)}${FLY(95,205,.6)}${FLY(280,200,.2)}${FLY(310,190,.5)}${FLY(295,208,.8)}${FLY(190,215,.4)}`)}
+];
+
+const SH={
+ wrapper:'<g transform="rotate(-18)"><rect x="-6" y="-4" width="12" height="8" rx="1.5" fill="#f2c230"/><rect x="-2" y="-4" width="4" height="8" fill="#e5604a"/></g>',
+ bottle:'<g transform="rotate(-60)"><rect x="-3" y="-8" width="6" height="14" rx="2" fill="#bfe3f2"/><rect x="-1.5" y="-11" width="3" height="4" fill="#5aa9e6"/></g>',
+ cup:'<path d="M-5 -5H5L3.5 5H-3.5Z" fill="#fff" stroke="#d9534f" stroke-width="1.5"/>',
+ packet:'<rect x="-7" y="-5" width="14" height="10" rx="2" fill="#e5604a"/><circle r="2.5" fill="#ffd54a"/>',
+ can:'<rect x="-4" y="-6" width="8" height="12" rx="1.5" fill="#9aa3ab"/><rect x="-4" y="-2" width="8" height="3" fill="#d9534f"/>',
+ bag:'<path d="M-8 3Q0 -12 8 3Z" fill="#f4f1ea"/>',
+ cig:'<rect x="-6" y="-1.5" width="12" height="3" rx="1.2" fill="#f4f1ea"/><rect x="2" y="-1.5" width="4" height="3" fill="#ff9b54"/>',
+ foam:'<ellipse rx="10" ry="4" fill="#fff" opacity=".85"/>',
+ sewage:'<ellipse rx="9" ry="5" fill="#5b4a30"/><circle cx="-3" cy="-1" r="2" fill="#7a6644"/>'
+};
+const I=(step,x,y,k,label,fact)=>({step,x,y,shape:SH[k],label,fact});
+const SKY='<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky-top)"/><stop offset="1" style="stop-color:var(--sky-bot)"/></linearGradient></defs><rect width="400" height="420" fill="url(#sky)"/><circle cx="322" cy="64" r="22" style="fill:var(--sun);opacity:var(--sunop)"/><g class="cl" style="fill:var(--cloud)"><ellipse cx="70" cy="62" rx="30" ry="11"/><ellipse cx="92" cy="54" rx="22" ry="10"/></g>';
+const pine=(x,y,k)=>`<g transform="translate(${x} ${y}) scale(${k})"><rect x="-2" y="-6" width="4" height="12" fill="#6b4a30"/><path d="M0 -44L-14 -14H14Z" style="fill:var(--leaf)"/><path d="M0 -32L-17 -2H17Z" style="fill:var(--leaf)"/></g>`;
+
+const TR='M50 398C130 382 70 346 160 326S130 292 205 272S215 252 262 244S290 232 308 226';
+const CFG={page:'nature',tag:'SBM · The Trail',ws:1.25,pos:[[50,396],[150,326],[200,274],[258,244],[308,226]],others:[['Streets','streets.html'],['Rivers','rivers.html']],
+ bg:SKY+`<path d="M0 235L70 120L130 190L200 85L270 190L330 130L400 215V270H0Z" style="fill:var(--hill)"/><path d="M200 85L222 122L208 116L200 130L190 114L178 124Z" fill="#fff" opacity=".9"/>
+ <path d="M0 262Q100 212 200 246T400 228V420H0Z" style="fill:var(--grass)"/>${pine(30,262,.9)}${pine(70,250,.7)}${pine(330,232,.8)}${pine(372,240,1)}${pine(112,236,.6)}${pine(250,208,.55)}
+ <path d="${TR}" stroke="#e1cfa5" stroke-width="16" fill="none" stroke-linecap="round"/><path d="${TR}" stroke="#c9b48a" stroke-width="2" fill="none" stroke-dasharray="4 8"/>
+ <rect x="18" y="360" width="4" height="30" fill="#7a5636"/><rect x="8" y="352" width="26" height="12" rx="2" fill="#a67c52"/>
+ <rect x="120" y="332" width="22" height="12" rx="2" fill="#c4553d" opacity=".9"/><rect x="168" y="318" width="22" height="4" fill="#7a5636"/><rect x="170" y="322" width="3" height="8" fill="#7a5636"/><rect x="185" y="322" width="3" height="8" fill="#7a5636"/>
+ <path d="M222 268V282M234 266V280M246 264V278M222 270H246" stroke="#7a5636" stroke-width="2.5"/>
+ <path d="M268 252l16-22 16 22Z" fill="#e0a43a"/><path d="M318 226V196" stroke="#4a3a2a" stroke-width="2"/><path d="M318 196l18 6-18 6Z" fill="#e5604a"/>
+ <g class="an" transform="translate(338 330) scale(1.1)"><ellipse rx="22" ry="10" fill="#a8764a"/><rect x="-15" y="6" width="3.5" height="20" rx="1.5" fill="#8f6339"/><rect x="-6" y="6" width="3.5" height="20" rx="1.5" fill="#a8764a"/><rect x="9" y="6" width="3.5" height="20" rx="1.5" fill="#8f6339"/><rect x="16" y="6" width="3.5" height="20" rx="1.5" fill="#a8764a"/><g class="hd"><path d="M16 -6L28 6L34 20L28 22L21 10L13 0Z" fill="#a8764a"/><path d="M20 -6l-3 -10m3 10l5 -9" stroke="#6b4a30" stroke-width="2" fill="none"/></g></g>
+ <g class="bd" fill="none" stroke="#33414d" stroke-width="2"><path d="M120 96q6 -6 12 0q6 -6 12 0"/><path d="M160 110q5 -5 10 0q5 -5 10 0"/></g>`,
+ walker:'<g id="walker"><ellipse cy="1" rx="11" ry="3" fill="#000" opacity=".16"/><g class="bob"><rect x="-5" y="-15" width="4.2" height="15" rx="2" fill="#27324a"/><rect x=".8" y="-15" width="4.2" height="15" rx="2" fill="#27324a"/><rect x="-12" y="-32" width="7" height="16" rx="3" fill="#e0a43a"/><rect x="-7" y="-33" width="14" height="20" rx="5" fill="#2e9d5a"/><circle cy="-40" r="7" fill="#e3a979"/><path d="M-9 -42Q0 -55 9 -42Z" fill="#c4553d"/><rect x="-13" y="-64" width="26" height="12" rx="6" fill="#14202b"/><text y="-55.4" text-anchor="middle" font-size="8" font-weight="700" fill="#fff" font-family="DM Sans,sans-serif">YOU</text></g></g>',
+ items:[I(1,140,342,'wrapper','wrapper','A wrapper can blow miles from where it was dropped.'),I(1,182,338,'bottle','bottle','Plastic doesn’t rot in the mountains. It only breaks into smaller pieces.'),I(1,108,352,'cup','cup','Animals smell leftover food and eat the packaging with it.'),
+  I(2,195,296,'packet','packet','Foil packets look like food to hungry animals.'),I(2,228,294,'can','can','Cans and sharp lids can cut animals’ feet and mouths.'),I(2,172,306,'bag','bag','Light plastic bags tear and spread across the slope in the wind.'),
+  I(3,262,262,'cig','cigarette','A dropped cigarette can start a forest fire.'),I(3,288,268,'can','can','Cans don’t break down for a very long time. Wildlife just walks around them.'),I(3,244,272,'packet','food packet','Food waste at a campsite teaches wild animals to come close to people.'),
+  I(4,300,242,'wrapper','wrapper','Even the highest points collect waste. Someone has to carry it all the way down.'),I(4,332,238,'cup','cup','Nobody is watching at the summit. That is exactly why it gets left.'),I(4,320,252,'bottle','bottle','Plastic left up here will outlast every person who climbed.')],
+ steps:[{k:'The trail · Stop 1 of 5',t:'A perfect morning',l:'Cool air, birdsong and a whole mountain ahead of you.',b:'Start climbing'},
+  {k:'Stop 2 of 5 · The picnic spot',t:'Time for a snack',l:'What a lovely spot. A wrapper is so light, surely it will stay put.',b:'Climb on'},
+  {k:'Stop 3 of 5 · The viewpoint',t:'Everyone stops here',l:'Photos, snacks, selfies. And a few things nobody remembers to carry back down.',b:'Climb on'},
+  {k:'Stop 4 of 5 · The campsite',t:'Someone is watching',l:'A deer wanders in, drawn by the smell of food. It doesn’t know what is safe to eat.',b:'Climb on'},
+  {k:'Stop 5 of 5 · The summit',t:'You made it',l:'The view is unreal. Nobody is looking, so nobody notices what stays behind.',b:'Look back'}],
+ twist:['Wait.','You only meant to enjoy the view.','At every stop, one small thing was left behind.','Nobody dumped a mountain of trash. A thousand people each left a <b>little</b>.'],
+ reveal:{h:'It doesn’t stay on the trail.',lead:'What we leave behind turns into food, fire and filth for everything that lives here.',chainTitle:'Follow one wrapper',chain:[['🍫','Dropped'],['🦌','Eaten'],['🤒','Sick'],['🌲','Forest suffers'],['🥾','Fewer visitors']],scene:0,sceneT:'The mountains',sceneD:'Even high up, the trash arrives. Animals end up feeding on it.',
+  costs:[['🦌','Wildlife harmed','Animals swallow plastic and lose their fear of people.'],['💧','Polluted streams','Rain washes litter and chemicals into mountain streams that feed rivers.'],['🔥','Fire risk','One dropped cigarette can burn a hillside.'],['🏔️','Lost beauty','Trails people stop visiting take guides, homestays and income with them.']]}};
+
+const $=q=>document.querySelector(q);
+const COUNTER_URL="https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec";   // <- paste your Google Apps Script web-app URL here
+const SWACHH_URL="https://swachhseva-nine.vercel.app";
+const FINAL_MESSAGE="Clean surroundings begin with you.";
+const DAWN="<div class=\"dawn dw\" id=\"dawn\"><svg viewBox=\"0 0 400 220\" aria-hidden=\"true\"><defs><radialGradient id=\"sg\"><stop offset=\"0\" stop-color=\"#fff6c8\"/><stop offset=\"1\" stop-color=\"#ffb36b\" stop-opacity=\"0\"/></radialGradient></defs><g class=\"sunrise\"><circle cx=\"200\" cy=\"150\" r=\"80\" fill=\"url(#sg)\"/><circle cx=\"200\" cy=\"150\" r=\"26\" fill=\"#ffd77a\"/></g><path d=\"M0 192Q100 178 200 192T400 192V220H0Z\" fill=\"#fff4d6\"/><g><path class=\"stem\" d=\"M200 222V170\" stroke=\"#4d8f3a\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path class=\"lf l1\" d=\"M200 184Q178 172 166 186Q186 196 200 184Z\" fill=\"#6fb64f\"/><path class=\"lf l2\" d=\"M200 176Q222 162 234 176Q216 188 200 176Z\" fill=\"#5aa23f\"/></g></svg></div>";
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function buzz(p){try{if(!RM&&navigator.vibrate)navigator.vibrate(p)}catch(e){}}
+const sent={};
+function vid(){try{let v=localStorage.getItem('sbm_vid');if(!v){v=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',v)}return v}catch(e){return 'na'}}
+function log(kind){
+  if (kind !== 'start' && kind !== 'finish') return;   // only these two are counted
+  if (!COUNTER_URL) return;
+  try{ if (localStorage.getItem('sbm_nature_' + kind)) return; localStorage.setItem('sbm_nature_' + kind, '1'); }   // once per device
+  catch(e){ if (sent[kind]) return; sent[kind] = true; }
+  const body = JSON.stringify({page: 'nature', event: kind, vid: vid()});
+  try{ if (!(navigator.sendBeacon && navigator.sendBeacon(COUNTER_URL, body))) fetch(COUNTER_URL, {method:'POST', mode:'no-cors', body}); }catch(e){}
+}
+const app=$('#app'),stage=$('#stage'),panel=$('#panel'),fact=$('#fact'),cta=$('#cta'),hint=$('#hint'),story=$('#story'),twist=$('#twist'),twistInner=$('#twistInner');
+$('#bgsvg').innerHTML=CFG.bg;$('#walkerg').innerHTML=CFG.walker;$('#tag').textContent=CFG.tag;
+const walker=$('#walker');
+$('#items').innerHTML=CFG.items.map((it,i)=>`<g class="junk" data-i="${i}" tabindex="-1" role="button" aria-label="Litter: ${it.label}" transform="translate(${it.x} ${it.y})"><g class="pop">${it.shape}</g><circle class="ring" r="15"/><circle class="hit" r="19"/></g>`).join('');
+const junk=[...document.querySelectorAll('.junk')];
+let step=0,phase='walk',ft;
+function progress(f){$('#prog').style.width=Math.round(f*100)+'%'}
+function showFact(t){fact.textContent=t;fact.classList.add('on');clearTimeout(ft);ft=setTimeout(()=>fact.classList.remove('on'),4800)}
+function goto(i){
+  step=i;document.body.dataset.level=i;progress((i+1)/7);
+  const P=CFG.pos[i];walker.style.transform=`translate(${P[0]}px,${P[1]}px) scale(${CFG.ws})`;
+  junk.forEach((el,k)=>{const on=i>0&&CFG.items[k].step<=i;el.classList.toggle('on',on);el.setAttribute('tabindex',on?'0':'-1');if(!on)el.classList.remove('seen')});
+  const o=CFG.steps[i];panel.classList.add('swap');
+  setTimeout(()=>{$('#kicker').textContent=o.k;$('#title').textContent=o.t;$('#lead').textContent=o.l;cta.textContent=o.b;hint.hidden=i===0;panel.classList.remove('swap');panel.scrollTop=0},220);
+  if(i>0){buzz(15);if(i>=3){app.classList.add('shake');setTimeout(()=>app.classList.remove('shake'),450)}}
+}
+function inspect(j){if(!j||!j.classList.contains('on'))return;j.classList.add('seen');showFact(CFG.items[+j.dataset.i].fact);buzz(10)}
+stage.addEventListener('click',e=>inspect(e.target.closest('.junk')));
+stage.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const j=e.target.closest&&e.target.closest('.junk');if(j){e.preventDefault();inspect(j)}}});
+cta.addEventListener('click',()=>{if(phase!=='walk')return;if(step===0)log('start');if(step<4)goto(step+1);else startTwist()});
+function startTwist(){
+  phase='twist';progress(5/7);
+  twistInner.innerHTML=CFG.twist.map((l,i)=>`<p class="${i===0?'big':''}">${l}</p>`).join('')+'<button class="cta" id="toStory" type="button">Where does this lead?</button>';
+  twist.classList.add('on');
+  twistInner.querySelectorAll('p,.cta').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),700+i*1300));
+  $('#toStory').addEventListener('click',startStory);
+}
+const R=CFG.reveal;
+story.innerHTML=`<div class="sprog"><i id="sprog"></i></div><div class="s-wrap">
+<p class="kicker rv">Where this leads</p><h2 class="rv">${R.h}</h2><p class="lead2 rv">${R.lead}</p><div class="cue rv">Keep scrolling ↓</div>
+<p class="kicker rv" style="margin-top:6px">${R.chainTitle}</p>
+<div class="chain rv" id="chain">${R.chain.map((n,i)=>`${i?'<span class="ar">›</span>':''}<div class="nd"><i>${n[0]}</i><b>${n[1]}</b></div>`).join('')}</div>
+<div class="scene rv">${SCENES[R.scene].svg}<div><b>${R.sceneT}</b><span>${R.sceneD}</span></div></div>
+<p class="kicker rv">What it costs</p><h2 class="rv">Everyone pays.</h2>
+<div class="cons">${R.costs.map((c,i)=>`<div class="con rv" style="transition-delay:${i*90}ms"><i>${c[0]}</i><b>${c[1]}</b><span>${c[2]}</span></div>`).join('')}</div></div>
+${DAWN}
+<section class="final"><p class="kicker rv">One last thing</p><h2 class="msg rv" id="msg">${FINAL_MESSAGE.split(' ').map((w,i)=>`<span style="transition-delay:${0.5+i*0.18}s">${w}</span>`).join(' ')}</h2>
+<a class="cta rv" id="reportBtn" href="${SWACHH_URL}" target="_blank" rel="noopener">Report a problem on SwachhSeva</a>
+<button class="cta ghost rv" id="shareBtn" type="button">Share this</button>
+<button class="cta ghost rv" id="againBtn" type="button">Run it again</button>
+<p class="alt rv">Try another: ${CFG.others.map(o=>`<a href="${o[1]}">${o[0]}</a>`).join(' · ')}</p></section>`;
+let ct=[];
+function playChain(){ct.forEach(clearTimeout);ct=[];story.querySelectorAll('#chain .nd,#chain .ar').forEach((el,i)=>ct.push(setTimeout(()=>el.classList.add('on'),400+i*500)))}
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');obs.unobserve(e.target);if(e.target.id==='msg')log('finish');if(e.target.id==='chain')playChain()}),{root:story,threshold:.25});
+story.addEventListener('scroll',()=>{const m=story.scrollHeight-story.clientHeight;$('#sprog').style.width=(m>0?story.scrollTop/m*100:0)+'%'},{passive:true});
+function startStory(){
+  phase='story';progress(6/7);story.classList.add('on');story.scrollTop=0;
+  setTimeout(()=>twist.classList.remove('on'),1000);
+  story.querySelectorAll('#chain .on').forEach(el=>el.classList.remove('on'));
+  story.querySelectorAll('.rv,.dw').forEach(el=>{el.classList.remove('in');obs.observe(el)});
+}
+function replay(){log('replay');sent.finish=false;story.classList.remove('on');twist.classList.remove('on');phase='walk';goto(0)}
+story.addEventListener('click',e=>{
+  const t=e.target.closest&&e.target.closest('button,a');if(!t)return;buzz(12);
+  if(t.id==='againBtn')replay();
+  if(t.id==='reportBtn')log('report');
+  if(t.id==='shareBtn'){log('share');const d={title:document.title,text:FINAL_MESSAGE,url:new URL('./',location.href).href};
+    if(navigator.share)navigator.share(d).catch(()=>{});
+    else if(navigator.clipboard)navigator.clipboard.writeText(new URL('./',location.href).href).then(()=>{t.textContent='Link copied'}).catch(()=>{})}
+});
+goto(0);setTimeout(()=>{walker.style.transition='transform 1.6s ease-in-out'},80);
+</script>
+</body>
+</html>
