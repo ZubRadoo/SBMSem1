@@ -16,7 +16,27 @@ function severityLabel(s:string){return s==="high"?"High":s==="low"?"Low":"Mediu
 export default function HomeDashboard(){
  const [reports,setReports]=useState<Report[]>([]);const [loading,setLoading]=useState(true);const [error,setError]=useState("");const [dark,setDark]=useState(false);const [locateToken,setLocateToken]=useState(0);
  const [category,setCategory]=useState(categories[0]);const [description,setDescription]=useState("");const [location,setLocation]=useState("");const [lat,setLat]=useState("");const [lng,setLng]=useState("");const [severity,setSeverity]=useState<ReportSeverity>("medium");const [photo,setPhoto]=useState<File|null>(null);const [busy,setBusy]=useState(false);const submitLock=useRef(false);const [formError,setFormError]=useState("");const [submitted,setSubmitted]=useState(false);
- useEffect(()=>{let active=true;(async()=>{if(!hasSupabase||!supabase){if(active){setError("The public report service is not configured.");setLoading(false);}return;}const {data,error}=await supabase.from("public_reports").select("*").order("created_at",{ascending:false});if(!active)return;if(error)setError("Could not load public reports. Please try again later.");else setReports((data||[]) as Report[]);setLoading(false);})();return()=>{active=false;};},[]);
+ useEffect(()=>{
+  let active=true;
+  const loadReports=async()=>{
+   try{
+    if(!hasSupabase||!supabase){
+     if(active)setError("The public report service is not configured.");
+     return;
+    }
+    const {data,error}=await supabase.from("public_reports").select("*").order("created_at",{ascending:false});
+    if(!active)return;
+    if(error)setError("Could not load public reports. Please try again later.");
+    else setReports((data||[]) as Report[]);
+   }catch{
+    if(active)setError("Could not load public reports. Please check your connection and try again.");
+   }finally{
+    if(active)setLoading(false);
+   }
+  };
+  void loadReports();
+  return()=>{active=false;};
+ },[]);
  useEffect(()=>{const saved=window.localStorage.getItem("swachhseva-theme");if(saved==="dark")setDark(true);},[]);
  useEffect(()=>{document.documentElement.dataset.theme=dark?"dark":"light";window.localStorage.setItem("swachhseva-theme",dark?"dark":"light");},[dark]);
  const submit=async(e:React.FormEvent)=>{
