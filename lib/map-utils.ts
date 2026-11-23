@@ -45,7 +45,7 @@ export function createReportMarker(
   element.type = "button";
   element.className = "report-map-marker";
   element.style.cssText =
-    "width:20px;height:20px;border:3px solid white;border-radius:50%;box-shadow:0 1px 5px #0006;cursor:pointer";
+    "display:block;width:20px;height:20px;padding:0;appearance:none;border:3px solid white;border-radius:50%;box-shadow:0 1px 5px #0006;cursor:pointer;line-height:1";
   element.style.backgroundColor = colors[report.status] ?? "#d99b42";
   element.setAttribute("aria-label", `${report.category} at ${report.location_text}`);
 
