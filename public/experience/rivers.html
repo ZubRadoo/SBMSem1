@@ -260,6 +260,7 @@ body[data-level="3"] .fsh,body[data-level="4"] .fsh{opacity:0}
   <div class="story" id="story"></div>
   <div class="twist" id="twist"><div class="twist-inner" id="twistInner"></div></div>
 </div>
+<script src="./counter.js"></script>
 <script>
 const rnd = sd => () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
 const BITC = ['#e5604a','#f2c230','#5aa9e6','#f4f1ea','#7bc47f','#b36bd1','#ff9b54'];
@@ -348,16 +349,7 @@ const FINAL_MESSAGE="Clean surroundings begin with you.";
 const DAWN="<div class=\"dawn dw\" id=\"dawn\"><svg viewBox=\"0 0 400 220\" aria-hidden=\"true\"><defs><radialGradient id=\"sg\"><stop offset=\"0\" stop-color=\"#fff6c8\"/><stop offset=\"1\" stop-color=\"#ffb36b\" stop-opacity=\"0\"/></radialGradient></defs><g class=\"sunrise\"><circle cx=\"200\" cy=\"150\" r=\"80\" fill=\"url(#sg)\"/><circle cx=\"200\" cy=\"150\" r=\"26\" fill=\"#ffd77a\"/></g><path d=\"M0 192Q100 178 200 192T400 192V220H0Z\" fill=\"#fff4d6\"/><g><path class=\"stem\" d=\"M200 222V170\" stroke=\"#4d8f3a\" stroke-width=\"4\" fill=\"none\" stroke-linecap=\"round\"/><path class=\"lf l1\" d=\"M200 184Q178 172 166 186Q186 196 200 184Z\" fill=\"#6fb64f\"/><path class=\"lf l2\" d=\"M200 176Q222 162 234 176Q216 188 200 176Z\" fill=\"#5aa23f\"/></g></svg></div>";
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function buzz(p){try{if(!RM&&navigator.vibrate)navigator.vibrate(p)}catch(e){}}
-const sent={};
-function vid(){try{let v=localStorage.getItem('sbm_vid');if(!v){v=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',v)}return v}catch(e){return 'na'}}
-function log(kind){
-  if (kind !== 'start' && kind !== 'finish') return;   // only these two are counted
-  if (!COUNTER_URL) return;
-  try{ if (localStorage.getItem('sbm_rivers_' + kind)) return; localStorage.setItem('sbm_rivers_' + kind, '1'); }   // once per device
-  catch(e){ if (sent[kind]) return; sent[kind] = true; }
-  const body = JSON.stringify({page: 'rivers', event: kind, vid: vid()});
-  try{ if (!(navigator.sendBeacon && navigator.sendBeacon(COUNTER_URL, body))) fetch(COUNTER_URL, {method:'POST', mode:'no-cors', body}); }catch(e){}
-}
+const log = window.SwachhCounter.createLogger("rivers", COUNTER_URL);
 const app=$('#app'),stage=$('#stage'),panel=$('#panel'),fact=$('#fact'),cta=$('#cta'),hint=$('#hint'),story=$('#story'),twist=$('#twist'),twistInner=$('#twistInner');
 $('#bgsvg').innerHTML=CFG.bg;$('#walkerg').innerHTML=CFG.walker;$('#tag').textContent=CFG.tag;
 const walker=$('#walker');
