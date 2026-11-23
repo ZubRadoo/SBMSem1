@@ -24,10 +24,19 @@ export default function LocationPicker({latitude,longitude,onChange}:Props){
  },[]);
  useEffect(()=>{
   const map=mapRef.current;
-  if(!map||!latitude||!longitude)return;
+  if(!map)return;
+  if(!latitude||!longitude){
+   markerRef.current?.remove();
+   markerRef.current=null;
+   return;
+  }
   const lat=Number(latitude);
   const lng=Number(longitude);
-  if(!isValidCoordinates(lat,lng))return;
+  if(!isValidCoordinates(lat,lng)){
+   markerRef.current?.remove();
+   markerRef.current=null;
+   return;
+  }
   const position:[number,number]=[lng,lat];
   if(!markerRef.current){
    const marker=new maplibregl.Marker({draggable:true}).setLngLat(position).addTo(map);
