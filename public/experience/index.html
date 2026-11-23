@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#10161c">
+<title>SwachhSeva · Awareness experience</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#10161c;color:#f3efe6;font:16px system-ui,sans-serif;padding:24px;text-align:center}
+main{max-width:360px}h1{font-family:Georgia,serif;font-size:30px}p{line-height:1.5;color:#cbd4da}
+a{display:inline-block;margin-top:12px;padding:14px 20px;border-radius:12px;background:#ff7845;color:white;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body><main>
+<h1>One small choice changes a lot.</h1>
+<p>Opening a short SwachhSeva awareness experience…</p>
+<p><a id="fallback" href="streets.html">Continue</a></p>
+</main>
+<script>
+(function(){
+  var pages=["streets.html","rivers.html","nature.html"];
+  var selected=pages[Math.floor(Math.random()*pages.length)];
+  document.getElementById("fallback").href=selected;
+  window.location.replace(selected);
+})();
+</script>
+<noscript><p>JavaScript is required for the random experience. Use Continue to open Streets.</p></noscript>
+</body></html>
