@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The journey of a drop · SwachhSeva</title><meta name="description" content="Follow a drop of water from the hill spring to the sea.">
+<meta property="og:title" content="The journey of a drop"><meta property="og:description" content="Follow a drop of water from the hill spring to the sea.">
+<meta name="theme-color" content="#10161c">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10161c;color:#14202b;font:16px 'DM Sans',system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center}
+main{width:100%;max-width:480px;min-height:100vh;background:#fffdf8;display:flex;flex-direction:column}
+header{padding:calc(16px + env(safe-area-inset-top)) 20px 12px;background:#10161c;color:#f3efe6}
+.tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#ff8a4c;font-weight:700}
+h1,h2{font-family:Fraunces,Georgia,serif;line-height:1.12}h1{font-size:30px;margin:8px 0}p{line-height:1.5}
+.scene{min-height:235px;background:linear-gradient(#a9d8e9,#eaf0d5);position:relative;overflow:hidden;display:grid;place-items:center}
+.land{position:absolute;bottom:0;width:100%;height:40%;background:#739b66;clip-path:polygon(0 35%,18% 10%,35% 35%,56% 0,75% 28%,100% 12%,100% 100%,0 100%)}
+.water{position:absolute;bottom:0;width:100%;height:34%;background:#56b6ca;clip-path:polygon(0 28%,100% 0,100% 100%,0 100%)}
+.sun{position:absolute;right:32px;top:24px;width:44px;height:44px;border-radius:50%;background:#ffd66e}
+.litter{position:absolute;font-size:30px;filter:drop-shadow(0 3px 2px #0003);transition:all .3s}
+.panel{padding:22px 20px;flex:1}.kicker{color:#ff7845;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.lead{color:#455460;margin:8px 0 18px}.hint{font-size:13px;color:#63717b;margin:0 0 12px}
+button,.action{width:100%;min-height:50px;border:0;border-radius:14px;padding:13px 16px;margin:7px 0;background:#ff7845;color:white;font:700 16px 'DM Sans',sans-serif;text-align:center;text-decoration:none;display:block;cursor:pointer}
+.secondary{background:#14202b}.small{font-size:13px;color:#66737c;text-align:center;margin-top:12px}
+#reveal{display:none;background:#10161c;color:#f3efe6;padding:28px 20px 50px;min-height:100vh}
+#reveal h2{font-size:30px}.card{padding:15px;margin:10px 0;border-radius:14px;background:#202b35;border:1px solid #34414c}
+.card b{color:#ffb98f;display:block;margin-bottom:5px}.card p{color:#cbd4da;font-size:14px;margin:0}
+#end{background:#fff4d6;color:#14202b;padding:40px 20px calc(36px + env(safe-area-inset-bottom));text-align:center}
+#end h2{font-size:38px;margin:12px 0 24px}
+a:focus-visible,button:focus-visible{outline:3px solid #ff7845;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head>
+<body><main>
+<header><div class="tag">SBM · Awareness Project</div><h1>The journey of a drop</h1><p>Follow a drop of water from the hill spring to the sea.</p></header>
+<section id="play">
+<div class="scene" aria-label="The journey of a drop illustration"><div class="sun"></div><div class="water"></div><span class="litter" id="l1" style="left:18%;bottom:27%">🧴</span><span class="litter" id="l2" style="left:53%;bottom:19%">🥡</span><span class="litter" id="l3" style="right:14%;bottom:30%">🛍️</span></div>
+<div class="panel"><div class="kicker" id="stepLabel">Step 1 of 5</div><h2 id="stepTitle" style="font-family:Fraunces,Georgia,serif;font-size:27px;margin:8px 0"></h2><p class="lead" id="stepText"></p><p class="hint">Tap an item in the scene to see why it matters.</p><button id="advance">Flow on</button><p id="fact" role="status" class="small"></p></div></section>
+<section id="reveal"><div class="kicker">The bigger picture</div><h2>Where does the water go?</h2><p style="color:#cbd4da">The river connects homes, farms, wildlife and communities. Pollution at one stop can affect people and ecosystems far downstream.</p><div class="card"><b>Drinking water</b><p>Pollution makes clean water harder and more expensive to provide.</p></div><div class="card"><b>Fish and wildlife</b><p>Plastic and polluted water can harm aquatic animals and birds.</p></div><div class="card"><b>Farms and food</b><p>Water quality affects irrigation, soil and the food chain.</p></div><div class="card"><b>Disease</b><p>Contaminated water can spread illness when it is not treated safely.</p></div>
+<div style="height:25px"></div><div id="end"><div class="kicker">One last thing</div><h2>Clean surroundings begin with you.</h2>
+<button id="again">Run it again</button><button class="secondary" id="share">Share</button><a class="action secondary" id="report" href="https://swachhseva-nine.vercel.app" target="_blank" rel="noopener">Report a problem on SwachhSeva</a>
+<p class="small">Try another: <a href="streets.html">Streets</a> · <a href="nature.html">Nature</a></p>
+<p class="small">A student awareness project. Not an official government service.</p></div></section>
+</main>
+<script>
+(()=>{'use strict';
+const steps=[["Hill spring","The water begins clear, moving downhill through farms and villages."],["Village","Waste dropped near the bank can wash into the stream when it rains."],["Ghat and market","Plastic, food waste and offerings can collect along busy riverbanks."],["City drain","Untreated wastewater and litter can enter the river through drains."],["The sea","The river carries pollution downstream, far beyond where it began."]];
+const twist="The river carries the habits of every place it passes. What enters upstream does not stay upstream.";
+const counter="https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec";
+const page="rivers";
+let step=-1,started=false,finished=false;
+const $=id=>document.getElementById(id);
+function log(event){try{const vid=localStorage.getItem('sbm_vid')||'na';navigator.sendBeacon(counter,JSON.stringify({page,event,vid}));}catch(e){}}
+function show(){step++;if(step<5){$('stepLabel').textContent='Step '+(step+1)+' of 5';$('stepTitle').textContent=steps[step][0];$('stepText').textContent=steps[step][1];const level=step+1;['l1','l2','l3'].forEach((id,i)=>{$(id).style.transform='translateY('+(level*8)+'px) rotate('+(level*12*(i%2?1:-1))+'deg)';$(id).style.opacity=level>i+1?'1':'.35'});if(!started){started=true;log('start');}}else{$('play').style.display='none';$('reveal').style.display='block';$('reveal').scrollIntoView();$('reveal').insertAdjacentHTML('afterbegin','<div class="card"><b>Wait. Did you notice?</b><p>'+twist+'</p></div>');if(!finished){finished=true;log('finish');}}}
+$('advance').addEventListener('click',show);
+['l1','l2','l3'].forEach((id,i)=>$(id).addEventListener('click',()=>{$('fact').textContent=['Plastic can travel far from where it is dropped.','Waste left behind affects the places people and wildlife depend on.','Small pieces of litter add up when everyone leaves something behind.'][i];}));
+$('again').addEventListener('click',()=>{log('replay');location.reload()});
+$('share').addEventListener('click',async()=>{log('share');const data={title:document.title,text:'Clean surroundings begin with you.',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);$('share').textContent='Link copied';}}catch(e){}});
+$('report').addEventListener('click',()=>log('report'));
+show();
+})();
+</script></body></html>
