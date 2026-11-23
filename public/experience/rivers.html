@@ -4,246 +4,239 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>The journey of a drop · SwachhSeva</title>
-<meta name="description" content="Follow one drop of water from a hill spring to the sea, and see what a river carries along the way.">
-<meta property="og:title" content="The journey of a drop">
-<meta property="og:description" content="Follow one drop of water from a hill spring to the sea, and see what a river carries along the way.">
-<meta name="theme-color" content="#10161c">
+<meta name="description" content="Follow one drop from a hill spring to the sea, and see what a river carries along the way.">
+<meta name="theme-color" content="#b9e8ee">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#14202b;--night:#10161c;--cream:#fff4d6;--paper:#fffdf8;--orange:#ff8a4c;--muted:#596873}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--night);color:var(--ink);font:16px 'DM Sans',system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center}
-main{width:100%;max-width:480px;min-height:100vh;background:var(--paper);overflow:hidden}
-header{padding:calc(18px + env(safe-area-inset-top)) 22px 18px;background:var(--night);color:var(--cream)}
-.tag,.kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--orange)}
-h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.1}
-h1{font-size:clamp(32px,9vw,42px);margin:10px 0 8px}
-header p{color:#cbd4da;margin:0;line-height:1.5}
-.scene-wrap{background:#d9e9e5;position:relative}
-.scene{display:block;width:100%;height:auto;min-height:220px}
-.scene .pollution{opacity:0;transition:opacity .45s ease}
-.scene[data-level="1"] .p1,.scene[data-level="2"] .p1,.scene[data-level="2"] .p2,.scene[data-level="3"] .p1,.scene[data-level="3"] .p2,.scene[data-level="3"] .p3,.scene[data-level="4"] .p1,.scene[data-level="4"] .p2,.scene[data-level="4"] .p3,.scene[data-level="4"] .p4,.scene[data-level="5"] .pollution{opacity:1}
-.scene[data-level="3"] .water,.scene[data-level="4"] .water,.scene[data-level="5"] .water{fill:#688f91}
-.scene[data-level="4"] .water,.scene[data-level="5"] .water{fill:#7b8980}
-.scene .wildlife{transition:opacity .3s}
-.scene[data-level="4"] .wildlife,.scene[data-level="5"] .wildlife{opacity:0}
-.tap-item{cursor:pointer;outline:none}
-.tap-item:focus-visible{filter:drop-shadow(0 0 4px #ff7b43)}
-.tap-item:hover{transform:translateY(-3px)}
-.scene .tap-item{transition:transform .2s}
-.panel{padding:22px 22px 28px}
-.progress-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.step-label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#e56e39;font-weight:700}
-.progress{height:4px;background:#e7e2d8;border-radius:9px;overflow:hidden;margin:10px 0 18px}
-.progress span{display:block;height:100%;width:0;background:var(--orange);transition:width .3s}
-h2{font-size:28px;margin:8px 0}
-.lead{color:#43515b;line-height:1.55;margin:8px 0 14px}
-.hint{font-size:13px;color:#65727b;margin:0 0 12px}
-.fact{min-height:42px;margin:10px 0 0;padding:11px 13px;border-radius:10px;background:#f1eee7;color:#35434d;font-size:13px;line-height:1.45}
-.fact:empty{display:none}
-button,.action{width:100%;min-height:50px;border:0;border-radius:12px;padding:14px 16px;margin:7px 0;background:var(--orange);color:#17232c;font:700 15px 'DM Sans',sans-serif;text-align:center;text-decoration:none;display:block;cursor:pointer}
-button:active{transform:scale(.99)}
-button.secondary,.action.secondary{background:var(--ink);color:white}
-#twist{display:none;background:var(--night);color:var(--cream);padding:42px 24px 48px;min-height:65vh;flex-direction:column;justify-content:center}
-#twist h2{font-size:36px;margin:14px 0}
-#twist p{color:#cbd4da;line-height:1.6}
-#reveal{display:none;background:var(--night);color:var(--cream);padding:30px 20px 0}
-#reveal h2{font-size:32px;margin:10px 0}
-.reveal-lead{color:#cbd4da;line-height:1.6}
-.river-art{margin:22px -20px 0;background:#c5e0df}
-.river-art svg{display:block;width:100%;height:auto}
-.caption{padding:10px 20px 18px;color:#34434b;background:#f3efe6;font-size:13px;line-height:1.5}
-.costs{padding:24px 0 12px}
-.cost{padding:17px 0;border-bottom:1px solid #35414a}
-.cost:last-child{border-bottom:0}
-.cost b{display:block;color:#ffb98f;margin-bottom:5px}
-.cost p{margin:0;color:#cbd4da;font-size:14px;line-height:1.55}
-#end{margin:12px -20px 0;background:var(--cream);color:var(--ink);padding:38px 22px calc(38px + env(safe-area-inset-bottom));text-align:center}
-#end h2{font-size:37px;margin:12px 0 24px}
-.small{font-size:12px;color:#596873;line-height:1.6;margin:14px 0 0}
-.small a{color:#9b4b2b;font-weight:700}
-a:focus-visible,button:focus-visible{outline:3px solid #ff7845;outline-offset:3px}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html,body{height:100%;overscroll-behavior:none}
+body{--sky1:#9be1ed;--sky2:#e3f6e9;--water:#35b9cb;--water2:#168fae;--bank:#77bd79;--hill:#9acb91;--accent:#f2b84b;--ink:#123b43;--paper:#f8fffb;--muted:#55747a;font:16px 'DM Sans',system-ui,sans-serif;color:var(--ink);background:#d7f0ec;display:flex;justify-content:center;-webkit-tap-highlight-color:transparent}
+body[data-level="1"]{--sky1:#a7dce8;--sky2:#e4f1df;--water:#2daabd;--water2:#147f9e;--bank:#83b978;--hill:#a0c48c}
+body[data-level="2"]{--sky1:#b8d8d9;--sky2:#e9e6ce;--water:#359fa7;--water2:#277c8a;--bank:#a0ad72;--hill:#b0b68b}
+body[data-level="3"]{--sky1:#c7d1cb;--sky2:#e8ddc6;--water:#648f86;--water2:#426f70;--bank:#a69c69;--hill:#b1a77f}
+body[data-level="4"]{--sky1:#b9c4c0;--sky2:#ddd5c3;--water:#687d70;--water2:#485f59;--bank:#9b8b62;--hill:#a29578}
+.app{position:relative;width:100%;max-width:480px;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--paper);box-shadow:0 0 50px #28616a20}
+.topbar{position:absolute;z-index:10;top:0;left:0;right:0;padding:calc(12px + env(safe-area-inset-top)) 16px 0;display:flex;gap:10px;align-items:center}
+.track{height:5px;flex:1;border-radius:9px;background:#ffffffa8;overflow:hidden;box-shadow:0 1px 5px #24616a22}
+.track i{display:block;width:0;height:100%;border-radius:9px;background:var(--accent);transition:width .8s ease}
+.tag{font-size:10px;letter-spacing:.08em;font-weight:700;color:#164750;background:#f5fffae8;padding:6px 10px;border-radius:99px}
+.stage{height:49%;min-height:260px;flex:0 0 auto;position:relative;overflow:hidden;background:linear-gradient(var(--sky1),var(--sky2));transition:background 1.4s}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sky{stop-color:var(--sky1);transition:stop-color 1.4s}.sky-end{stop-color:var(--sky2);transition:stop-color 1.4s}
+.hill{fill:var(--hill);transition:fill 1.4s}.bank{fill:var(--bank);transition:fill 1.4s}
+.water{fill:var(--water);transition:fill 1.4s}.water-deep{fill:var(--water2);transition:fill 1.4s}
+.sun{transform-origin:405px 67px;animation:sunpulse 5s ease-in-out infinite}
+@keyframes sunpulse{50%{transform:scale(1.08);opacity:.78}}
+.cloud{animation:cloudmove 23s ease-in-out infinite alternate}
+.cloud.c2{animation-duration:31s;animation-direction:alternate-reverse}
+@keyframes cloudmove{to{transform:translateX(28px)}}
+.ripple{animation:ripple 5s linear infinite}
+.ripple.r2{animation-delay:-2.5s}
+@keyframes ripple{from{transform:translateX(-90px)}to{transform:translateX(90px)}}
+.sparkle{animation:twinkle 2.2s ease-in-out infinite}
+.sparkle:nth-child(2n){animation-delay:-1s}
+@keyframes twinkle{50%{opacity:.2;transform:scale(.6)}}
+.bird{animation:birdfly 7s ease-in-out infinite alternate}
+@keyframes birdfly{to{transform:translate(30px,-12px)}}
+.fish{transition:opacity .8s,transform .8s;transform-origin:center}
+body[data-level="3"] .fish,body[data-level="4"] .fish{opacity:0;transform:translateY(12px)}
+.walker{transform:translate(75px,0);transition:transform 1s cubic-bezier(.4,0,.2,1)}
+.walker .body{transform-origin:center;animation:bob .5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-3px)}}
+.walker.moving .leg-a{animation:legs .24s ease-in-out infinite alternate;transform-origin:top}
+.walker.moving .leg-b{animation:legs .24s ease-in-out infinite alternate-reverse;transform-origin:top}
+@keyframes legs{to{transform:rotate(22deg)}}
+.litter{opacity:0;transform:scale(.15);transform-box:fill-box;transform-origin:center;transition:opacity .45s,transform .65s cubic-bezier(.2,1.5,.5,1);cursor:pointer}
+.litter.on{opacity:1;transform:scale(1)}
+.litter .pulse{fill:none;stroke:#fff9d8;stroke-width:2;opacity:0}
+.litter.on .pulse{animation:ping 1.8s ease-out infinite}
+@keyframes ping{0%{transform:scale(.65);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.litter:focus{outline:none;filter:drop-shadow(0 0 5px #fff)}
+.haze{opacity:0;transition:opacity 1.5s;pointer-events:none}
+body[data-level="2"] .haze{opacity:.08}body[data-level="3"] .haze{opacity:.19}body[data-level="4"] .haze{opacity:.28}
+.fact{position:absolute;z-index:6;left:14px;right:14px;bottom:12px;padding:11px 14px;border-radius:14px;background:#103f49ed;color:#f4fffa;font-size:13px;line-height:1.4;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+.fact.on{opacity:1;transform:none}
+.panel{position:relative;z-index:3;flex:1;min-height:0;margin-top:-21px;border-radius:24px 24px 0 0;background:var(--paper);box-shadow:0 -8px 26px #174d4a18;padding:20px 21px 0;overflow-y:auto;transition:opacity .22s,transform .22s}
+.panel.swap{opacity:0;transform:translateY(9px)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#178c91;margin-bottom:6px}
+h1,h2{font-family:Fraunces,Georgia,serif;line-height:1.1}
+h1{font-size:29px;margin-bottom:9px;color:#123b43}
+.lead{font-size:15px;line-height:1.5;color:#4a6970;margin-bottom:12px}
+.hint{font-size:12px;color:#628087;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.hint:before{content:"";width:8px;height:8px;border-radius:50%;background:#e9ae3c;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{transform:scale(1.6);opacity:.35}}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.pair div{padding:9px 11px;border-radius:12px;font-size:12px;line-height:1.35}
+.pair span{display:block;font-size:9px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;opacity:.7;margin-bottom:3px}
+.cause{background:#e6f4e9;color:#245b43}.effect{background:#fff0d8;color:#80551b}
+.ctawrap{position:sticky;bottom:0;padding:10px 0 calc(14px + env(safe-area-inset-bottom));background:linear-gradient(#f8fffb00,var(--paper) 30%)}
+button,.action{width:100%;min-height:52px;border:0;border-radius:15px;padding:13px 16px;background:linear-gradient(135deg,#168f91,#08717e);color:white;font:700 16px 'DM Sans',sans-serif;text-align:center;text-decoration:none;display:block;cursor:pointer;box-shadow:0 7px 18px #168f9138}
+button:active{transform:scale(.985)}button.secondary,.action.secondary{background:#123f48;box-shadow:none}
+button:focus-visible,a:focus-visible{outline:3px solid #e6ad3e;outline-offset:3px}
+.twist{position:absolute;inset:0;z-index:20;background:linear-gradient(145deg,#0b555e,#123c49 72%,#176c70);color:#f3fff7;display:flex;align-items:center;padding:34px 27px;opacity:0;pointer-events:none;transition:opacity .8s;overflow-y:auto}
+.twist.on{opacity:1;pointer-events:auto}.twist-inner{width:100%;margin:auto}
+.twist .kicker{color:#f5c65b}.twist p{font:600 23px/1.35 Fraunces,Georgia,serif;margin:0 0 17px;opacity:0;transform:translateY(14px);transition:opacity .9s,transform .9s}
+.twist p.big{font-size:48px}.twist p.in{opacity:1;transform:none}.twist b{color:#f5c65b}
+.twist button{margin-top:12px;opacity:0;transition:opacity .8s}.twist button.in{opacity:1}
+.story{position:absolute;inset:0;z-index:25;overflow-y:auto;background:#0d424b;color:#effbf4;opacity:0;pointer-events:none;transition:opacity 1s;scroll-behavior:smooth}
+.story.on{opacity:1;pointer-events:auto}
+.s-wrap{padding:calc(42px + env(safe-area-inset-top)) 20px 22px}
+.story .kicker{color:#f4c35c;margin-top:30px}
+.story h2{font-size:32px;margin:8px 0 10px;color:#f5fff8}
+.story .lead2{color:#c8e1dc;line-height:1.55;margin-bottom:18px}
+.cue{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#f5c65b;font-weight:700;margin:20px 0 24px;animation:nudge 1.6s infinite}
+@keyframes nudge{50%{transform:translateY(6px)}}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .85s,transform .85s}.rv.in{opacity:1;transform:none}
+.story-scene{margin:0 0 16px;border-radius:18px;overflow:hidden;background:#1b6267;box-shadow:0 12px 30px #062e353f}
+.story-scene svg{display:block;width:100%;height:auto}
+.story-scene div{padding:12px 15px 15px}.story-scene b{display:block;font:700 19px Fraunces,Georgia,serif;margin-bottom:4px;color:#f6ce77}.story-scene span{font-size:13px;line-height:1.5;color:#d0e6df}
+.cons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 22px}
+.con{border:1px solid #ffffff20;background:#ffffff0b;border-radius:15px;padding:13px}
+.con i{font-style:normal;font-size:24px;display:block;margin-bottom:6px}.con b{display:block;color:#f6ce77;font-size:14px;margin-bottom:4px}.con span{font-size:12px;line-height:1.45;color:#d0e6df}
+.dawn{height:125px;background:linear-gradient(#0d424b,#6c9e83 60%,#fff4d9)}
+.final{background:#fff4d9;color:#123b43;min-height:70vh;padding:24px 23px calc(44px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.final .kicker{color:#178c91;margin:0}.final h2{font-size:39px;margin:12px 0 25px}.final button,.final .action{max-width:320px;margin:5px 0}
+.final .small{font-size:12px;line-height:1.6;color:#55747a;margin-top:12px}.final a.inline{color:#08717e;font-weight:700}
+@media(max-height:700px){.stage{height:43%;min-height:220px}h1{font-size:25px}.lead{font-size:14px;margin-bottom:8px}.panel{padding-top:16px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
-<body>
-<main>
-<header>
-  <div class="tag">SwachhSeva · An awareness experience</div>
-  <h1>The journey of a drop.</h1>
-  <p>One drop. Five stops. Follow the river from its first clear spring to the sea.</p>
-</header>
-
-<section id="play" aria-label="Interactive river journey">
-<div class="scene-wrap">
-<svg id="riverScene" class="scene" data-level="0" viewBox="0 0 480 270" role="img" aria-label="Illustrated river flowing between green hills">
- <defs>
-  <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#a9d7e6"/><stop offset="1" stop-color="#e7eee0"/></linearGradient>
-  <linearGradient id="river" x2="0" y2="1"><stop stop-color="#65c2d0"/><stop offset="1" stop-color="#3195ae"/></linearGradient>
- </defs>
- <rect width="480" height="270" fill="url(#sky)"/>
- <circle cx="405" cy="48" r="24" fill="#ffdc85"/>
- <path d="M0 144L78 48 150 130 226 36 318 136 390 65 480 143V270H0Z" fill="#819d86"/>
- <path d="M0 162L76 92 135 153 226 76 305 158 390 103 480 165V270H0Z" fill="#9db18c"/>
- <path d="M0 187Q95 168 160 190T310 181T480 191V270H0Z" fill="#648d65"/>
- <path d="M166 100Q204 126 227 158Q258 199 220 270H390Q339 217 315 184Q282 140 252 94Z" fill="url(#river)" class="water"/>
- <path d="M180 109Q220 145 242 180T260 270" fill="none" stroke="#d8f3ed" stroke-width="4" opacity=".6"/>
- <g fill="#426f50"><circle cx="44" cy="172" r="15"/><circle cx="63" cy="165" r="19"/><circle cx="435" cy="171" r="20"/><circle cx="457" cy="163" r="17"/></g>
- <g class="wildlife" fill="#f7f0d9"><path d="M352 88q12-12 22 0q-10 9-22 0m14-5v-8" stroke="#526c69" stroke-width="2" fill="none"/><path d="M377 105q9-9 18 0q-9 8-18 0" fill="none" stroke="#526c69" stroke-width="2"/></g>
- <g class="pollution p1">
-  <g class="tap-item" tabindex="0" role="button" aria-label="Plastic bottle: tap for a fact" data-fact="A bottle dropped beside a stream can be carried downstream by rain and moving water.">
-   <rect x="64" y="205" width="18" height="34" rx="5" fill="#f3f0dc" stroke="#4c7c83" stroke-width="2" transform="rotate(24 73 222)"/><rect x="69" y="198" width="8" height="9" rx="2" fill="#4c7c83" transform="rotate(24 73 202)"/>
-  </g>
- </g>
- <g class="pollution p2">
-  <g class="tap-item" tabindex="0" role="button" aria-label="Food wrapper: tap for a fact" data-fact="Lightweight wrappers can blow from riverbanks into the water.">
-   <path d="M295 207l28-5 8 19-30 7z" fill="#f4bd4e" stroke="#8e6b36" stroke-width="2"/><path d="M300 214l25-5" stroke="#fff4d6" stroke-width="3"/>
-  </g>
- </g>
- <g class="pollution p3">
-  <g class="tap-item" tabindex="0" role="button" aria-label="Plastic bag: tap for a fact" data-fact="Plastic bags can drift along the surface and may be mistaken for food by animals.">
-   <path d="M365 178q-5-12 5-12q9 0 8 11l10-4 5 32q-21 11-39-1l5-29z" fill="#e8e4d4" stroke="#777c72" stroke-width="2"/>
-  </g>
- </g>
- <g class="pollution p4">
-  <g class="tap-item" tabindex="0" role="button" aria-label="Drain outflow: tap for a fact" data-fact="Wastewater from homes and streets needs proper treatment before it is released into rivers.">
-   <path d="M0 192h76v29H0z" fill="#737e80"/><path d="M76 208q25 2 41 17" fill="none" stroke="#8a9a8d" stroke-width="10"/><path d="M80 213q21 2 34 14" fill="none" stroke="#c1d0bd" stroke-width="3"/>
-  </g>
- </g>
- <g class="pollution p5">
-  <g class="tap-item" tabindex="0" role="button" aria-label="Floating waste: tap for a fact" data-fact="Rivers connect places. Pollution can travel far from the spot where it first entered the water.">
-   <path d="M184 224q14-10 27 0q-12 11-27 0" fill="#e9dfc6" stroke="#8c806c" stroke-width="2"/><path d="M338 245l24-8 7 13-25 8z" fill="#e7b44d"/>
-  </g>
- </g>
- <text x="18" y="25" font-size="11" fill="#294d54" font-family="sans-serif" letter-spacing="1.5">UPSTREAM → DOWNSTREAM</text>
+<body data-level="0">
+<noscript><p style="padding:24px">This experience needs JavaScript to run.</p></noscript>
+<div class="app" id="app">
+<div class="topbar"><div class="track"><i id="prog"></i></div><span class="tag">RIVER JOURNEY · 01 DROP</span></div>
+<div class="stage" id="stage">
+<svg viewBox="0 0 480 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An animated river winding from green hills toward a village">
+<defs>
+ <linearGradient id="skygrad" x1="0" y1="0" x2="0" y2="1"><stop class="sky" offset="0"/><stop class="sky-end" offset="1"/></linearGradient>
+ <linearGradient id="watergrad" x1="0" y1="0" x2="0" y2="1"><stop stop-color="var(--water)"/><stop offset="1" stop-color="var(--water2)"/></linearGradient>
+</defs>
+<rect width="480" height="420" fill="url(#skygrad)"/>
+<circle class="sun" cx="405" cy="67" r="30" fill="#ffe28b"/><circle cx="405" cy="67" r="44" fill="#fff1b0" opacity=".18"/>
+<g class="cloud" fill="#f5ffef" opacity=".9"><ellipse cx="83" cy="73" rx="34" ry="12"/><ellipse cx="106" cy="64" rx="23" ry="14"/><ellipse cx="57" cy="65" rx="20" ry="10"/></g>
+<g class="cloud c2" fill="#f5ffef" opacity=".65"><ellipse cx="270" cy="103" rx="26" ry="9"/><ellipse cx="289" cy="98" rx="18" ry="11"/></g>
+<path class="hill" d="M0 185L65 98 120 157 198 52 286 162 370 88 480 177V270H0Z"/>
+<path d="M0 205L79 137 132 183 202 98 290 188 380 132 480 204V286H0Z" fill="#b9d69a" opacity=".7"/>
+<path class="bank" d="M0 236Q75 200 150 233T300 225T480 236V420H0Z"/>
+<!-- river winding through the landscape -->
+<path d="M202 130C170 174 257 188 236 232C216 275 142 280 167 333C181 364 263 365 282 420H442C410 357 334 328 324 290C313 247 384 226 355 183C334 151 286 147 279 119Z" fill="url(#watergrad)" class="water"/>
+<path d="M222 143C199 181 276 197 254 237C232 276 174 284 193 326C211 363 283 372 306 420" fill="none" stroke="#d7fff0" stroke-width="5" opacity=".48"/>
+<g class="ripple" fill="none" stroke="#d9fff4" stroke-width="2" opacity=".55"><path d="M225 208q18-7 36 0"/><path d="M214 218q18-7 36 0"/><path d="M270 300q20-7 40 0"/><path d="M281 311q20-7 40 0"/></g>
+<g class="ripple r2" fill="none" stroke="#e8fff6" stroke-width="2" opacity=".42"><path d="M178 330q18-7 36 0"/><path d="M300 252q18-7 36 0"/></g>
+<!-- village -->
+<g><path d="M20 244v-37l28-22 30 22v37z" fill="#f4d39b"/><path d="M14 208l34-28 36 28z" fill="#c66f4b"/><rect x="43" y="218" width="13" height="26" fill="#8c6245"/><rect x="28" y="212" width="10" height="10" fill="#8ec9cb"/>
+<path d="M370 245v-31l25-19 27 19v31z" fill="#f0d5a3"/><path d="M365 216l30-25 32 25z" fill="#bb7652"/><rect x="389" y="222" width="12" height="23" fill="#8c6245"/></g>
+<!-- trees -->
+<g fill="#387f58"><circle cx="104" cy="219" r="20"/><circle cx="124" cy="211" r="23"/><circle cx="141" cy="224" r="17"/><circle cx="448" cy="220" r="22"/><circle cx="426" cy="212" r="18"/></g>
+<g class="bird" fill="none" stroke="#386a63" stroke-width="2" stroke-linecap="round"><path d="M320 87q8-9 16 0q8-9 16 0"/></g>
+<g class="bird" fill="none" stroke="#386a63" stroke-width="1.6" stroke-linecap="round" style="animation-delay:-3s"><path d="M350 112q6-7 12 0q6-7 12 0"/></g>
+<!-- fish -->
+<g class="fish" fill="#e4f7cf"><path d="M300 333q13-11 27 0q-14 11-27 0l-8 6v-12z"/><circle cx="320" cy="331" r="1.5" fill="#246b72"/></g>
+<g class="fish" fill="#f8d68b"><path d="M222 291q10-9 22 0q-12 9-22 0l-7 5v-10z"/></g>
+<!-- progressive litter -->
+<g class="litter" data-level="1" tabindex="0" role="button" aria-label="Plastic bottle" data-fact="A bottle left near a stream can be washed into the river when it rains.">
+ <circle class="pulse" cx="112" cy="275" r="15"/><g transform="translate(112 275) rotate(28)"><rect x="-5" y="-13" width="10" height="25" rx="3" fill="#d7f1e9" stroke="#287f8a" stroke-width="1.5"/><rect x="-3" y="-17" width="6" height="5" rx="1" fill="#287f8a"/><path d="M-4 -2h8" stroke="#64b8c0" stroke-width="3"/></g>
+</g>
+<g class="litter" data-level="2" tabindex="0" role="button" aria-label="Food wrapper" data-fact="Lightweight wrappers blow from market lanes and riverbanks into the water.">
+ <circle class="pulse" cx="337" cy="281" r="16"/><path d="M320 275l30-5 8 19-31 6z" fill="#f4c45d" stroke="#946e2d" stroke-width="2"/><path d="M326 280l25-4" stroke="#fff4d6" stroke-width="3"/>
+</g>
+<g class="litter" data-level="3" tabindex="0" role="button" aria-label="Plastic bag" data-fact="A floating plastic bag can be mistaken for food by birds and other animals.">
+ <circle class="pulse" cx="245" cy="354" r="17"/><path d="M229 352q-5-16 6-17q9 0 9 13l12-5 7 29q-23 12-42-1l6-24z" fill="#edf4e7" stroke="#7d9585" stroke-width="2"/>
+</g>
+<g class="litter" data-level="4" tabindex="0" role="button" aria-label="Wastewater outflow" data-fact="Wastewater should be treated before it is released into a river.">
+ <circle class="pulse" cx="420" cy="300" r="18"/><path d="M390 281h42v26h-42z" fill="#687e7a"/><path d="M390 301q18 1 30 15" fill="none" stroke="#a4c7b2" stroke-width="8"/>
+</g>
+<!-- moving visitor -->
+<g class="walker" id="walker" transform="translate(75 0)">
+ <ellipse cx="0" cy="0" rx="12" ry="3" fill="#123b43" opacity=".18"/>
+ <g class="body"><path class="leg-a" d="M-4 -22l-2 20" stroke="#214b52" stroke-width="5" stroke-linecap="round"/><path class="leg-b" d="M4 -22l3 20" stroke="#214b52" stroke-width="5" stroke-linecap="round"/><rect x="-9" y="-44" width="18" height="24" rx="6" fill="#e8a94c"/><circle cx="0" cy="-52" r="8" fill="#b97954"/><path d="M-8 -54q2-12 12-7q5 2 4 9q-7-6-16-2" fill="#244b4b"/></g>
+</g>
+<rect class="haze" width="480" height="420" fill="#7a735d"/>
 </svg>
+<div class="fact" id="fact" role="status" aria-live="polite"></div>
 </div>
-<div class="panel">
- <div class="progress-row"><span class="step-label" id="stepLabel">STOP 1 OF 5</span><span class="step-label" id="placeLabel">THE SOURCE</span></div>
- <div class="progress"><span id="progressFill"></span></div>
- <h2 id="stepTitle">The hill spring</h2>
- <p class="lead" id="stepText">High in the hills, a stream begins its journey. The water is clear, and the banks are green.</p>
- <p class="hint">Tap the objects in the scene as they appear. Then follow the drop.</p>
- <div class="fact" id="fact" role="status" aria-live="polite"></div>
- <button id="advance" type="button">Flow on</button>
+<section class="panel" id="panel" aria-live="polite">
+ <div class="kicker" id="kicker">A journey begins</div>
+ <h1 id="title">Where does a river's story begin?</h1>
+ <p class="lead" id="lead">High in the hills, one clear drop starts moving. Follow it downstream and see what joins its journey.</p>
+ <p class="hint" id="hint">Tap objects as they appear in the scene to learn more.</p>
+ <div class="pair" id="pair" hidden><div class="cause"><span>What happens</span><b id="cause"></b></div><div class="effect"><span>What it changes</span><b id="effect"></b></div></div>
+ <div class="ctawrap"><button id="advance" type="button">Follow the drop</button></div>
+</section>
+<section class="twist" id="twist"><div class="twist-inner" id="twistInner"></div></section>
+<section class="story" id="story"></section>
 </div>
-</section>
-
-<section id="twist" aria-labelledby="twistTitle">
- <div class="kicker">Wait. Did you notice?</div>
- <h2 id="twistTitle">The river carried every stop with it.</h2>
- <p>Each place added something. None of it stayed behind. What enters upstream keeps moving downstream.</p>
- <button id="revealButton" type="button">Where does this lead?</button>
-</section>
-
-<section id="reveal" aria-label="Consequences of river pollution">
- <div class="kicker">The bigger picture</div>
- <h2>What reaches the river reaches us.</h2>
- <p class="reveal-lead">A river is connected to the lives around it. Pollution can affect people, wildlife and the places that depend on its water.</p>
- <div class="river-art">
-  <svg viewBox="0 0 480 220" role="img" aria-label="Illustration of a river carrying floating litter toward a distant shoreline">
-   <rect width="480" height="220" fill="#c5e0df"/>
-   <path d="M0 65Q70 25 140 65T280 62T480 55V120H0Z" fill="#91ad8b"/>
-   <path d="M0 110Q90 92 160 119T300 112T480 105V220H0Z" fill="#4b9eaa"/>
-   <path d="M0 165Q90 146 170 170T330 164T480 156" fill="none" stroke="#bce7dc" stroke-width="5" opacity=".7"/>
-   <path d="M0 193Q95 175 180 198T350 192T480 184V220H0Z" fill="#347d8d"/>
-   <g fill="#f1e7cb" stroke="#667b72" stroke-width="2"><rect x="110" y="133" width="17" height="31" rx="4" transform="rotate(25 118 148)"/><path d="M255 151l30-5 6 15-30 7z" fill="#f3bd50"/><path d="M370 121q-4-10 5-10q8 0 7 10l9-3 3 24q-18 8-32-1l4-23z"/></g>
-  </svg>
- </div>
- <div class="caption">The river carries more than water. What is thrown away on its banks can travel far beyond the place it was dropped.</div>
- <div class="costs">
-  <div class="kicker">The consequences</div>
-  <div class="cost"><b>Drinking water</b><p>Pollution makes clean water harder and more costly to provide. Water needs proper treatment before it is safe to drink.</p></div>
-  <div class="cost"><b>Fish and wildlife</b><p>Plastic and polluted water can harm fish, birds and other animals that depend on rivers.</p></div>
-  <div class="cost"><b>Farms and food</b><p>River water is used in agriculture. Poor water quality can affect soil, crops and the wider food chain.</p></div>
-  <div class="cost"><b>Health</b><p>Untreated or contaminated water can spread disease when people come into contact with it or use it without adequate treatment.</p></div>
- </div>
- <div id="end">
-  <div class="kicker">One last thing</div>
-  <h2>Clean surroundings begin with you.</h2>
-  <button id="again" type="button">Run it again</button>
-  <button class="secondary" id="share" type="button">Share</button>
-  <a class="action secondary" id="report" href="https://swachhseva-nine.vercel.app" target="_blank" rel="noopener">Report a problem on SwachhSeva</a>
-  <p class="small">Try another: <a href="streets.html">Streets</a> · <a href="nature.html">Nature</a></p>
-  <p class="small">A student awareness project. Not an official government service.</p>
- </div>
-</section>
-</main>
 <script>
 (()=>{'use strict';
+const $=id=>document.getElementById(id);
+const body=document.body,app=$('app'),panel=$('panel'),walker=$('walker');
 const STEPS=[
- {title:'The hill spring',place:'THE SOURCE',text:'High in the hills, a stream begins its journey. The water is clear, and the banks are green.'},
- {title:'The village',place:'FIRST STOP',text:'The stream passes homes and fields. Litter left near the bank can be washed into the water when it rains.'},
- {title:'The ghat and market',place:'BUSY BANKS',text:'More people gather by the river. Food waste and plastic can collect along the steps and edges.'},
- {title:'The city drain',place:'THE CITY',text:'Roads and drains meet the river. Wastewater needs proper treatment before it reaches the water.'},
- {title:'The sea',place:'DOWNSTREAM',text:'The river keeps moving. The things dropped far upstream may travel all the way to the coast.'}
+ {k:'A journey begins',t:'The hill spring',d:'High in the hills, one clear drop starts moving. The water is clear, and the banks are full of life.',c:'A clean source',e:'A river begins to support everything downstream.'},
+ {k:'Stop 2 · The village',t:'A bottle left behind',d:'The stream passes homes and fields. A bottle left near the bank is swept into the water by rain.',c:'Litter on the bank',e:'Rain carries it into the stream.'},
+ {k:'Stop 3 · The market',t:'The river gets busier',d:'More people gather near the water. Wrappers and food packaging can slip from busy banks into the current.',c:'Waste near the ghat',e:'Light plastic travels with the current.'},
+ {k:'Stop 4 · The city',t:'A drain meets the river',d:'Roads and drains connect to the river. Wastewater needs proper treatment before it reaches the water.',c:'Untreated discharge',e:'Water quality and habitats can be affected.'},
+ {k:'Stop 5 · Downstream',t:'Nothing simply disappears',d:'The river keeps moving. Waste dropped far upstream can travel a long way from where it began.',c:'Pollution travels',e:'Downstream communities and wildlife are connected.'}
 ];
 const COUNTER_URL='https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec';
-const PAGE='rivers';
-const $=id=>document.getElementById(id);
-let step=0,started=false,finished=false,phase='journey';
-function visitorId(){
- try{let id=localStorage.getItem('sbm_vid');if(!id){id=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',id);}return id;}
- catch(e){return 'na';}
+let step=0,started=false,finished=false,phase='journey',factTimer;
+const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+function log(event){try{let vid=localStorage.getItem('sbm_vid');if(!vid){vid=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('sbm_vid',vid)}const data=JSON.stringify({page:'rivers',event,vid});if(!navigator.sendBeacon(COUNTER_URL,data))fetch(COUNTER_URL,{method:'POST',mode:'no-cors',body:data})}catch(e){}}
+function render(){
+ const s=STEPS[step];body.dataset.level=String(step);
+ $('kicker').textContent=s.k;$('title').textContent=s.t;$('lead').textContent=s.d;
+ $('cause').textContent=s.c;$('effect').textContent=s.e;$('pair').hidden=step===0;
+ $('hint').hidden=step===0;$('advance').textContent=step===0?'Follow the drop':step===4?'See where it leads':'Keep following';
+ $('prog').style.width=((step+1)/7*100)+'%';
+ document.querySelectorAll('.litter').forEach(el=>el.classList.toggle('on',Number(el.dataset.level)<=step));
+ walker.classList.add('moving');walker.style.transform='translate('+([75,150,245,330,420][step])+'px,0)';
+ setTimeout(()=>walker.classList.remove('moving'),900);
 }
-function log(event){
- if(!COUNTER_URL)return;
- const body=JSON.stringify({page:PAGE,event,vid:visitorId()});
- try{if(!navigator.sendBeacon(COUNTER_URL,body))fetch(COUNTER_URL,{method:'POST',mode:'no-cors',body});}catch(e){}
-}
-function renderStep(){
- const item=STEPS[step];
- $('stepLabel').textContent='STOP '+(step+1)+' OF 5';
- $('placeLabel').textContent=item.place;
- $('stepTitle').textContent=item.title;
- $('stepText').textContent=item.text;
- $('progressFill').style.width=((step+1)/5*100)+'%';
- $('riverScene').dataset.level=String(step);
- $('fact').textContent='';
- $('advance').textContent=step===4?'See what happens':'Flow on';
-}
-function finishJourney(){
- phase='twist';
- $('play').style.display='none';
- $('twist').style.display='flex';
- $('twist').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
- if(!finished){finished=true;log('finish');}
-}
+function swapPanel(){panel.classList.add('swap');setTimeout(()=>{panel.classList.remove('swap');},220)}
+function showFact(el){$('fact').textContent=el.dataset.fact;$('fact').classList.add('on');clearTimeout(factTimer);factTimer=setTimeout(()=>$('fact').classList.remove('on'),4200)}
+document.querySelector('.stage').addEventListener('click',e=>{const el=e.target.closest('.litter');if(el&&el.classList.contains('on'))showFact(el)});
+document.querySelector('.stage').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('litter')&&e.target.classList.contains('on')){e.preventDefault();showFact(e.target)}});
 $('advance').addEventListener('click',()=>{
  if(phase!=='journey')return;
- if(!started){started=true;log('start');}
- if(step<4){step++;renderStep();}else finishJourney();
+ if(!started){started=true;log('start')}
+ if(step<4){step++;swapPanel();render()}else showTwist();
 });
-$('riverScene').addEventListener('click',e=>{
- const item=e.target.closest('.tap-item');
- if(item)$('fact').textContent=item.dataset.fact||'Look closely at what has entered the river.';
-});
-$('riverScene').addEventListener('keydown',e=>{
- if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('tap-item')){e.preventDefault();$('fact').textContent=e.target.dataset.fact||'Look closely at what has entered the river.';}
-});
-$('revealButton').addEventListener('click',()=>{
- phase='reveal';
- $('twist').style.display='none';
- $('reveal').style.display='block';
- $('reveal').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-});
-$('again').addEventListener('click',()=>{
- log('replay');
- step=0;started=false;finished=false;phase='journey';
- $('twist').style.display='none';$('reveal').style.display='none';$('play').style.display='block';
- renderStep();window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-});
-$('share').addEventListener('click',async()=>{
- log('share');
- const data={title:document.title,text:'Follow the journey of a drop. Clean surroundings begin with you.',url:location.href};
- try{if(navigator.share)await navigator.share(data);else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);$('share').textContent='Link copied';}}
- catch(e){}
-});
-$('report').addEventListener('click',()=>log('report'));
-renderStep();
+function showTwist(){
+ phase='twist';if(!finished){finished=true;log('finish')}
+ const twist=$('twist'),inner=$('twistInner');inner.innerHTML='';
+ const lines=[{t:'Wait.',big:true},{t:'The river carried every stop with it.'},{t:'The bottle. The wrapper. The wastewater.'},{t:'They did not stay where they entered. A river connects every place along its course.'}];
+ lines.forEach((line,i)=>{const p=document.createElement('p');if(line.big)p.className='big';p.textContent=line.t;inner.appendChild(p);setTimeout(()=>p.classList.add('in'),reduced()?0:450+i*1150)});
+ const k=document.createElement('div');k.className='kicker';k.textContent='Look beyond the riverbank';inner.prepend(k);
+ const b=document.createElement('button');b.textContent='What does this mean for us?';inner.appendChild(b);setTimeout(()=>b.classList.add('in'),reduced()?0:lines.length*1150+500);
+ b.addEventListener('click',showStory);twist.classList.add('on');
+}
+function showStory(){
+ phase='story';$('twist').classList.remove('on');const story=$('story');
+ story.innerHTML=`<div class="s-wrap">
+ <p class="kicker rv">The bigger picture</p><h2 class="rv">A river is part of everyone's life.</h2>
+ <p class="lead2 rv">Its water, banks and ecosystems connect villages, cities, farms and wildlife. Pollution in one place can affect many others.</p>
+ <div class="cue rv">Keep scrolling ↓</div>
+ <div class="story-scene rv"><svg viewBox="0 0 440 190" role="img" aria-label="River flowing past a village"><rect width="440" height="190" fill="#b5e0d6"/><path d="M0 80L70 25 140 80 220 18 310 82 380 35 440 80V120H0Z" fill="#79ae83"/><path d="M0 112Q110 90 180 120T340 110T440 115V190H0Z" fill="#279eaa"/><path d="M0 145Q90 125 180 151T360 145T440 140" fill="none" stroke="#d5fff0" stroke-width="5"/><g fill="#f1d39c"><path d="M30 110V78l22-18 24 18v32z"/><path d="M24 80l28-24 30 24z" fill="#c66f4b"/><path d="M350 108V75l22-17 24 17v33z"/><path d="M344 77l28-24 30 24z" fill="#c66f4b"/></g></svg><div><b>Drinking water</b><span>Pollution makes clean water harder and more costly to provide. Water must be treated before it is safe to drink.</span></div></div>
+ <div class="story-scene rv"><svg viewBox="0 0 440 150" role="img" aria-label="Fish swimming in clear water"><rect width="440" height="150" fill="#268d9a"/><path d="M0 45q70-20 140 0t140 0t160 0" fill="none" stroke="#b7eee1" stroke-width="4" opacity=".7"/><g fill="#f5d17d"><path d="M90 85q30-25 60 0q-30 25-60 0l-20 12V73z"/><path d="M265 54q23-19 46 0q-23 19-46 0l-15 9V45z"/></g><circle cx="135" cy="82" r="3" fill="#164e58"/><circle cx="300" cy="52" r="2.5" fill="#164e58"/></svg><div><b>Fish and wildlife</b><span>Plastic and polluted water can harm fish, birds and other animals that depend on rivers.</span></div></div>
+ <div class="story-scene rv"><svg viewBox="0 0 440 150" role="img" aria-label="Green fields beside a river"><rect width="440" height="150" fill="#c4e5d2"/><path d="M0 75Q110 30 220 78T440 65V150H0Z" fill="#78b66e"/><path d="M0 115Q110 82 220 115T440 104V150H0Z" fill="#e4c77d"/><path d="M0 130Q120 103 230 132T440 118" fill="none" stroke="#278f9b" stroke-width="16"/><path d="M35 75v40m35-49v42m35-52v42m260-32v42m35-46v42" stroke="#3c8755" stroke-width="3"/></svg><div><b>Farms and food</b><span>River water supports agriculture. Poor water quality can affect soil, crops and the wider food chain.</span></div></div>
+ <div class="story-scene rv"><svg viewBox="0 0 440 150" role="img" aria-label="People and trees beside a river"><rect width="440" height="150" fill="#bde5df"/><path d="M0 96Q120 70 220 100T440 90V150H0Z" fill="#319eaa"/><g fill="#347d58"><circle cx="75" cy="48" r="24"/><circle cx="98" cy="54" r="19"/><circle cx="355" cy="44" r="27"/></g><g fill="#e9b26c"><circle cx="200" cy="66" r="9"/><path d="M190 77h20v33h-20z"/><circle cx="245" cy="69" r="9"/><path d="M235 80h20v30h-20z"/></g></svg><div><b>People and health</b><span>Unsafe or untreated water can spread disease when people use it without adequate treatment.</span></div></div>
+ <p class="kicker rv">One last thing</p><h2 class="rv">The river belongs to all of us.</h2>
+ <p class="lead2 rv">Keep waste away from drains and riverbanks. Dispose of it responsibly. Report pollution when you see it.</p>
+ </div><div class="final"><p class="kicker">SwachhSeva · Awareness project</p><h2>What enters the river does not simply disappear.</h2>
+ <button id="again" type="button">Run it again</button><button class="secondary" id="share" type="button">Share this experience</button>
+ <a class="action secondary" id="report" href="https://swachhseva-nine.vercel.app" target="_blank" rel="noopener">Report a problem on SwachhSeva</a>
+ <p class="small">Try another: <a class="inline" href="streets.html">Streets</a> · <a class="inline" href="nature.html">Nature</a></p>
+ <p class="small">A student awareness project. Not an official government service.</p></div>`;
+ story.classList.add('on');
+ const obs=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in');obs.unobserve(entry.target)}}),{root:story,threshold:.15});
+ story.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+ $('again').addEventListener('click',()=>{log('replay');step=0;started=false;finished=false;phase='journey';story.classList.remove('on');$('twist').classList.remove('on');$('fact').classList.remove('on');render();window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'})});
+ $('share').addEventListener('click',async()=>{log('share');const data={title:document.title,text:'Follow the journey of a drop.',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);$('share').textContent='Link copied'}}catch(e){}});
+ $('report').addEventListener('click',()=>log('report'));
+}
+render();
 })();
 </script>
 </body>
