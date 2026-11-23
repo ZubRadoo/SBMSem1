@@ -267,7 +267,6 @@ h1.final{font-size:32px;line-height:1.2;margin:6px 0 14px}
 /* ================= EDIT THESE ================= */
 const FINAL_MESSAGE = "Clean surroundings begin with you.";   // <- your final message
 const PROJECT_TAG   = "SBM · Awareness Project";              // <- small label, top right
-const COUNTER_URL   = "https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec";
 const PHOTOS        = ["", "", "", ""];   // <- optional: "img/beach.jpg", "img/river.jpg", "img/hill.jpg", "img/market.jpg"
 /* ============================================== */
 
@@ -439,7 +438,7 @@ function startTwist(){
 
 
 /* ---------- counter (Google Sheet via Apps Script; off while COUNTER_URL is empty) ---------- */
-const log = window.SwachhCounter.createLogger("streets", COUNTER_URL);
+const log = window.SwachhCounter.createLogger("streets");
 
 /* ---------- the scroll story ---------- */
 const story = $('#story');
