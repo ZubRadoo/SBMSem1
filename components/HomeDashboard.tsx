@@ -1,36 +1,119 @@
 "use client";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import {useEffect,useMemo,useState} from "react";
+import {useEffect,useMemo,useRef,useState} from "react";
 import {ArrowUpRight,MapPin,ClipboardList,CheckCircle2,LocateFixed,Moon,Sun,ShieldCheck} from "lucide-react";
 import {hasSupabase,supabase} from "@/lib/supabase";
 import LocationPicker from "@/components/LocationPicker";
+import { REPORT_SEVERITIES, type PublicReport, type ReportSeverity } from "@/lib/report-types";
+import { isValidCoordinates } from "@/lib/map-utils";
 
 const ReportsMap=dynamic(()=>import("@/components/ReportsMap"),{ssr:false,loading:()=> <div className="map-frame home-map loading-map">Loading hotspot map…</div>});
-type Report={id:string;category:string;description:string;location_text:string;latitude:number|null;longitude:number|null;status:string;severity:string;created_at:string};
-type Severity="low"|"medium"|"high";
+type Report = PublicReport;
 const categories=["Litter / illegal dumping","Overflowing public bin","Blocked drain / waterlogging","River or water pollution","Nature area littering","Other cleanliness issue"];
-function labelStatus(s:string){return s==="resolved"?"Marked resolved":s==="acknowledged"?"Under action":"Approved for map";}
-function severityLabel(s:string){return s==="high"?"High":s==="low"?"Low":"Medium";}
+function labelStatus(status:PublicReport["status"]){return status==="resolved"?"Marked resolved":status==="acknowledged"?"Under action":"Approved for map";}
+function severityLabel(severity:ReportSeverity){return severity==="high"?"High":severity==="low"?"Low":"Medium";}
 export default function HomeDashboard(){
  const [reports,setReports]=useState<Report[]>([]);const [loading,setLoading]=useState(true);const [error,setError]=useState("");const [dark,setDark]=useState(false);const [locateToken,setLocateToken]=useState(0);
- const [category,setCategory]=useState(categories[0]);const [description,setDescription]=useState("");const [location,setLocation]=useState("");const [lat,setLat]=useState("");const [lng,setLng]=useState("");const [severity,setSeverity]=useState<Severity>("medium");const [photo,setPhoto]=useState<File|null>(null);const [busy,setBusy]=useState(false);const [formError,setFormError]=useState("");const [submitted,setSubmitted]=useState(false);
- useEffect(()=>{let active=true;(async()=>{if(!hasSupabase||!supabase){if(active){setError("The public report service is not configured.");setLoading(false);}return;}const {data,error}=await supabase.from("public_reports").select("*").order("created_at",{ascending:false});if(!active)return;if(error)setError("Could not load public reports. Please try again later.");else setReports((data||[]) as Report[]);setLoading(false);})();return()=>{active=false;};},[]);
+ const [category,setCategory]=useState(categories[0]);const [description,setDescription]=useState("");const [location,setLocation]=useState("");const [lat,setLat]=useState("");const [lng,setLng]=useState("");const [severity,setSeverity]=useState<ReportSeverity>("medium");const [photo,setPhoto]=useState<File|null>(null);const [busy,setBusy]=useState(false);const submitLock=useRef(false);const [formError,setFormError]=useState("");const [submitted,setSubmitted]=useState(false);
+ useEffect(()=>{
+  let active=true;
+  const loadReports=async()=>{
+   try{
+    if(!hasSupabase||!supabase){
+     if(active)setError("The public report service is not configured.");
+     return;
+    }
+    const {data,error}=await supabase.from("public_reports").select("*").order("created_at",{ascending:false});
+    if(!active)return;
+    if(error)setError("Could not load public reports. Please try again later.");
+    else setReports((data||[]) as Report[]);
+   }catch{
+    if(active)setError("Could not load public reports. Please check your connection and try again.");
+   }finally{
+    if(active)setLoading(false);
+   }
+  };
+  void loadReports();
+  return()=>{active=false;};
+ },[]);
  useEffect(()=>{const saved=window.localStorage.getItem("swachhseva-theme");if(saved==="dark")setDark(true);},[]);
  useEffect(()=>{document.documentElement.dataset.theme=dark?"dark":"light";window.localStorage.setItem("swachhseva-theme",dark?"dark":"light");},[dark]);
- const submit=async(e:React.FormEvent)=>{e.preventDefault();setFormError("");setSubmitted(false);if(!hasSupabase||!supabase){setFormError("The reporting service is not configured.");return;}if(description.trim().length<5||!location.trim()){setFormError("Add a description of at least 5 characters and a location.");return;}setBusy(true);try{let photo_path:string|null=null;if(photo){if(photo.size>5*1024*1024)throw new Error("Choose an image smaller than 5 MB.");if(!photo.type.startsWith("image/"))throw new Error("Only image files are accepted.");const ext=photo.name.split(".").pop()?.toLowerCase()||"jpg";const path=`${crypto.randomUUID()}.${ext}`;const up=await supabase.storage.from("report-photos").upload(path,photo,{contentType:photo.type,upsert:false});if(up.error)throw up.error;photo_path=path;}const {error}=await supabase.from("reports").insert({category,description:description.trim(),location_text:location.trim(),latitude:lat?Number(lat):null,longitude:lng?Number(lng):null,photo_path,severity,status:"pending_review"});if(error)throw error;setSubmitted(true);setDescription("");setLocation("");setLat("");setLng("");setPhoto(null);setSeverity("medium");}catch(err){setFormError(err&&typeof err==="object"&&"message" in err?String((err as {message:unknown}).message):"Submission failed. Please try again.");}finally{setBusy(false);}};
+ const submit=async(e:React.FormEvent)=>{
+  e.preventDefault();
+  if(submitLock.current)return;
+  submitLock.current=true;
+  setFormError("");
+  setSubmitted(false);
+  if(!hasSupabase||!supabase){
+   setFormError("The reporting service is not configured.");
+   submitLock.current=false;
+   return;
+  }
+  if(description.trim().length<5||!location.trim()){
+   setFormError("Add a description of at least 5 characters and a location.");
+   submitLock.current=false;
+   return;
+  }
+  const hasLatitude=lat.trim()!=="";
+  const hasLongitude=lng.trim()!=="";
+  if(hasLatitude!==hasLongitude||(hasLatitude&&!isValidCoordinates(Number(lat),Number(lng)))){
+   setFormError("Choose a valid map location, or clear both coordinates.");
+   submitLock.current=false;
+   return;
+  }
+  setBusy(true);
+  let uploadedPhotoPath:string|null=null;
+  try{
+   if(photo){
+    const allowedTypes:Record<string,string>={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"};
+    const extension=allowedTypes[photo.type];
+    if(!extension)throw new Error("Choose a JPG, PNG or WebP image.");
+    if(photo.size===0||photo.size>5*1024*1024)throw new Error("Choose an image larger than 0 bytes and smaller than 5 MB.");
+    const path=`${crypto.randomUUID()}.${extension}`;
+    const upload=await supabase.storage.from("report-photos").upload(path,photo,{contentType:photo.type,upsert:false});
+    if(upload.error)throw upload.error;
+    uploadedPhotoPath=path;
+   }
+   const {error}=await supabase.from("reports").insert({
+    category,
+    description:description.trim(),
+    location_text:location.trim(),
+    latitude:hasLatitude?Number(lat):null,
+    longitude:hasLongitude?Number(lng):null,
+    photo_path:uploadedPhotoPath,
+    severity,
+    status:"pending_review",
+   });
+   if(error)throw error;
+   setSubmitted(true);
+   setDescription("");
+   setLocation("");
+   setLat("");
+   setLng("");
+   setPhoto(null);
+   setSeverity("medium");
+   const photoInput=document.getElementById("home-photo") as HTMLInputElement|null;
+   if(photoInput)photoInput.value="";
+  }catch{
+   setFormError("Submission failed. Please check your connection and try again.");
+  }finally{
+   setBusy(false);
+   submitLock.current=false;
+  }
+ };
  const points=useMemo(()=>reports.filter(r=>r.latitude!==null&&r.longitude!==null),[reports]);
  const high=reports.filter(r=>r.severity==="high").length;
  return <main className={`home-dashboard ${dark?"dark":""}`}>
   <nav className="nav shell home-nav"><Link className="brand" href="/"><span className="brand-mark">S</span> SwachhSeva</Link><div className="home-nav-right"><Link href="/themes">Explore themes</Link><Link href="/admin">Team access</Link><button className="theme-toggle" type="button" onClick={()=>setDark(v=>!v)} aria-label={dark?"Switch to light mode":"Switch to dark mode"}>{dark?<Sun size={17}/>:<Moon size={17}/>}<span>{dark?"Light mode":"Dark mode"}</span></button></div></nav>
   <section className="shell home-intro"><div><p className="eyebrow">STUDENT-LED COMMUNITY INITIATIVE · PATNA</p><h1>Spot a problem.<br/><span>Map the hotspot.</span></h1><p>One shared map for cleanliness and pollution concerns across streets, rivers and natural spaces. Public reports appear only after review.</p><div className="home-intro-actions"><a className="button button-dark" href="#submit-report">Report a hotspot <ArrowUpRight size={17}/></a><span><ShieldCheck size={17}/> No account required</span></div></div><aside className="home-callout"><b>One map. Three environments.</b><p>Report public-space issues, explore nearby hotspots and help make local concerns visible.</p><Link href="/themes">Explore Streets, Rivers & Nature →</Link></aside></section>
-  <section className="shell home-map-section" id="hotspot-map"><div className="home-section-heading"><div><p className="eyebrow">LIVE COMMUNITY VIEW</p><h2>Pollution & cleanliness hotspots</h2><p className="home-subtext">Map centres on your location when location access is available. Otherwise, it starts at the Patna project area.</p></div><button className="locate-button" type="button" onClick={()=>setLocateToken(v=>v+1)}><LocateFixed size={16}/> Locate me</button></div>
+  <section className="shell home-map-section" id="hotspot-map"><div className="home-section-heading"><div><p className="eyebrow">LIVE COMMUNITY VIEW</p><h2>Pollution & cleanliness hotspots</h2><p className="home-subtext">Map starts at the Patna project area. Select Locate me to centre it on your approximate location.</p></div><button className="locate-button" type="button" onClick={()=>setLocateToken(v=>v+1)}><LocateFixed size={16}/> Locate me</button></div>
    <div className="home-map-meta"><span>{loading?"Loading reports…":error?"Report data unavailable":`${reports.length} public reports · ${points.length} mapped hotspots`}</span><span className="home-map-legend"><i className="legend-dot" style={{background:"#d99b42"}}/> Approved <i className="legend-dot" style={{background:"#4b6d9b"}}/> Resolved</span></div>
    {error?<div className="notice">{error}</div>:loading?<div className="map-frame home-map loading-map">Loading approved reports…</div>:<ReportsMap reports={points} theme={dark?"dark":"light"} locateToken={locateToken}/>}
   </section>
   <section className="shell home-report-section" id="submit-report"><div className="home-section-heading"><div><p className="eyebrow">ADD A HOTSPOT</p><h2>Report an issue</h2><p className="home-subtext">Describe the issue and where it is. You do not need to create an account.</p></div></div>
    {submitted?<div className="notice home-success"><CheckCircle2 size={19}/> Report submitted. It is awaiting project-team review and will appear publicly only if approved.</div>:null}
-   <form className="home-report-form" onSubmit={submit}><div className="home-form-grid"><div className="field"><label htmlFor="home-category">Issue type</label><select id="home-category" value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select></div><div className="field"><label htmlFor="home-severity">Severity</label><select id="home-severity" value={severity} onChange={e=>setSeverity(e.target.value as Severity)}><option value="low">Low — limited/localised issue</option><option value="medium">Medium — noticeable or recurring issue</option><option value="high">High — widespread or urgent concern</option></select><span className="muted">Choose based on visible impact. Reviewers may adjust the classification.</span></div></div>
+   <form className="home-report-form" onSubmit={submit}><div className="home-form-grid"><div className="field"><label htmlFor="home-category">Issue type</label><select id="home-category" value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select></div><div className="field"><label htmlFor="home-severity">Severity</label><select id="home-severity" value={severity} onChange={e=>{const value=e.target.value;if((REPORT_SEVERITIES as readonly string[]).includes(value))setSeverity(value as ReportSeverity);}}><option value="low">Low — limited/localised issue</option><option value="medium">Medium — noticeable or recurring issue</option><option value="high">High — widespread or urgent concern</option></select><span className="muted">Choose based on visible impact. Reviewers may adjust the classification.</span></div></div>
     <div className="field"><label htmlFor="home-description">What did you notice?</label><textarea id="home-description" value={description} onChange={e=>setDescription(e.target.value)} maxLength={700} minLength={5} required placeholder="Describe the issue factually. Avoid names or private information."/><span className="muted">{description.length}/700 characters</span></div>
     <div className="field"><label htmlFor="home-location">Location / nearby landmark</label><input id="home-location" value={location} onChange={e=>setLocation(e.target.value)} maxLength={240} required placeholder="e.g. near the main gate, beside the public park"/><LocationPicker latitude={lat} longitude={lng} onChange={(a,b)=>{setLat(a);setLng(b);}}/></div>
     <div className="field"><label htmlFor="home-photo">Photo (optional, max 5 MB)</label><input id="home-photo" type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>setPhoto(e.target.files?.[0]||null)}/><span className="muted">Do not upload identifiable people, vehicle number plates or private documents.</span></div>

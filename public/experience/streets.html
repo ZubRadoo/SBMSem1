@@ -259,6 +259,7 @@ h1.final{font-size:32px;line-height:1.2;margin:6px 0 14px}
   <div class="twist" id="twist"><div class="twist-inner" id="twistInner"></div></div>
 </div>
 
+<script src="./counter.js"></script>
 <script>
 (() => {
 'use strict';
@@ -266,7 +267,6 @@ h1.final{font-size:32px;line-height:1.2;margin:6px 0 14px}
 /* ================= EDIT THESE ================= */
 const FINAL_MESSAGE = "Clean surroundings begin with you.";   // <- your final message
 const PROJECT_TAG   = "SBM · Awareness Project";              // <- small label, top right
-const COUNTER_URL   = "https://script.google.com/macros/s/AKfycbxIHEIAlSRM7XSbkz2v77aDV17vtljHz5Le3QgOgScow5oRx8Qf3dFJEb6WWQhBP-O7Qg/exec";
 const PHOTOS        = ["", "", "", ""];   // <- optional: "img/beach.jpg", "img/river.jpg", "img/hill.jpg", "img/market.jpg"
 /* ============================================== */
 
@@ -438,19 +438,7 @@ function startTwist(){
 
 
 /* ---------- counter (Google Sheet via Apps Script; off while COUNTER_URL is empty) ---------- */
-const sent = {};
-function vid(){
-  try{ let v = localStorage.getItem('sbm_vid'); if (!v){ v = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('sbm_vid', v); } return v; }
-  catch(e){ return 'na'; }
-}
-function log(kind){
-  if (kind !== 'start' && kind !== 'finish') return;
-  if (!COUNTER_URL) return;
-  try{ if (localStorage.getItem('sbm_streets_' + kind)) return; localStorage.setItem('sbm_streets_' + kind, '1'); }
-  catch(e){ if (sent[kind]) return; sent[kind] = true; }
-  const body = JSON.stringify({page: 'streets', event: kind, vid: vid()});
-  try{ if (!(navigator.sendBeacon && navigator.sendBeacon(COUNTER_URL, body))) fetch(COUNTER_URL, {method:'POST', mode:'no-cors', body}); }catch(e){}
-}
+const log = window.SwachhCounter.createLogger("streets");
 
 /* ---------- the scroll story ---------- */
 const story = $('#story');

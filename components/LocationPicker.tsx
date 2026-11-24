@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useRef,useState} from "react";
 import maplibregl from "maplibre-gl";
+import { getMapStyleUrl, isValidCoordinates, PATNA_CENTER } from "@/lib/map-utils";
 
 type Props={latitude:string;longitude:string;onChange:(latitude:string,longitude:string)=>void};
 export default function LocationPicker({latitude,longitude,onChange}:Props){
@@ -12,9 +13,7 @@ export default function LocationPicker({latitude,longitude,onChange}:Props){
  useEffect(()=>{onChangeRef.current=onChange;},[onChange]);
  useEffect(()=>{
   if(!mapEl.current||mapRef.current)return;
-  const key=process.env.NEXT_PUBLIC_MAPTILER_KEY;
-  const style=key?`https://api.maptiler.com/maps/streets-v2/style.json?key=${key}`:"https://demotiles.maplibre.org/style.json";
-  const map=new maplibregl.Map({container:mapEl.current,style,center:[85.1376,25.5941],zoom:13});
+  const map=new maplibregl.Map({container:mapEl.current,style:getMapStyleUrl("light"),center:PATNA_CENTER,zoom:13});
   mapRef.current=map;
   map.addControl(new maplibregl.NavigationControl(),"top-right");
   map.on("click",event=>{
@@ -25,9 +24,20 @@ export default function LocationPicker({latitude,longitude,onChange}:Props){
  },[]);
  useEffect(()=>{
   const map=mapRef.current;
-  if(!map||!latitude||!longitude)return;
-  const position:[number,number]=[Number(longitude),Number(latitude)];
-  if(!Number.isFinite(position[0])||!Number.isFinite(position[1]))return;
+  if(!map)return;
+  if(!latitude||!longitude){
+   markerRef.current?.remove();
+   markerRef.current=null;
+   return;
+  }
+  const lat=Number(latitude);
+  const lng=Number(longitude);
+  if(!isValidCoordinates(lat,lng)){
+   markerRef.current?.remove();
+   markerRef.current=null;
+   return;
+  }
+  const position:[number,number]=[lng,lat];
   if(!markerRef.current){
    const marker=new maplibregl.Marker({draggable:true}).setLngLat(position).addTo(map);
    marker.on("dragend",()=>{const p=marker.getLngLat();onChangeRef.current(p.lat.toFixed(7),p.lng.toFixed(7));});
