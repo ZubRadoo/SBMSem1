@@ -108,7 +108,9 @@ export async function POST(request: Request) {
       "Issue description:", report.description, "",
       `Selected authority/authorities: ${selectedLabels.join(", ")}`, "",
       "This is a community-submitted report and has not been independently verified by the receiving authority or SwachhSeva.",
-      "Please assess the issue through your usual process.", "", "SwachhSeva",
+      "Please assess the issue through your usual process.", "",
+      `SwachhSeva public map: ${(process.env.NEXT_PUBLIC_SITE_URL || "https://swachhseva-nine.vercel.app").replace(/\\/$/, "")}/map`,
+      "SwachhSeva",
     ].join("\n");
 
     const payload: Record<string, unknown> = { from: fromEmail, to: emailRecipients, subject, text: textBody };
