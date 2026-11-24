@@ -18,7 +18,7 @@ alter table public.reports
   drop constraint if exists reports_email_status_check;
 alter table public.reports
   add constraint reports_email_status_check
-  check (email_status in ('not_requested','sent','failed','not_configured','portal_only'));
+  check (email_status in ('not_requested','sending','sent','failed','not_configured','portal_only'));
 
 create or replace function public.set_report_publication_status()
 returns trigger
