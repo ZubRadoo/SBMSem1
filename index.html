@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SBM · Clean Surroundings</title>
+<meta name="description" content="A short interactive walk about the places we share.">
+<meta property="og:title" content="SBM · Clean Surroundings">
+<meta property="og:description" content="A short interactive walk about the places we share.">
+<meta name="theme-color" content="#10161c">
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#10161c;color:#f3efe6;font:16px/1.6 system-ui,sans-serif;text-align:center;padding:24px}a{color:#ff8a4c;font-weight:700}</style>
+</head>
+<body>
+<p>Loading…<br><small>If nothing happens: <a href="streets.html">Streets</a> · <a href="rivers.html">Rivers</a> · <a href="nature.html">Nature</a></small></p>
+<script>
+// One QR code, one link: each visit lands on a random scenario.
+var P = ['streets.html', 'rivers.html', 'nature.html'];
+location.replace(P[Math.floor(Math.random() * P.length)]);
+</script>
+</body>
+</html>
